@@ -1,0 +1,50 @@
+body{
+    background-image: url("fondo.jpg");/*Intorucir una imagen*/
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-size: cover;
+    
+}
+#wrapper {
+    width: 100%;
+    text-align: center;
+    margin-top: 2%;
+}
+#container {
+    width: 40%;
+    margin-left:auto;
+    margin-right:auto;
+}
+#content {
+    width: 100%;
+    background-color:rgba(113, 115, 115, 0.6);
+    height: 80%;
+    border-radius: 50px 50px 50px 50px;
+    z-index: 1;
+    margin-top: 15%;
+    padding-top:20%;
+}
+
+.inputtext {
+    width: 80%;
+    margin-top:2%;
+    height: 6%;
+    border:none;
+    border-radius: 5px 5px 5px 5px;
+}
+
+#user{
+    margin-top:10%;
+}
+.boton{
+    margin-top:6%;
+    width:80%;
+}
+.formulario{
+    width:80%;
+    margin-bottom:5%;
+}
+
+.errorlist{
+    color: rgba(255,255,255,1);
+}

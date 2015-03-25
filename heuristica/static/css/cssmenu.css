@@ -1,0 +1,281 @@
+/* Starter CSS for Menu */
+#micssmenu {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    width: auto;
+}
+#micssmenu ul,
+#micssmenu li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+#micssmenu ul {
+    position: relative;
+    z-index: 597;
+}
+#micssmenu ul li {
+    float: left;
+    min-height: 1px;
+    vertical-align: middle;
+}
+#micssmenu ul li.hover,
+#micssmenu ul li:hover {
+    position: relative;
+    z-index: 599;
+    cursor: default;
+}
+#micssmenu ul ul {
+    visibility: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 598;
+    width: 100%;
+}
+#micssmenu ul ul li {
+    float: none;
+}
+#micssmenu ul ul ul {
+    top: 0;
+    left: 190px;
+    width: 190px;
+}
+#micssmenu ul li:hover > ul {
+    visibility: visible;
+}
+#micssmenu ul ul {
+    bottom: 0;
+    left: 0;
+}
+#micssmenu ul ul {
+    margin-top: 0;
+}
+#micssmenu ul ul li {
+    font-weight: normal;
+}
+#micssmenu a {
+    display: block;
+    line-height: 1em;
+    text-decoration: none;
+}
+/* Custom CSS Styles */
+#micssmenu {
+    background: rgba(0, 0, 42, 1);
+    border-bottom: 4px solid rgba(0, 120, 255, 1);
+    font-family: 'Oxygen Mono', Tahoma, Arial, sans-serif;
+    font-size: 12px;
+}
+#micssmenu > ul {
+    *display: inline-block;
+}
+#micssmenu:after,
+#micssmenu ul:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+#micssmenu ul {
+    text-transform: uppercase;
+}
+#micssmenu ul ul {
+    border-top: 4px solid rgba(0, 120, 255, 1);
+    text-transform: none;
+    min-width: 190px;
+}
+#micssmenu ul ul a {
+    background: rgba(0, 120, 255, 1);
+    color: #ffffff;
+    border: 1px solid rgba(0, 120, 255, 1);
+    border-top: 0 none;
+    line-height: 150%;
+    padding: 16px 20px;
+    font-size: 12px;
+}
+#micssmenu ul ul ul {
+    border-top: 0 none;
+}
+#micssmenu ul ul li {
+    position: relative;
+}
+#micssmenu ul ul li:first-child > a {
+    border-top: 1px solid rgba(0, 120, 255, 1);
+}
+#micssmenu ul ul li:hover > a {
+    background: rgba(0, 120, 255, 1);
+    color: #ffffff;
+}
+#micssmenu ul ul li:last-child > a {
+    -moz-border-radius: 0 0 3px 3px;
+    -webkit-border-radius: 0 0 3px 3px;
+    border-radius: 0 0 3px 3px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    -moz-box-shadow: 0 1px 0 rgba(0, 120, 255, 1);
+    -webkit-box-shadow: 0 1px 0 rgba(0, 120, 255, 1);
+    box-shadow: 0 1px 0 rgba(0, 120, 255, 1);
+}
+#micssmenu ul ul li:last-child:hover > a {
+    -moz-border-radius: 0 0 0 3px;
+    -webkit-border-radius: 0 0 0 3px;
+    border-radius: 0 0 0 3px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+}
+#micssmenu ul ul li.has-sub > a:after {
+    content: '->';
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    margin-top: -8px;
+}
+#micssmenu ul li:hover > a,
+/*Color de Home que esta determinado como active para la pagina inicial*/
+#micssmenu ul li.active > a {
+    background: #1b9bff;
+    color: #ffffff;
+}
+#micssmenu ul li.has-sub > a:after {
+    content: '';
+    margin-left: 5px;
+}
+#micssmenu ul li.last ul {
+    left: auto;
+    right: 0;
+}
+#micssmenu ul li.last ul ul {
+    left: auto;
+    right: 99.5%;
+}
+#micssmenu a {
+    background: rgba(0, 0, 42, 1);
+    color: #CBCBCB;
+    padding: 0 20px;
+}
+#micssmenu > ul > li > a {
+    line-height: 48px;
+    font-size: 12px;
+}
+/*Esto ya es hecho por mi, el resto es un estilo copiado de internet*/
+body{
+    background-image: url("fondo.jpg");/*Intorucir una imagen*/
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-size: cover;
+    
+}
+#contenido {
+    width:100%;
+    height:94%;
+    
+}
+#menu_lateral {
+    width:19%;
+    height:90%;
+    overflow:scroll;
+    float: left;/*Para que se divida verticalmente y no horizontalmente, da igual left o right o eso parece*/
+    background:  rgba(232, 232, 232, 0.9);
+
+}
+
+#menu_lateral_configuracion {
+    width:23%;
+    height:100%;
+    overflow:scroll;
+    float: left;/*Para que se divida verticalmente y no horizontalmente, da igual left o right o eso parece*/
+    background:  rgba(232, 232, 232, 0.5);
+    text-align:center;
+    
+}
+#lista_facetas {
+    width:80%;
+    height:80%;
+    margin-left:5%;
+    margin-top:10px;
+    overflow:scroll;
+    background-color:rgba(255, 255, 255, 0);
+    
+    
+}
+#heuristica {
+    width:81%;
+    height:90%;
+    overflow:scroll;
+    background-color:rgba(242, 242, 242, 0.9);
+    
+}
+#grafico {
+    width:77%;
+    height:100%;
+    overflow:scroll;
+    background-color:rgba(242, 242, 242, 0);
+    
+}
+#preguntas {
+    width:98%;
+    height:80%;
+    margin-left:1%;
+    margin-top:50px;
+    overflow:scroll;
+    background-color:rgba(232, 232, 232, 0.8);
+    
+}
+#milist h3 {
+    font-size: 14px;
+    margin:0 0 0.3;
+    font-weight: normal;
+    font-family: 'Oxygen Mono', Tahoma, Arial, sans-serif;
+}
+#milist {
+    margin:0;
+    padding:20px 0px 20px;
+    
+}
+#milist > li {
+    display:block;
+    padding:10px;
+    box-shadow: inset 0 0px 0 #fff;
+    color:rgba(0, 120, 255, 1);
+
+}
+#milist > li:hover {
+    color:rgba(255,255,255,1);
+    background-color:rgba(0, 120, 255, 1);
+    cursor:pointer;
+}
+
+#mitabla TH {
+    color: #fff;
+    background-color: #337ab7;
+}
+#mitabla TH:hover {
+}
+
+TR {
+    background-color:#fff;
+}
+
+#check {
+    font-weight: normal;
+}
+.marcado{
+    background-color:#f0ad4e;
+}
+.marcado:hover{
+    color:#f0ad4e;
+    background-color:#fff;
+}
+
+
+#botonOpciones{
+    margin-left:3%;
+    margin-top:2%;
+}
+#botonOpciones2{
+    margin-left:3%;
+    margin-top:2%;
+}
+

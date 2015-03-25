@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+<html>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <head>
+        {% load staticfiles %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/cssmenu.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
+        <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
+        <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+        <title>Login</title>
+    </head>
+    {% block content %}
+        <div id='micssmenu'>
+            <ul>
+                <li class='has-sub'><a href='#'>Inicio</a></li>
+                <li class='has-sub '><a href='#'>Asignados</a>
+                    <ul>
+                        <li class='has-sub '><a href='#'>Opciones 1</a>
+                            <ul>
+                                <li><a href='#'>Una opcion</a></li>
+                                <li><a href='#'>Una opcion</a></li>
+                            </ul>
+                        </li>
+                        <li class='has-sub '><a href='#'>Opciones 2</a>
+                            <ul>
+                                <li><a href='#'>Una opcion</a></li>
+                                <li><a href='#'>Una opcion</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="{% url 'inicio' %}">Facetas</a></li>
+                <li><a href="{% url 'perfiles' %}" type="submit">Perfil Jugadores</a></li>
+                <li><a href='#'>Tipos de Juegos</a></li>
+                <li><a href='#'>Ayuda</a></li>
+                <li><a href="{% url 'google' %}">Lectura XML</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">One more separated link</a></li>
+                    </ul>
+                </li>
+            </ul>
+            
+        </div>
+        <div id="cotenido">
+            {% block contenido %}{% endblock %}
+        </div>
+    {% endblock %}
+</html>

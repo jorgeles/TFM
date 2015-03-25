@@ -1,0 +1,24 @@
+.leyenda{
+    color:rgba(90, 120, 255, 1);
+}
+.valor{
+    color:rgba(0, 120, 255, 1);
+}
+.range{
+    margin-bottom:5%;
+}
+#grafico{
+    height:90%;
+}
+
+#puff{
+    margin-top:10%;
+}
+
+#alerta{
+    margin-top:10%;
+}
+#disruptorley{
+    margin-top:10%;
+}
+

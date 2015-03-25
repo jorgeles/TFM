@@ -1,0 +1,140 @@
+{% extends "base_menu.htm" %}
+<html>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    {% block head %}
+        {% load staticfiles %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/cssmenu.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'css/perfiles.css' %}" />
+        <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
+        <title>Login</title>
+    {% endblock %}
+    {% block contenido %}
+        <div id="cotenido">
+            <div id="menu_lateral">
+                <div id="lista_facetas">
+                    <ul id="milist">
+                        <li>
+                            <h3 class="name" >Perfil 1</h3>
+                        </li>
+                        <li>
+                             <h3 class="name" >Perfil 2</h3>
+                        </li>
+                        <li>
+                             <h3 class="name" >Perfil 3</h3>
+                        </li>
+                        <li>
+                             <h3 class="name" >Perfil 4</h3>
+                        </li>
+                        <li>
+                             <h3 class="name" >Perfil 5</h3>
+                        </li>
+                        <li>
+                             <h3 class="name" >Perfil 6</h3>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div id="heuristica">
+               <div id="menu_lateral_configuracion">
+                   <form action="{% url 'guardarPerfil' %}" method="post">{% csrf_token %}
+                       <b class="leyenda" id"disruptorley">Disruptor</b>
+                       <output class="valor" type="text" id="disruptorInput" value=""></output>
+                       <input class="range" id="disruptor" type="range" name="disruptor" min="0" max="10" step="1" value="{{ datos.disruptor }}" oninput="myFunction()"list=volsettings></input>
+                       <b class="leyenda">Filantropo</b>
+                       <output class="valor" type="text" id="filatropoInput" value=""></output>
+                       <input class="range"  id="filantropo" type="range" name="filantropo" min="0" max="10" step="1" value="{{ datos.filantropo }}" oninput="myFunction()"list=volsettings></input>
+                       <b class="leyenda">Socializador</b>
+                       <output class="valor" type="text" id="socializadorInput" value=""></output>
+                       <input class="range"  id="socializador" type="range" name="socializador" min="0" max="10" step="1" value="{{ datos.socializador }}" oninput="myFunction()"list=volsettings></input>
+                       <b class="leyenda">Jugador</b>
+                       <output class="valor" type="text" id="jugadorInput" value=""></output>
+                       <input class="range"  id="jugador" type="range" name="jugador" min="0" max="10" step="1" value="{{ datos.jugador }}" oninput="myFunction()"list=volsettings></input>
+                       <b class="leyenda">Logrador</b>
+                       <output class="valor" type="text" id="logradorInput" value=""></output>
+                       <input class="range"  id="logrador" type="range" name="logrador" min="0" max="10" step="1" value="{{ datos.logrador }}" oninput="myFunction()"list=volsettings></input>
+                       <b class="leyenda">Espiritu Libre</b>
+                       <output class="valor" type="text" id="espirituInput" value=""></output>
+                       <input class="range"  id="espiritulibre" type="range" name="espiritu" min="0" max="10" step="1" value="{{ datos.espiritu }}" oninput="myFunction()" list=volsettings></input>
+                       <input id ="puff" type="submit" class="btn btn-primary" value="Guardar Cambios"/>
+                       <div class="bs-example" id="alerta">
+                           <div class="alert alert-success">
+                               <a  href="#" class="close" data-dismiss="alert"></a>
+                               <strong>Guardado!</strong> El perfil ha sido guardado con exito.
+                           </div>
+                        </div>
+                   </form>
+                   <datalist id=volsettings>
+                       <option>0</option>
+                       <option>2</option>
+                       <option>4</option>
+                       <option>6</option>
+                       <option>8</option>
+                       <option>10</option>
+                   </datalist>
+               </div>
+            <div id="grafico">
+            </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="{% static 'flotr2/flotr2.js' %}"></script>
+        <script>
+            var primera = true;
+            function myFunction() {
+                // Fill series s1 and s2.
+                var d1 = document.getElementById('disruptor').value
+                var d2 = document.getElementById('filantropo').value
+                var d3 = document.getElementById('socializador').value
+                var d4 = document.getElementById('jugador').value
+                var d5 = document.getElementById('logrador').value
+                var d6 = document.getElementById('espiritulibre').value
+                var
+                s1 = { label : 'Actual', data : [[0, d1], [1, d2], [2, d3], [3, d4], [4, d5], [5, d6]] },
+                graph, ticks;
+                s2 = { label : 'Guardado', data : [[0, {{ datos.disruptor }}], [1, {{ datos.filantropo }}], [2, {{ datos.socializador }}], [3, {{ datos.jugador }}], [4, {{ datos.logrador }}], [5, {{ datos.espiritu }}]] },
+                graph, ticks;
+                
+                // Radar Labels
+                ticks = [
+                         [0, "Disruptor"],
+                         [1, "Filantropo"],
+                         [2, "Socializador"],
+                         [3, "Jugador"],
+                         [4, "Logrador"],
+                         [5, "Espiritu Libre"],
+                         ];
+                
+                // Draw the graph.
+                graph = Flotr.draw(document.getElementById("grafico"), [s1,s2], {
+                                   fontSize:10,
+                                   radar : { show : true,color: '#FFF'},
+                                   grid  : { circular : true, minorHorizontalLines : true,},
+                                   yaxis : { min : 0, max : 10, minorTickFreq : 1,},
+                                   xaxis : { ticks : ticks,}
+                                   });
+                document.getElementById('disruptorInput').value=d1;
+                document.getElementById('filatropoInput').value=d2;
+                document.getElementById('socializadorInput').value=d3;
+                document.getElementById('jugadorInput').value=d4;
+                document.getElementById('logradorInput').value=d5;
+                document.getElementById('espirituInput').value=d6;
+                
+                {% if guardado %}
+                if(primera==true){
+                    document.getElementById("alerta").style.visibility = "visible";
+                    timeoutID = window.setTimeout(function clerAlert() {
+                                                  document.getElementById("alerta").style.visibility = "hidden";
+                                                  }, 2000);
+                                                  primera=false;
+                }
+                {% else %}
+                    document.getElementById("alerta").style.visibility = "hidden";
+                {% endif %}
+                
+            }
+        window.onload=myFunction(5);
+        </script>
+
+    {% endblock %}
+</html>
