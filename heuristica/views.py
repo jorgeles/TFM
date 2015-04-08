@@ -50,35 +50,61 @@ def google (request):
     return render(request, 'google.html',context)
 
 def mongo (request):
-    r = requests.get('http://servicios.elpais.com/rss/')
-    client = MongoClient()
-    page = requests.get('http://ep00.epimg.net/rss/elpais/portada.xml')
     
-    root = etree.fromstring(page.text.encode('utf-8'))
+    if request.method == 'POST':
+        client = MongoClient()
+        db = client.db_noticias
+        posts = db.posts
+        resultados = []
+        categoria = request.POST['categoria']
+        for resultado in posts.find({"categorias" : categoria}):
+            resultados.append(resultado)
+        context={'resultados':resultados}
+        return render(request,'mongo.html',context)
     
-    items = root.xpath('//item')
-    news = []
-    
-    for item in items:
-        categorias = []
-        cat = item.xpath('category')
+    else:
         
-        for c in cat:
-            categorias.append(c.text.encode('utf-8'))
+        r = requests.get('http://servicios.elpais.com/rss/')
+        client = MongoClient()
+        page = requests.get('http://ep00.epimg.net/rss/elpais/portada.xml')
+        client.db_noticias.posts.remove()
     
-        noticia = {
-            "titulo": item.xpath('title')[0].text.encode('utf-8'),
-                "link": item.xpath('link')[0].text.encode('utf-8'),
-                "categorias": categorias,
-        }
-        
-        news.append(noticia)
-            
-    db = client.db_noticias
-    posts = db.posts
-    posts.insert(news)
+        root = etree.fromstring(page.text.encode('utf-8'))
 
-    return render(request,'mongo.html')
+        items = root.xpath('//item')
+        news = []
+    
+
+    
+        for item in items:
+            categorias = []
+            texto=''
+            cat = item.xpath('category')
+        
+            for i in item:
+                if i.tag == '{http://purl.org/rss/1.0/modules/content/}encoded':
+                    texto=i.text.encode('utf-8')
+        
+            for c in cat:
+                categorias.append(c.text.encode('utf-8'))
+    
+
+            noticia = {
+                "titulo": item.xpath('title')[0].text.encode('utf-8'),
+                    "link": item.xpath('link')[0].text.encode('utf-8'),
+                    "categorias": categorias,
+                        "noticia":texto,
+
+            }
+                
+
+            news.append(noticia)
+            
+        db = client.db_noticias
+        posts = db.posts
+        posts.insert(news)
+        return render(request,'mongo.html')
+
 
 def inicio (request):
     context={ 'prueba': request.session['fav_color']}
