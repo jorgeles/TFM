@@ -11,8 +11,11 @@ from django.core.validators import validate_slug, RegexValidator
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 
+
 #cosas chorras para las prácticas de SSBW se podran borrar algunas excepto las marcadas
 from lxml import etree
+import requests
+from pymongo import MongoClient
 # Create your views here.
 
 
@@ -45,6 +48,37 @@ def google (request):
 
     context={'localidad':localidad,'area':area,'provincia':provincia,'comunidad':comunidad,'pais':pais,'imagenes':mandar}
     return render(request, 'google.html',context)
+
+def mongo (request):
+    r = requests.get('http://servicios.elpais.com/rss/')
+    client = MongoClient()
+    page = requests.get('http://ep00.epimg.net/rss/elpais/portada.xml')
+    
+    root = etree.fromstring(page.text.encode('utf-8'))
+    
+    items = root.xpath('//item')
+    news = []
+    
+    for item in items:
+        categorias = []
+        cat = item.xpath('category')
+        
+        for c in cat:
+            categorias.append(c.text.encode('utf-8'))
+    
+        noticia = {
+            "titulo": item.xpath('title')[0].text.encode('utf-8'),
+                "link": item.xpath('link')[0].text.encode('utf-8'),
+                "categorias": categorias,
+        }
+        
+        news.append(noticia)
+            
+    db = client.db_noticias
+    posts = db.posts
+    posts.insert(news)
+
+    return render(request,'mongo.html')
 
 def inicio (request):
     context={ 'prueba': request.session['fav_color']}
