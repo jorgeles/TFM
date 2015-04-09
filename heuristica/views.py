@@ -234,19 +234,24 @@ def logear(request):
 def perfiles (request):
     pruebas=[]
     #pruebas= Perfil.objects.filter(nombre='request.user.username')
-    pruebas= Perfil.objects.filter(nombre='Jorge')# en vez de nombre tiene que ser la clave foranea que referencia al usuario que esta iniciado
-    
+    pruebas= Perfil.objects.filter()# en vez de nombre tiene que ser la clave foranea que referencia al usuario que esta iniciado
+    #request.session.clear()
     if pruebas:
-        if'pulsado'in request.session:
-            datos=Perfil.objects.get(nombre='Jorge',id=request.session['pulsado'])
-            print(datos)
-            context={'datos':datos,'guardado':False,'pruebas':pruebas}
+        if 'pulsado' in request.session:#detecto si hay un perfil seleccionado y saco sus datos de la BD y se los mando al html
+            datos=Perfil.objects.filter(id=request.session['pulsado'])
+            #del request.session['pulsado']#Elimino pulsado de la session
+            if datos:
+                context={'datos':datos[0],'guardado':False,'pruebas':pruebas}
+            else:
+                context={ 'datos': pruebas[0],'guardado':False,'pruebas':pruebas}
+
         elif 'guardado' not in request.session:#Compruebo si hay algo guardado para sacar la alerta de guardado
-            print('jsjsjsjsjsjjssjjsjs')
             context={ 'datos': pruebas[0],'guardado':False,'pruebas':pruebas}
+        
         else:
             context={ 'datos': pruebas[0],'guardado': request.session['guardado'],'pruebas':pruebas}#si lo hay le asigno a guardado el valor de request.session[guardado] que tiene que ser true
             request.session['guardado'] = False
+            del request.session['guardado']
     else:
         context={ 'datos': pruebas,'guardado':False,'pruebas':pruebas}
     return render(request, 'perfiles.htm',context)
@@ -256,6 +261,7 @@ def guardarPerfil(request):
     
     if request.method == 'POST':#Si se pasan cosas por post quiere decir que ha habido cambios y por tanto los guardo en la base de datos
         
+        #obtengo los datos del html
         disruptor = request.POST['disruptor']
         filantropo = request.POST['filantropo']
         socializador = request.POST['socializador']
@@ -264,7 +270,8 @@ def guardarPerfil(request):
         espiritu = request.POST['espiritu']
         id=request.POST['id']
         
-        p=Perfil.objects.get(nombre='Jorge',id=id)
+        #introduzco los datos en la BD
+        p=Perfil.objects.get(id=id)
         p.disruptor=disruptor
         p.filantropo=filantropo
         p.socializador=socializador
@@ -277,15 +284,22 @@ def guardarPerfil(request):
 
     return redirect('perfiles')#Redirecciono a la funcion perfiles pasandole el valor de guardado con request.session[guardado]
 
+#LLamo a la funcion al ser pulsado un perfil
 def cargarPerfil(request):
     if request.method=='POST':
         for key in request.POST:
-            value = request.POST[key]
-            request.session['pulsado']=value
-            print(value)
+            value = request.POST['valor']
+            request.session['pulsado']=value #le meto en la session el id del perfil y se lo paso a la funcion perfiles
             return redirect('perfiles')
     
     return redirect('perfiles')
+
+#LLamo a la funcion al crear un nuevo perfil
+def nuevoPerfil(request):
+    if request.method=='POST':
+        p=Perfil.objects.create(nombre='Nuevo Perfil')
+        request.session['pulsado']=p.id
+        return redirect('perfiles')
 
 
 

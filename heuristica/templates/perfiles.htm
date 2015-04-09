@@ -19,13 +19,16 @@
                         <li>
                             <form action="{% url 'cargarPerfil' %}" method="post">{% csrf_token %}
                                 <input class="name" type="submit" name="perfil" id="{{prueba.id|safe}}" value="{{prueba.nombre|safe}}"  ></input>
-                                <input id="soporte" type="hidden" name="{{prueba.nombre|safe}}" value="{{prueba.id|safe}}"></input>
+                                <input id="soporte" type="hidden" name="valor" value="{{prueba.id|safe}}"></input>
                             </form>
                         </li>
                         {% endfor %}
                     </ul>
                 </div>
-                <button class="btn btn-primary btn-block" id="aniadirli" type="submit" onclick="aniadirli()"><span class="glyphicon glyphicon-plus"></span> Añadir Perfil</button>
+                <form action="{% url 'nuevoPerfil' %}" method="post">{% csrf_token %}
+                    <button class="btn btn-primary btn-block" onclick="mostrarPop()" id="aniadirli" type="submit" onclick="aniadirli()">
+                        <span class="glyphicon glyphicon-plus"></span> Añadir Perfil</button>
+                </form>
             </div>
             <div id="heuristica">
                <div id="menu_lateral_configuracion">
