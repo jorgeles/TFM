@@ -9,6 +9,7 @@ urlpatterns = patterns('',
                        url(r'^inicio', views.inicio, name='inicio'),
                        url(r'^perfiles', views.perfiles, name='perfiles'),
                        url(r'^guardarPerfil', views.guardarPerfil, name='guardarPerfil'),
+                       url(r'^cargarPerfil', views.cargarPerfil, name='cargarPerfil'),
                        
                        # Url para borrar mas adelante
                        url(r'^google', views.google, name='google'),

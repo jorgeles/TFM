@@ -11,6 +11,7 @@ class Usuario (models.Model):
 
 
 class Perfil (models.Model):
+    id=models.CharField(max_length=200,primary_key=True)
     nombre = models.CharField (max_length=200)
     disruptor = models.CharField (max_length=200)
     filantropo = models.CharField (max_length=200)

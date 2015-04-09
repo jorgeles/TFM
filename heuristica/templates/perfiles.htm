@@ -13,28 +13,19 @@
     {% block contenido %}
         <div id="cotenido">
             <div id="menu_lateral">
-                <div id="lista_facetas">
+                <div id="lista_izq">
                     <ul id="milist">
+                        {% for prueba in pruebas %}
                         <li>
-                            <h3 class="name" >Perfil 1</h3>
+                            <form action="{% url 'cargarPerfil' %}" method="post">{% csrf_token %}
+                                <input class="name" type="submit" name="perfil" id="{{prueba.id|safe}}" value="{{prueba.nombre|safe}}"  ></input>
+                                <input id="soporte" type="hidden" name="{{prueba.nombre|safe}}" value="{{prueba.id|safe}}"></input>
+                            </form>
                         </li>
-                        <li>
-                             <h3 class="name" >Perfil 2</h3>
-                        </li>
-                        <li>
-                             <h3 class="name" >Perfil 3</h3>
-                        </li>
-                        <li>
-                             <h3 class="name" >Perfil 4</h3>
-                        </li>
-                        <li>
-                             <h3 class="name" >Perfil 5</h3>
-                        </li>
-                        <li>
-                             <h3 class="name" >Perfil 6</h3>
-                        </li>
+                        {% endfor %}
                     </ul>
                 </div>
+                <button class="btn btn-primary btn-block" id="aniadirli" type="submit" onclick="aniadirli()"><span class="glyphicon glyphicon-plus"></span> Añadir Perfil</button>
             </div>
             <div id="heuristica">
                <div id="menu_lateral_configuracion">
@@ -57,7 +48,9 @@
                        <b class="leyenda">Espiritu Libre</b>
                        <output class="valor" type="text" id="espirituInput" value=""></output>
                        <input class="range"  id="espiritulibre" type="range" name="espiritu" min="0" max="10" step="1" value="{{ datos.espiritu }}" oninput="myFunction()" list=volsettings></input>
+                       <input id="soporte" type="hidden" name="id" value="{{datos.id|safe}}"></input>
                        <input id ="puff" type="submit" class="btn btn-primary" value="Guardar Cambios"/>
+                       
                        <div class="bs-example" id="alerta">
                            <div class="alert alert-success">
                                <a  href="#" class="close" data-dismiss="alert"></a>
@@ -65,6 +58,7 @@
                            </div>
                         </div>
                    </form>
+                   <!-- Valores que salen en las barras de desplazamiento, no salen los numeros pero si los marcadadores -->
                    <datalist id=volsettings>
                        <option>0</option>
                        <option>2</option>
@@ -83,6 +77,7 @@
             var primera = true;
             function myFunction() {
                 // Fill series s1 and s2.
+                {% if datos %}
                 var d1 = document.getElementById('disruptor').value
                 var d2 = document.getElementById('filantropo').value
                 var d3 = document.getElementById('socializador').value
@@ -119,6 +114,7 @@
                 document.getElementById('jugadorInput').value=d4;
                 document.getElementById('logradorInput').value=d5;
                 document.getElementById('espirituInput').value=d6;
+                {% endif %}
                 
                 {% if guardado %}
                 if(primera==true){
@@ -133,8 +129,16 @@
                 {% endif %}
                 
             }
-        window.onload=myFunction(5);
+        window.onload=myFunction();
         </script>
-
+        <script>
+            function aniadirli()
+            {
+                var ul = document.getElementById("milist");
+                var li = document.createElement("li");
+                li.appendChild(document.createTextNode("Nuevo Perfil"));
+                ul.appendChild(li);
+            }
+        </script>
     {% endblock %}
 </html>

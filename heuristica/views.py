@@ -22,6 +22,7 @@ from pymongo import MongoClient
 def index (request):
     return render(request, 'login.htm')
 
+# cosas de las practicas de SSBW que se podrán borrar
 def google (request):
     tree = etree.parse ('http://maps.googleapis.com/maps/api/geocode/xml?address=daniel%20saucedo%20aranda%20granada')
     imagenes = etree.parse('http://ep00.epimg.net/rss/tecnologia/portada.xml')
@@ -105,6 +106,8 @@ def mongo (request):
         posts.insert(news)
         return render(request,'mongo.html')
 
+
+#Hasta aqui las cosas de SSBW a partir de aqui no se puede borrar nada
 
 def inicio (request):
     context={ 'prueba': request.session['fav_color']}
@@ -208,7 +211,7 @@ def registro (request):
         }
         return render (request, 'registro.htm',context)
 
-
+# Funcion para logear al usuario
 def logear(request):
     username = request.POST['user']
     password = request.POST['password']
@@ -226,20 +229,32 @@ def logear(request):
     show_remove_link = True
     return render(request, 'login.htm', {'show_remove_link': show_remove_link})
 
+#Función para llevarte a la pagina de definicion de perfiles
+#actualmente coge solamente y guarda para el usuario Jorge
 def perfiles (request):
-    p=Perfil.objects.get(nombre='Jorge')
-    if 'guardado' not in request.session:
-        context={ 'datos': p,'guardado':False}
-    else:
-        context={ 'datos': p,'guardado': request.session['guardado']}
-        request.session['guardado'] = False
+    pruebas=[]
+    #pruebas= Perfil.objects.filter(nombre='request.user.username')
+    pruebas= Perfil.objects.filter(nombre='Jorge')# en vez de nombre tiene que ser la clave foranea que referencia al usuario que esta iniciado
     
+    if pruebas:
+        if'pulsado'in request.session:
+            datos=Perfil.objects.get(nombre='Jorge',id=request.session['pulsado'])
+            print(datos)
+            context={'datos':datos,'guardado':False,'pruebas':pruebas}
+        elif 'guardado' not in request.session:#Compruebo si hay algo guardado para sacar la alerta de guardado
+            print('jsjsjsjsjsjjssjjsjs')
+            context={ 'datos': pruebas[0],'guardado':False,'pruebas':pruebas}
+        else:
+            context={ 'datos': pruebas[0],'guardado': request.session['guardado'],'pruebas':pruebas}#si lo hay le asigno a guardado el valor de request.session[guardado] que tiene que ser true
+            request.session['guardado'] = False
+    else:
+        context={ 'datos': pruebas,'guardado':False,'pruebas':pruebas}
     return render(request, 'perfiles.htm',context)
 
 def guardarPerfil(request):
     request.session['guardado'] = False
     
-    if request.method == 'POST':
+    if request.method == 'POST':#Si se pasan cosas por post quiere decir que ha habido cambios y por tanto los guardo en la base de datos
         
         disruptor = request.POST['disruptor']
         filantropo = request.POST['filantropo']
@@ -247,8 +262,9 @@ def guardarPerfil(request):
         jugador = request.POST['jugador']
         logrador = request.POST['logrador']
         espiritu = request.POST['espiritu']
+        id=request.POST['id']
         
-        p=Perfil.objects.get(nombre='Jorge')
+        p=Perfil.objects.get(nombre='Jorge',id=id)
         p.disruptor=disruptor
         p.filantropo=filantropo
         p.socializador=socializador
@@ -257,8 +273,18 @@ def guardarPerfil(request):
         p.espiritu=espiritu
         
         p.save()
-        request.session['guardado'] = True
+        request.session['guardado'] = True #Indico que hay algo nuevo guardado en la base de datos
 
+    return redirect('perfiles')#Redirecciono a la funcion perfiles pasandole el valor de guardado con request.session[guardado]
+
+def cargarPerfil(request):
+    if request.method=='POST':
+        for key in request.POST:
+            value = request.POST[key]
+            request.session['pulsado']=value
+            print(value)
+            return redirect('perfiles')
+    
     return redirect('perfiles')
 
 
