@@ -109,11 +109,13 @@ def mongo (request):
 
 #Hasta aqui las cosas de SSBW a partir de aqui no se puede borrar nada
 
-def inicio (request):
-    context={ 'prueba': request.session['fav_color']}
-    return render(request, 'facetas.htm',context)
+def index (request):
+    request.session.clear()
+    return render(request, 'login.htm')
 
 
+########################################################################
+#Funciones de la página de registro
 
 # Con validadores de campo
 class registrationForm(forms.Form):
@@ -171,7 +173,6 @@ def clean (self):
         raise forms.ValidationError ('los nombres no coinciden')
 
 
-
 def registro (request):
     # Recibo el formulario
     if request.method == 'POST':
@@ -211,6 +212,13 @@ def registro (request):
         }
         return render (request, 'registro.htm',context)
 
+########################################################################
+#Fucniones de la pagina de login
+
+def inicio (request):
+    context={ 'prueba': request.session['user']}
+    return render(request, 'facetas.htm',context)
+
 # Funcion para logear al usuario
 def logear(request):
     username = request.POST['user']
@@ -221,7 +229,7 @@ def logear(request):
     if user is not None:
         if user.is_active:
             login(request, user)
-            request.session['fav_color'] = 'blue'
+            request.session['user'] = username
             return redirect('inicio')
             # Redirect to a success page.
         show_remove_link = False
@@ -229,17 +237,18 @@ def logear(request):
     show_remove_link = True
     return render(request, 'login.htm', {'show_remove_link': show_remove_link})
 
+###########################################################################
+#Funciones de la página de Perfiles
+
 #Función para llevarte a la pagina de definicion de perfiles
-#actualmente coge solamente y guarda para el usuario Jorge
 def perfiles (request):
     pruebas=[]
-    #pruebas= Perfil.objects.filter(nombre='request.user.username')
-    pruebas= Perfil.objects.filter()# en vez de nombre tiene que ser la clave foranea que referencia al usuario que esta iniciado
+    pruebas= Perfil.objects.filter(propietario=request.session['user'])#Le indico que saque todos los perfiles cuyo propietario sea el usuario logueado
     #request.session.clear()
     if pruebas:
         if 'pulsado' in request.session:#detecto si hay un perfil seleccionado y saco sus datos de la BD y se los mando al html
             datos=Perfil.objects.filter(id=request.session['pulsado'])
-            #del request.session['pulsado']#Elimino pulsado de la session
+            del request.session['pulsado']#Elimino pulsado de la session
             if datos:
                 context={'datos':datos[0],'guardado':False,'pruebas':pruebas}
             else:
@@ -255,6 +264,10 @@ def perfiles (request):
     else:
         context={ 'datos': pruebas,'guardado':False,'pruebas':pruebas}
     return render(request, 'perfiles.htm',context)
+
+
+
+
 
 def guardarPerfil(request):
     request.session['guardado'] = False
@@ -284,6 +297,10 @@ def guardarPerfil(request):
 
     return redirect('perfiles')#Redirecciono a la funcion perfiles pasandole el valor de guardado con request.session[guardado]
 
+
+
+
+
 #LLamo a la funcion al ser pulsado un perfil
 def cargarPerfil(request):
     if request.method=='POST':
@@ -294,10 +311,13 @@ def cargarPerfil(request):
     
     return redirect('perfiles')
 
+
+
+
 #LLamo a la funcion al crear un nuevo perfil
 def nuevoPerfil(request):
     if request.method=='POST':
-        p=Perfil.objects.create(nombre='Nuevo Perfil')
+        p=Perfil.objects.create(nombre='Nuevo Perfil',propietario=request.session['user'])
         request.session['pulsado']=p.id
         return redirect('perfiles')
 

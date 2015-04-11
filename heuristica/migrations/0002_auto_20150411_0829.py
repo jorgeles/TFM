@@ -7,11 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('heuristica', '0003_usuario_disruptor'),
+        ('heuristica', '0001_initial'),
     ]
 
     operations = [
-        migrations.DeleteModel(
-            name='Prueba',
+        migrations.RenameField(
+            model_name='perfil',
+            old_name='usuario',
+            new_name='propietario',
         ),
     ]

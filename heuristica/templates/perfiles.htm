@@ -8,7 +8,7 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/perfiles.css' %}" />
         <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
         <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
-        <title>Login</title>
+        <title>Mis Perfiles</title>
     {% endblock %}
     {% block contenido %}
         <div id="cotenido">
@@ -52,14 +52,15 @@
                        <output class="valor" type="text" id="espirituInput" value=""></output>
                        <input class="range"  id="espiritulibre" type="range" name="espiritu" min="0" max="10" step="1" value="{{ datos.espiritu }}" oninput="myFunction()" list=volsettings></input>
                        <input id="soporte" type="hidden" name="id" value="{{datos.id|safe}}"></input>
-                       <input id ="puff" type="submit" class="btn btn-primary" value="Guardar Cambios"/>
-                       
                        <div class="bs-example" id="alerta">
                            <div class="alert alert-success">
                                <a  href="#" class="close" data-dismiss="alert"></a>
                                <strong>Guardado!</strong> El perfil ha sido guardado con exito.
                            </div>
-                        </div>
+                       </div>
+                       <button class="btn btn-primary" id="guardar" type="submit" ><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+                       
+                       
                    </form>
                    <!-- Valores que salen en las barras de desplazamiento, no salen los numeros pero si los marcadadores -->
                    <datalist id=volsettings>

@@ -103,8 +103,8 @@
     border-top: 1px solid rgba(0, 120, 255, 1);
 }
 #micssmenu ul ul li:hover > a {
-    background: rgba(0, 120, 255, 1);
-    color: #ffffff;
+    color: rgba(0, 120, 255, 1);
+    background: #ffffff;
 }
 #micssmenu ul ul li:last-child > a {
     -moz-border-radius: 0 0 3px 3px;

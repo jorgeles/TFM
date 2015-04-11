@@ -11,12 +11,8 @@
     height:90%;
 }
 
-#puff{
-    margin-top:10%;
-}
-
 #alerta{
-    margin-top:10%;
+    margin-top:45%;
 }
 #disruptorley{
     margin-top:10%;
@@ -26,5 +22,8 @@
 }
 #soporte{
     visibility: hidden;
+}
+#guardar{
+    width:80%;
 }
 
