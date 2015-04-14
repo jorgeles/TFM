@@ -3,10 +3,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 {% block head %}
     {% load staticfiles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}" />
-    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
-    
-    <title>{% block title %}My amazing site{% endblock %}</title>
+    <title>{% block title %}MakeHeuristic{% endblock %}</title>
     
 {% endblock %}
 {% block content %}
@@ -15,17 +12,18 @@
             <div id="content">
                 <form action="{% url 'logear' %}" method="post">{% csrf_token %}
                     {% if show_remove_link%}
-                    <p> "Cagada Te has Equivocado"</p>
+                    <p id="Error">El usuario o Contraseña No Existen</p>
+                    <input id="user2" tabindex="1" class="inputtext" type="text"name="user"placeholder="Introduzca su Usuario"></input>
                     {% else %}
-                    {% endif %}
                     <input id="user" tabindex="1" class="inputtext" type="text"name="user"placeholder="Introduzca su Usuario"></input>
+                    {% endif %}
                     <input id="password" tabindex="1" class="inputtext" type="password"name="password"placeholder="Introduzca su Contraseña"></input>
                     <br><br>
                     <a id="Olvido" href="http://www.ejemplo.com/fondo_escritorio.jpg">¿Olvidaste tu contraseña?</a>
-                    <input id="login" style="border:none;" class="public-button" type="submit" tabindex="4" value="Iniciar Sesion"></input>
+                    <button id="login" type="submit" class="btn btn-primary">Iniciar Sesión</button>
                 </form>
                 <form action="{% url 'registro' %}" method="get">{% csrf_token %}
-                    <input id="Crear" style="border:none;" class="public-button" type="submit" tabindex="4" value="Registrarse"></input>
+                    <button id="Crear" type="submit"class="btn btn-info">Registrarse</button>
                 </form>
             </div>
         </div>

@@ -11,6 +11,7 @@ urlpatterns = patterns('',
                        url(r'^guardarPerfil', views.guardarPerfil, name='guardarPerfil'),
                        url(r'^cargarPerfil', views.cargarPerfil, name='cargarPerfil'),
                        url(r'^nuevoPerfil', views.nuevoPerfil, name='nuevoPerfil'),
+                       url(r'^eliminarPerfil', views.eliminarPerfil, name='eliminarPerfil'),
                        
                        # Url para borrar mas adelante
                        url(r'^google', views.google, name='google'),

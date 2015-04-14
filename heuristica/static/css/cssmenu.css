@@ -102,7 +102,7 @@
 #micssmenu ul ul li:first-child > a {
     border-top: 1px solid rgba(0, 120, 255, 1);
 }
-#micssmenu ul ul li:hover > a {
+#micssmenu ul ul li:hover > a,#cssmenu ul li.active > a {
     color: rgba(0, 120, 255, 1);
     background: #ffffff;
 }
@@ -184,7 +184,6 @@ body{
 #menu_lateral_configuracion {
     width:23%;
     height:100%;
-    overflow:scroll;
     float: left;/*Para que se divida verticalmente y no horizontalmente, da igual left o right o eso parece*/
     background:  rgba(232, 232, 232, 0.5);
     text-align:center;
@@ -245,14 +244,14 @@ body{
     color:rgba(0, 120, 255, 1);
 
 }
-#milist > li:hover {
+.listname:hover{
     color:rgba(255,255,255,1);
-    background-color:rgba(0, 120, 255, 1);
     cursor:pointer;
 }
-#milist > li:active {
+.listnameactive{
     color:rgba(255,255,255,1);
-    background-color:rgba(0, 120, 255, 1);
+}
+.listnameactive:hover{
     cursor:pointer;
 }
 #mitabla TH {

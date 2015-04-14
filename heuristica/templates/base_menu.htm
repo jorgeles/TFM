@@ -2,20 +2,15 @@
 <html>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <head>
-        {% load staticfiles %}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/cssmenu.css' %}" />
-        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
-        <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
-        <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
         <title>Login</title>
     </head>
     {% block content %}
         <div id='micssmenu'>
             <ul>
-                <li class='has-sub'><a href='#'>Inicio</a></li>
-                <li class='has-sub '><a href='#'>Asignados</a>
+                <li class='has-sub' id="inicio"><a href='#'>Inicio</a></li>
+                <li class='has-sub' ><a href='#'>Asignados</a>
                     <ul>
-                        <li class='has-sub '><a href='#'>Opciones 1</a>
+                        <li class='has-sub'><a href='#'>Opciones 1</a>
                             <ul>
                                 <li><a href='#'>Una opcion</a></li>
                                 <li><a href='#'>Una opcion</a></li>
@@ -29,8 +24,8 @@
                         </li>
                     </ul>
                 </li>
-                <li><a href="{% url 'inicio' %}">Facetas</a></li>
-                <li><a href="{% url 'perfiles' %}" type="submit">Perfil Jugadores</a></li>
+                <li id="Facetas"><a href="{% url 'inicio' %}">Facetas</a></li>
+                <li id="Perfil"><a href="{% url 'perfiles' %}" type="submit">Perfil Jugadores</a></li>
                 <li><a href='#'>Tipos de Juegos</a></li>
                 <li><a href='#'>Ayuda</a></li>
                 <li><a href="{% url 'google' %}">Lectura XML</a></li>
@@ -42,7 +37,7 @@
                         <li><a href="#">Another action</a></li>
                         <li><a href="#">Something else here</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
+                        <li><a href="#">{{request.session.menu}}</a></li>
                         <li class="divider"></li>
                         <li><a href="#">One more separated link</a></li>
                     </ul>
@@ -53,5 +48,18 @@
         <div id="cotenido">
             {% block contenido %}{% endblock %}
         </div>
+        <script>
+            function ActivarMenu(){
+                var c = "{{ request.session.menu }}";
+                if(c=="perfiles"){
+                    document.getElementById("Perfil").className="active";
+                    //document.getElementById("MyElement").className = "MyClass";
+                }
+                else if(c=="facetas"){
+                    document.getElementById("Facetas").className="active";
+                }
+            }
+        window.onload=ActivarMenu();
+        </script>
     {% endblock %}
 </html>

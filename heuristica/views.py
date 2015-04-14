@@ -213,13 +213,16 @@ def registro (request):
         return render (request, 'registro.htm',context)
 
 ########################################################################
-#Fucniones de la pagina de login
+#Fucniones de la pagina de Facetas
 
 def inicio (request):
     context={ 'prueba': request.session['user']}
+    request.session['menu']='facetas'
     return render(request, 'facetas.htm',context)
 
-# Funcion para logear al usuario
+########################################################################
+#Fucniones de la pagina de Login
+
 def logear(request):
     username = request.POST['user']
     password = request.POST['password']
@@ -244,21 +247,18 @@ def logear(request):
 def perfiles (request):
     pruebas=[]
     pruebas= Perfil.objects.filter(propietario=request.session['user'])#Le indico que saque todos los perfiles cuyo propietario sea el usuario logueado
+    seleccionado=pruebas
+    request.session['menu']='perfiles'
     #request.session.clear()
     if pruebas:
         if 'pulsado' in request.session:#detecto si hay un perfil seleccionado y saco sus datos de la BD y se los mando al html
-            datos=Perfil.objects.filter(id=request.session['pulsado'])
-            del request.session['pulsado']#Elimino pulsado de la session
-            if datos:
-                context={'datos':datos[0],'guardado':False,'pruebas':pruebas}
-            else:
-                context={ 'datos': pruebas[0],'guardado':False,'pruebas':pruebas}
+            seleccionado=Perfil.objects.filter(id=request.session['pulsado'])
 
-        elif 'guardado' not in request.session:#Compruebo si hay algo guardado para sacar la alerta de guardado
-            context={ 'datos': pruebas[0],'guardado':False,'pruebas':pruebas}
+        if 'guardado' not in request.session:#Compruebo si hay algo guardado para sacar la alerta de guardado
+            context={ 'datos': seleccionado[0],'guardado':False,'pruebas':pruebas}
         
         else:
-            context={ 'datos': pruebas[0],'guardado': request.session['guardado'],'pruebas':pruebas}#si lo hay le asigno a guardado el valor de request.session[guardado] que tiene que ser true
+            context={ 'datos': seleccionado[0],'guardado': request.session['guardado'],'pruebas':pruebas}#si lo hay le asigno a guardado el valor de request.session[guardado] que tiene que ser true
             request.session['guardado'] = False
             del request.session['guardado']
     else:
@@ -282,12 +282,14 @@ def guardarPerfil(request):
         logrador = request.POST['logrador']
         espiritu = request.POST['espiritu']
         id=request.POST['id']
+        nombre=request.POST['nombre']
         
         #introduzco los datos en la BD
         p=Perfil.objects.get(id=id)
         p.disruptor=disruptor
         p.filantropo=filantropo
         p.socializador=socializador
+        p.nombre=nombre
         p.jugador=jugador
         p.logrador=logrador
         p.espiritu=espiritu
@@ -320,6 +322,14 @@ def nuevoPerfil(request):
         p=Perfil.objects.create(nombre='Nuevo Perfil',propietario=request.session['user'])
         request.session['pulsado']=p.id
         return redirect('perfiles')
+
+#Elimina el Perfil activo
+def eliminarPerfil(request):
+    if request.method=='POST':
+        seleccionado=Perfil.objects.filter(id=request.session['pulsado'])
+        seleccionado.delete()
+        del request.session['pulsado']#Elimino pulsado de la session
+    return redirect('perfiles')
 
 
 

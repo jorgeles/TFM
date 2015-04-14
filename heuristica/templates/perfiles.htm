@@ -2,12 +2,6 @@
 <html>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     {% block head %}
-        {% load staticfiles %}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/cssmenu.css' %}" />
-        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
-        <link rel="stylesheet" type="text/css" href="{% static 'css/perfiles.css' %}" />
-        <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
-        <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
         <title>Mis Perfiles</title>
     {% endblock %}
     {% block contenido %}
@@ -18,7 +12,11 @@
                         {% for prueba in pruebas %}
                         <li>
                             <form action="{% url 'cargarPerfil' %}" method="post">{% csrf_token %}
-                                <input class="name" type="submit" name="perfil" id="{{prueba.id|safe}}" value="{{prueba.nombre|safe}}"  ></input>
+                                {% if prueba.id == datos.id %}
+                                    <input class="listnameactive" type="submit" name="perfil" id="{{prueba.id|safe}}" value="{{prueba.nombre|safe}}"  ></input>
+                                {% else %}
+                                    <input class="listname" type="submit" name="perfil" id="{{prueba.id|safe}}" value="{{prueba.nombre|safe}}"  ></input>
+                                {% endif %}
                                 <input id="soporte" type="hidden" name="valor" value="{{prueba.id|safe}}"></input>
                             </form>
                         </li>
@@ -32,8 +30,10 @@
             </div>
             <div id="heuristica">
                <div id="menu_lateral_configuracion">
-                   <form action="{% url 'guardarPerfil' %}" method="post">{% csrf_token %}
-                       <b class="leyenda" id"disruptorley">Disruptor</b>
+                   <form id="formulario" action="{% url 'guardarPerfil' %}" method="post">{% csrf_token %}
+                       <b class="leyenda" id="Nombre">Nombre Perfil</b>
+                       <input class="form-control" id="nombre" type="text" name="nombre" value="{{ datos.nombre }}"></input>
+                       <b class="leyenda" id="disruptorley">Disruptor</b>
                        <output class="valor" type="text" id="disruptorInput" value=""></output>
                        <input class="range" id="disruptor" type="range" name="disruptor" min="0" max="10" step="1" value="{{ datos.disruptor }}" oninput="myFunction()"list=volsettings></input>
                        <b class="leyenda">Filantropo</b>
@@ -59,9 +59,9 @@
                            </div>
                        </div>
                        <button class="btn btn-primary" id="guardar" type="submit" ><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
-                       
-                       
                    </form>
+                   
+                   
                    <!-- Valores que salen en las barras de desplazamiento, no salen los numeros pero si los marcadadores -->
                    <datalist id=volsettings>
                        <option>0</option>
@@ -71,12 +71,15 @@
                        <option>8</option>
                        <option>10</option>
                    </datalist>
-               </div>
-            <div id="grafico">
+                </div>
+                    <div id="grafico"></div>
+                    <button id="eliminar_Perfil" onclick="eliminar()"class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span> Eliminar Perfil</button>
+                    <form id="form_eliminar" action="{% url 'eliminarPerfil' %}" method="post">{% csrf_token %}
+                        
+                    </form>
+                </div>
             </div>
-            </div>
-        </div>
-        <script type="text/javascript" src="{% static 'flotr2/flotr2.js' %}"></script>
+        
         <script>
             var primera = true;
             function myFunction() {
@@ -142,6 +145,16 @@
                 var li = document.createElement("li");
                 li.appendChild(document.createTextNode("Nuevo Perfil"));
                 ul.appendChild(li);
+            }
+        </script>
+        <script>
+            function eliminar(){
+                var form = document.getElementById("form_eliminar");
+                if (confirm('Do you wanna to submit?')) {
+                    form.submit();
+                } else {
+                    return false;
+                }
             }
         </script>
     {% endblock %}
