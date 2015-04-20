@@ -5,13 +5,31 @@
         <title>Mis Perfiles</title>
     {% endblock %}
     {% block contenido %}
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Eliminar Perfil</h4>
+                </div>
+                <div class="modal-body">
+                    <p> ¿Seguro que desea eliminar el perfil: {{datos.nombre}}? </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" onclick="eliminar()" class="btn btn-danger">Sí, Deseo Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
         <div id="cotenido">
             <div id="menu_lateral">
                 <div id="lista_izq">
                     <ul id="milist">
                         {% for prueba in pruebas %}
                         <li>
-                            <form action="{% url 'cargarPerfil' %}" method="post">{% csrf_token %}
+                            <form id="listNombre" action="{% url 'cargarPerfil' %}" method="post">{% csrf_token %}
                                 {% if prueba.id == datos.id %}
                                     <input class="listnameactive" type="submit" name="perfil" id="{{prueba.id|safe}}" value="{{prueba.nombre|safe}}"  ></input>
                                 {% else %}
@@ -24,12 +42,13 @@
                     </ul>
                 </div>
                 <form action="{% url 'nuevoPerfil' %}" method="post">{% csrf_token %}
-                    <button class="btn btn-primary btn-block" onclick="mostrarPop()" id="aniadirli" type="submit" onclick="aniadirli()">
+                    <button class="btn btn-primary btn-block" id="aniadirli" type="submit" onclick="aniadirli()">
                         <span class="glyphicon glyphicon-plus"></span> Añadir Perfil</button>
                 </form>
             </div>
             <div id="heuristica">
                <div id="menu_lateral_configuracion">
+                   {% if datos %}
                    <form id="formulario" action="{% url 'guardarPerfil' %}" method="post">{% csrf_token %}
                        <b class="leyenda" id="Nombre">Nombre Perfil</b>
                        <input class="form-control" id="nombre" type="text" name="nombre" value="{{ datos.nombre }}"></input>
@@ -51,16 +70,17 @@
                        <b class="leyenda">Espiritu Libre</b>
                        <output class="valor" type="text" id="espirituInput" value=""></output>
                        <input class="range"  id="espiritulibre" type="range" name="espiritu" min="0" max="10" step="1" value="{{ datos.espiritu }}" oninput="myFunction()" list=volsettings></input>
-                       <input id="soporte" type="hidden" name="id" value="{{datos.id|safe}}"></input>
+                       <input id="soporte2" type="hidden" name="id" value="{{datos.id|safe}}"></input>
                        <div class="bs-example" id="alerta">
                            <div class="alert alert-success">
                                <a  href="#" class="close" data-dismiss="alert"></a>
                                <strong>Guardado!</strong> El perfil ha sido guardado con exito.
                            </div>
                        </div>
-                       <button class="btn btn-primary" id="guardar" type="submit" ><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+                       
                    </form>
-                   
+                   <button class="btn btn-primary"  id="guardar" ><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+                   {% endif %}
                    
                    <!-- Valores que salen en las barras de desplazamiento, no salen los numeros pero si los marcadadores -->
                    <datalist id=volsettings>
@@ -73,15 +93,30 @@
                    </datalist>
                 </div>
                     <div id="grafico"></div>
-                    <button id="eliminar_Perfil" onclick="eliminar()"class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span> Eliminar Perfil</button>
-                    <form id="form_eliminar" action="{% url 'eliminarPerfil' %}" method="post">{% csrf_token %}
-                        
-                    </form>
+                    {% if datos %}
+                    <button id="eliminar_Perfil"class="btn btn-danger" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-minus"></span> Eliminar Perfil</button>
+                    <form id="form_eliminar" action="{% url 'eliminarPerfil' %}" method="post">{% csrf_token %}</form>
+                    {% endif %}
                 </div>
             </div>
         
         <script>
-            var primera = true;
+            var disruptor;
+            var filantropo;
+            var socializador;
+            var jugador;
+            var logrador;
+            var espiritulibre;
+            
+            {% if datos %}
+                disruptor=document.getElementById('disruptor').value
+                filantropo=document.getElementById('filantropo').value
+                socializador=document.getElementById('socializador').value
+                jugador=document.getElementById('jugador').value
+                logrador=document.getElementById('logrador').value
+                espiritulibre=document.getElementById('espiritulibre').value
+            {%endif%}
+            
             function myFunction() {
                 // Fill series s1 and s2.
                 {% if datos %}
@@ -91,10 +126,13 @@
                 var d4 = document.getElementById('jugador').value
                 var d5 = document.getElementById('logrador').value
                 var d6 = document.getElementById('espiritulibre').value
+                var d7 = document.getElementById('soporte2').value
+                
+                
                 var
                 s1 = { label : 'Actual', data : [[0, d1], [1, d2], [2, d3], [3, d4], [4, d5], [5, d6]] },
                 graph, ticks;
-                s2 = { label : 'Guardado', data : [[0, {{ datos.disruptor }}], [1, {{ datos.filantropo }}], [2, {{ datos.socializador }}], [3, {{ datos.jugador }}], [4, {{ datos.logrador }}], [5, {{ datos.espiritu }}]] },
+                s2 = { label : 'Guardado', data : [[0, disruptor], [1, filantropo], [2,socializador ], [3, jugador], [4, logrador], [5, espiritulibre]] },
                 graph, ticks;
                 
                 // Radar Labels
@@ -109,9 +147,9 @@
                 
                 // Draw the graph.
                 graph = Flotr.draw(document.getElementById("grafico"), [s1,s2], {
-                                   fontSize:10,
+                                   Size:0,
                                    radar : { show : true,color: '#FFF'},
-                                   grid  : { circular : true, minorHorizontalLines : true,},
+                                   grid  : { circular : true, minorHorizontalLines : true},
                                    yaxis : { min : 0, max : 10, minorTickFreq : 1,},
                                    xaxis : { ticks : ticks,}
                                    });
@@ -122,21 +160,68 @@
                 document.getElementById('logradorInput').value=d5;
                 document.getElementById('espirituInput').value=d6;
                 {% endif %}
-                
-                {% if guardado %}
-                if(primera==true){
-                    document.getElementById("alerta").style.visibility = "visible";
-                    timeoutID = window.setTimeout(function clerAlert() {
-                                                  document.getElementById("alerta").style.visibility = "hidden";
-                                                  }, 2000);
-                                                  primera=false;
-                }
-                {% else %}
-                    document.getElementById("alerta").style.visibility = "hidden";
-                {% endif %}
+                document.getElementById("alerta").style.visibility = "hidden";
                 
             }
         window.onload=myFunction();
+        
+        $('#guardar').click(function(){
+                            var d1 = document.getElementById('disruptor').value
+                            var d2 = document.getElementById('filantropo').value
+                            var d3 = document.getElementById('socializador').value
+                            var d4 = document.getElementById('jugador').value
+                            var d5 = document.getElementById('logrador').value
+                            var d6 = document.getElementById('espiritulibre').value
+                            var d7 = document.getElementById('soporte2').value
+                            var d8 = document.getElementById('nombre').value
+                            
+                            $.post("{% url 'guardarPerfil' %}",{disruptor:d1,filantropo:d2,socializador:d3,jugador:d4,logrador:d5,espiritu:d6,id:d7,nombre:d8,csrfmiddlewaretoken:'{{csrf_token}}'},
+                                   function(result){
+                                   document.getElementById("alerta").style.visibility = "visible";
+                                   timeoutID = window.setTimeout(function clerAlert() {
+                                                                 document.getElementById("alerta").style.visibility = "hidden";
+                                                                 }, 2000);
+                                   var
+                                   s1 = { label : 'Actual', data : [[0, d1], [1, d2], [2, d3], [3, d4], [4, d5], [5, d6]] },
+                                   graph, ticks;
+                                   s2 = { label : 'Guardado', data : [[0, d1], [1, d2], [2, d3], [3, d4], [4, d5], [5, d6]] },
+                                   graph, ticks;
+                                   
+                                   // Radar Labels
+                                   ticks = [
+                                            [0, "Disruptor"],
+                                            [1, "Filantropo"],
+                                            [2, "Socializador"],
+                                            [3, "Jugador"],
+                                            [4, "Logrador"],
+                                            [5, "Espiritu Libre"],
+                                            ];
+                                   
+                                   // Draw the graph.
+                                   graph = Flotr.draw(document.getElementById("grafico"), [s1,s2], {
+                                                      Size:0,
+                                                      radar : { show : true,color: '#FFF'},
+                                                      grid  : { circular : true, minorHorizontalLines : true},
+                                                      yaxis : { min : 0, max : 10, minorTickFreq : 1,},
+                                                      xaxis : { ticks : ticks,}
+                                                      });
+                                   document.getElementById('disruptorInput').value=d1;
+                                   document.getElementById('filatropoInput').value=d2;
+                                   document.getElementById('socializadorInput').value=d3;
+                                   document.getElementById('jugadorInput').value=d4;
+                                   document.getElementById('logradorInput').value=d5;
+                                   document.getElementById('espirituInput').value=d6;
+                                   
+                                   disruptor=d1;
+                                   filantropo=d2;
+                                   socializador=d3;
+                                   jugador=d4;
+                                   logrador=d5;
+                                   espiritulibre=d6;
+                                   document.getElementById(d7).value=d8;
+                                   
+                                   });
+                            })
         </script>
         <script>
             function aniadirli()
@@ -150,11 +235,13 @@
         <script>
             function eliminar(){
                 var form = document.getElementById("form_eliminar");
-                if (confirm('Do you wanna to submit?')) {
-                    form.submit();
-                } else {
-                    return false;
-                }
+                form.submit();
+            }
+        </script>
+        <script>
+            function guardar(){
+                //var form = document.getElementById("formulario");
+                //form.submit();
             }
         </script>
     {% endblock %}

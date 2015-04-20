@@ -180,15 +180,6 @@ body{
     background:  rgba(232, 232, 232, 0.9);
 
 }
-
-#menu_lateral_configuracion {
-    width:23%;
-    height:100%;
-    float: left;/*Para que se divida verticalmente y no horizontalmente, da igual left o right o eso parece*/
-    background:  rgba(232, 232, 232, 0.5);
-    text-align:center;
-    
-}
 #lista_izq {
     width:80%;
     height:85%;

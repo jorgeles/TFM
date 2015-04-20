@@ -16,5 +16,8 @@ urlpatterns = patterns('',
                        # Url para borrar mas adelante
                        url(r'^google', views.google, name='google'),
                        url(r'^mongo', views.mongo, name='mongo'),
+                       url(r'^prueba', views.prueba, name='prueba'),
+                       
+                       
 
                        )

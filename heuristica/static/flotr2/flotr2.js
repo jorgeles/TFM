@@ -1607,8 +1607,8 @@ Flotr.defaultOptions = {
   defaultType: null,       // => default series type
   HtmlText: true,          // => wether to draw the text using HTML or on the canvas
   fontColor: '#545454',    // => default font color
-  fontSize: 7.5,           // => canvas' text font size
-  resolution: 1,           // => resolution of the graph, to have printer-friendly graphs !
+  fontSize: 10,           // => canvas' text font size
+  resolution: 2,           // => resolution of the graph, to have printer-friendly graphs !
   parseFloat: true,        // => whether to preprocess data for floats (ie. if input is string)
   preventDefault: true,    // => preventDefault by default for mobile events.  Turn off to enable scroll.
   xaxis: {
@@ -1635,7 +1635,7 @@ Flotr.defaultOptions = {
     scaling: 'linear',     // => Scaling, can be 'linear' or 'logarithmic'
     base: Math.E,
     titleAlign: 'center',
-    margin: true           // => Turn off margins with false
+    margin: false           // => Turn off margins with false
   },
   x2axis: {},
   yaxis: {
@@ -1658,7 +1658,7 @@ Flotr.defaultOptions = {
     scaling: 'linear',     // => Scaling, can be 'linear' or 'logarithmic'
     base: Math.E,
     titleAlign: 'center',
-    margin: true           // => Turn off margins with false
+    margin: false           // => Turn off margins with false
   },
   y2axis: {
     titleAngle: 270

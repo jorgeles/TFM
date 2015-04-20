@@ -10,6 +10,7 @@ from django import forms
 from django.core.validators import validate_slug, RegexValidator
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
+from django.http import JsonResponse
 
 
 #cosas chorras para las prácticas de SSBW se podran borrar algunas excepto las marcadas
@@ -19,8 +20,7 @@ from pymongo import MongoClient
 # Create your views here.
 
 
-def index (request):
-    return render(request, 'login.htm')
+
 
 # cosas de las practicas de SSBW que se podrán borrar
 def google (request):
@@ -29,7 +29,6 @@ def google (request):
     # Todos los enlaces
     urls=tree.xpath('//address_component')
     mandar = imagenes.xpath('//enclosure/@url')
-    print(mandar)
 
 
     for i in urls:
@@ -65,7 +64,6 @@ def mongo (request):
     
     else:
         
-        r = requests.get('http://servicios.elpais.com/rss/')
         client = MongoClient()
         page = requests.get('http://ep00.epimg.net/rss/elpais/portada.xml')
         client.db_noticias.posts.remove()
@@ -105,6 +103,47 @@ def mongo (request):
         posts = db.posts
         posts.insert(news)
         return render(request,'mongo.html')
+
+def prueba (request):
+    client = MongoClient()
+    page = requests.get('http://ep00.epimg.net/rss/elpais/portada.xml')
+    client.db_noticias.posts.remove()
+
+    root = etree.fromstring(page.text.encode('utf-8'))
+        
+    items = root.xpath('//item')
+    news = []
+    j=0
+        
+    for item in items:
+        j=j+1
+        categorias = []
+        texto=''
+        cat = item.xpath('category')
+            
+        for i in item:
+            if i.tag == '{http://purl.org/rss/1.0/modules/content/}encoded':
+                texto=i.text.encode('utf-8')
+        
+        for c in cat:
+            categorias.append(c.text.encode('utf-8'))
+    
+    
+        noticia = {
+            "titulo": item.xpath('title')[0].text.encode('utf-8'),
+                "link": item.xpath('link')[0].text.encode('utf-8'),
+                    "categorias": categorias,
+                        "noticia":texto,
+        
+        }
+    
+    
+        news.append(noticia)
+
+    db = client.db_noticias
+    posts = db.posts
+    posts.insert(news)
+    return JsonResponse({'datos':j})
 
 
 #Hasta aqui las cosas de SSBW a partir de aqui no se puede borrar nada
@@ -253,16 +292,12 @@ def perfiles (request):
     if pruebas:
         if 'pulsado' in request.session:#detecto si hay un perfil seleccionado y saco sus datos de la BD y se los mando al html
             seleccionado=Perfil.objects.filter(id=request.session['pulsado'])
-
-        if 'guardado' not in request.session:#Compruebo si hay algo guardado para sacar la alerta de guardado
-            context={ 'datos': seleccionado[0],'guardado':False,'pruebas':pruebas}
-        
         else:
-            context={ 'datos': seleccionado[0],'guardado': request.session['guardado'],'pruebas':pruebas}#si lo hay le asigno a guardado el valor de request.session[guardado] que tiene que ser true
-            request.session['guardado'] = False
-            del request.session['guardado']
+            request.session['pulsado']=seleccionado[0].id
+        context={ 'datos': seleccionado[0],'pruebas':pruebas}#si lo hay le asigno a guardado el valor de request.session[guardado] que tiene que ser true
+
     else:
-        context={ 'datos': pruebas,'guardado':False,'pruebas':pruebas}
+        context={ 'datos': pruebas,'pruebas':pruebas}
     return render(request, 'perfiles.htm',context)
 
 
@@ -270,8 +305,7 @@ def perfiles (request):
 
 
 def guardarPerfil(request):
-    request.session['guardado'] = False
-    
+    #request.session['guardado'] = False
     if request.method == 'POST':#Si se pasan cosas por post quiere decir que ha habido cambios y por tanto los guardo en la base de datos
         
         #obtengo los datos del html
@@ -295,9 +329,10 @@ def guardarPerfil(request):
         p.espiritu=espiritu
         
         p.save()
-        request.session['guardado'] = True #Indico que hay algo nuevo guardado en la base de datos
+        #request.session['guardado'] = True #Indico que hay algo nuevo guardado en la base de datos
 
-    return redirect('perfiles')#Redirecciono a la funcion perfiles pasandole el valor de guardado con request.session[guardado]
+        #return redirect('perfiles')#Redirecciono a la funcion perfiles pasandole el valor de guardado con request.session[guardado]
+        return JsonResponse({'datos':'juju'})
 
 
 

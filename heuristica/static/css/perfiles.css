@@ -8,11 +8,12 @@
     margin-bottom:5%;
 }
 #grafico{
-    height:90%;
+    margin-top:2%;
+    margin-left:25%;
+    height:80%;
 }
 
 #alerta{
-    margin-top:24%;
     height:10%;
 }
 #disruptorley{
@@ -28,7 +29,7 @@
     width:80%;
 }
 #eliminar_Perfil{
-    margin-top:1.3%;
+    margin-top:5.3%;
     margin-left:60%;
 }
 #nombre{
@@ -39,6 +40,21 @@
 #herramientas{
     height:80%;
     overflow:Scrollbar;
+}
+
+#menu_lateral_configuracion {
+    width:23%;
+    height:100%;
+    float: left;/*Para que se divida verticalmente y no horizontalmente, da igual left o right o eso parece*/
+    background:  rgba(232, 232, 232, 0.5);
+    text-align:center;
+    
+}
+
+#formulario{
+    height:85%;
+    margin-bottom:15%;
+    margin-top:5%;
 }
 
 
