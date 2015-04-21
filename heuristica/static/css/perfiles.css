@@ -1,6 +1,9 @@
 .leyenda{
     color:rgba(90, 120, 255, 1);
 }
+.leyenda:hover{
+    cursor:pointer;
+}
 .valor{
     color:rgba(0, 120, 255, 1);
 }

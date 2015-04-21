@@ -2,7 +2,7 @@
 <html>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     {% block head %}
-        <title>Mis Perfiles</title>
+        <title>Mis Juegos</title>
     {% endblock %}
     {% block contenido %}
     <!-- Modal -->
@@ -14,7 +14,7 @@
                     <h4 class="modal-title" id="myModalLabel">Eliminar Perfil</h4>
                 </div>
                 <div class="modal-body">
-                    <p> ¿Seguro que desea eliminar el perfil: {{datos.nombre}}? </p>
+                    <p> ¿Seguro que desea eliminar el juego: {{datos.nombre}}? </p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
@@ -29,7 +29,7 @@
                     <ul id="milist">
                         {% for prueba in pruebas %}
                         <li>
-                            <form id="listNombre" action="{% url 'cargarPerfil' %}" method="post">{% csrf_token %}
+                            <form id="listNombre" action="{% url 'cargarJuego' %}" method="post">{% csrf_token %}
                                 {% if prueba.id == datos.id %}
                                     <input class="listnameactive" type="submit" name="perfil" id="{{prueba.id|safe}}" value="{{prueba.nombre|safe}}"  ></input>
                                 {% else %}
@@ -41,7 +41,7 @@
                         {% endfor %}
                     </ul>
                 </div>
-                <form action="{% url 'nuevoPerfil' %}" method="post">{% csrf_token %}
+                <form action="{% url 'nuevoJuego' %}" method="post">{% csrf_token %}
                     <button class="btn btn-primary btn-block" id="aniadirli" type="submit" onclick="aniadirli()">
                         <span class="glyphicon glyphicon-plus"></span> Añadir Perfil</button>
                 </form>
@@ -49,32 +49,38 @@
             <div id="heuristica">
                <div id="menu_lateral_configuracion">
                    {% if datos %}
-                   <form id="formulario" action="{% url 'guardarPerfil' %}" method="post">{% csrf_token %}
+                   <form id="formulario" action="{% url 'guardarJuego' %}" method="post">{% csrf_token %}
                        <b class="leyenda" id="Nombre">Nombre Perfil</b>
                        <input class="form-control" id="nombre" type="text" name="nombre" value="{{ datos.nombre }}"></input>
-                       <b type="button" class="leyenda"  data-toggle="tooltip" data-placement="right" title="Un Jugador Disruptor es aquel que se motiva con el cambio.Analizan todo el juego para producir cambios en él ya sean ellos mismos o a través de otros jugadores.">Disruptor</b>
-                       <output class="valor" type="text" id="disruptorInput" value=""></output>
-                       <input class="range" id="disruptor" type="range" name="disruptor" min="0" max="10" step="1" value="{{ datos.disruptor }}" oninput="myFunction()"list=volsettings></input>
+                       <b type="button" class="leyenda"  data-toggle="tooltip" data-placement="right" title="Un Jugador Disruptor es aquel que se motiva con el cambio.Analizan todo el juego para producir cambios en él ya sean ellos mismos o a través de otros jugadores.">Aventuras</b>
+                       <output class="valor" type="text" id="aventurasInput" value=""></output>
+                       <input class="range" id="aventuras" type="range" name="aventuras" min="0" max="10" step="1" value="{{ datos.aventuras }}" oninput="myFunction()"list=volsettings></input>
+                       
                        <b type="button" class="leyenda"  data-toggle="tooltip" data-placement="right" title="Un Jugador Filantropo es aquel que realiza acciones en el juego sin esperar nada a cambio.">Filantropo</b>
                        <output class="valor" type="text" id="filatropoInput" value=""></output>
                        <input class="range"  id="filantropo" type="range" name="filantropo" min="0" max="10" step="1" value="{{ datos.filantropo }}" oninput="myFunction()"list=volsettings></input>
+                       
                        <b type="button" class="leyenda"  data-toggle="tooltip" data-placement="right" title="Un Jugador Socializador es aquel que juega para relacionarse con otros jugadores.">Socializador</b>
                        <output class="valor" type="text" id="socializadorInput" value=""></output>
                        <input class="range"  id="socializador" type="range" name="socializador" min="0" max="10" step="1" value="{{ datos.socializador }}" oninput="myFunction()"list=volsettings></input>
+                       
                        <b type="button" class="leyenda"  data-toggle="tooltip" data-placement="right" title="Un usuario Jugador es aquel que juega para conseguir todos los objetivos y premios del juego. Juegan para ellos mismos">Jugador</b>
                        <output class="valor" type="text" id="jugadorInput" value=""></output>
                        <input class="range"  id="jugador" type="range" name="jugador" min="0" max="10" step="1" value="{{ datos.jugador }}" oninput="myFunction()"list=volsettings></input>
+                       
                        <b type="button" class="leyenda"  data-toggle="tooltip" data-placement="right" title="Un Jugador Logrador es aquel que se dedica a mejorar continuamente. Buscan ser los maestros y desean realizar retos continuamente">Logrador</b>
                        <output class="valor" type="text" id="logradorInput" value=""></output>
                        <input class="range"  id="logrador" type="range" name="logrador" min="0" max="10" step="1" value="{{ datos.logrador }}" oninput="myFunction()"list=volsettings></input>
+                       
                        <b type="button" class="leyenda"  data-toggle="tooltip" data-placement="right" title="Un Jugador del tipo Espiritu Libre es aquel que se dedica a la exploración y la creación">Espiritu Libre</b>
                        <output class="valor" type="text" id="espirituInput" value=""></output>
                        <input class="range"  id="espiritulibre" type="range" name="espiritu" min="0" max="10" step="1" value="{{ datos.espiritu }}" oninput="myFunction()" list=volsettings></input>
+                       
                        <input id="soporte2" type="hidden" name="id" value="{{datos.id|safe}}"></input>
                        <div class="bs-example" id="alerta">
                            <div class="alert alert-success">
                                <a  href="#" class="close" data-dismiss="alert"></a>
-                               <strong>Guardado!</strong> El perfil ha sido guardado con exito.
+                               <strong>Guardado!</strong> El Juego ha sido guardado con exito.
                            </div>
                        </div>
                        
@@ -95,7 +101,7 @@
                     <div id="grafico"></div>
                     {% if datos %}
                     <button id="eliminar_Perfil"class="btn btn-danger" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-minus"></span> Eliminar Perfil</button>
-                    <form id="form_eliminar" action="{% url 'eliminarPerfil' %}" method="post">{% csrf_token %}</form>
+                    <form id="form_eliminar" action="{% url 'eliminarJuego' %}" method="post">{% csrf_token %}</form>
                     {% endif %}
                 </div>
             </div>
@@ -109,7 +115,7 @@
             var espiritulibre;
             
             {% if datos %}
-                disruptor=document.getElementById('disruptor').value
+                disruptor=document.getElementById('aventuras').value
                 filantropo=document.getElementById('filantropo').value
                 socializador=document.getElementById('socializador').value
                 jugador=document.getElementById('jugador').value
@@ -120,7 +126,7 @@
             function myFunction() {
                 // Fill series s1 and s2.
                 {% if datos %}
-                var d1 = document.getElementById('disruptor').value
+                var d1 = document.getElementById('aventuras').value
                 var d2 = document.getElementById('filantropo').value
                 var d3 = document.getElementById('socializador').value
                 var d4 = document.getElementById('jugador').value
@@ -137,7 +143,7 @@
                 
                 // Radar Labels
                 ticks = [
-                         [0, "Disruptor"],
+                         [0, "Aventuras"],
                          [1, "Filantropo"],
                          [2, "Socializador"],
                          [3, "Jugador"],
@@ -153,7 +159,7 @@
                                    yaxis : { min : 0, max : 10, minorTickFreq : 1,},
                                    xaxis : { ticks : ticks,}
                                    });
-                document.getElementById('disruptorInput').value=d1;
+                document.getElementById('aventurasInput').value=d1;
                 document.getElementById('filatropoInput').value=d2;
                 document.getElementById('socializadorInput').value=d3;
                 document.getElementById('jugadorInput').value=d4;
@@ -166,7 +172,7 @@
         window.onload=myFunction();
         
         $('#guardar').click(function(){
-                            var d1 = document.getElementById('disruptor').value
+                            var d1 = document.getElementById('aventuras').value
                             var d2 = document.getElementById('filantropo').value
                             var d3 = document.getElementById('socializador').value
                             var d4 = document.getElementById('jugador').value
@@ -175,7 +181,7 @@
                             var d7 = document.getElementById('soporte2').value
                             var d8 = document.getElementById('nombre').value
                             
-                            $.post("{% url 'guardarPerfil' %}",{disruptor:d1,filantropo:d2,socializador:d3,jugador:d4,logrador:d5,espiritu:d6,id:d7,nombre:d8,csrfmiddlewaretoken:'{{csrf_token}}'},
+                            $.post("{% url 'guardarJuego' %}",{aventuras:d1,filantropo:d2,socializador:d3,jugador:d4,logrador:d5,espiritu:d6,id:d7,nombre:d8,csrfmiddlewaretoken:'{{csrf_token}}'},
                                    function(result){
                                    document.getElementById("alerta").style.visibility = "visible";
                                    timeoutID = window.setTimeout(function clerAlert() {
@@ -189,7 +195,7 @@
                                    
                                    // Radar Labels
                                    ticks = [
-                                            [0, "Disruptor"],
+                                            [0, "Aventuras"],
                                             [1, "Filantropo"],
                                             [2, "Socializador"],
                                             [3, "Jugador"],
@@ -205,7 +211,7 @@
                                                       yaxis : { min : 0, max : 10, minorTickFreq : 1,},
                                                       xaxis : { ticks : ticks,}
                                                       });
-                                   document.getElementById('disruptorInput').value=d1;
+                                   document.getElementById('aventurasInput').value=d1;
                                    document.getElementById('filatropoInput').value=d2;
                                    document.getElementById('socializadorInput').value=d3;
                                    document.getElementById('jugadorInput').value=d4;

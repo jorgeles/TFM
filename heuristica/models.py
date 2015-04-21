@@ -15,4 +15,22 @@ class Perfil (models.Model):
     logrador = models.CharField (max_length=200)
     espiritu = models.CharField (max_length=200)
 
+class Juegos (models.Model):
+    id=models.AutoField(primary_key=True)
+    nombre = models.CharField (max_length=200)
+    propietario=models.CharField (max_length=200)
+    aventuras=models.CharField (max_length=200)
+    accion = models.CharField (max_length=200)
+    fps = models.CharField (max_length=200)
+    simulacion = models.CharField (max_length=200)
+    plataformas = models.CharField (max_length=200)
+    estrategia = models.CharField (max_length=200)
+    deporte = models.CharField (max_length=200)
+    motor = models.CharField (max_length=200)
+    rol = models.CharField (max_length=200)
+    sandbox = models.CharField (max_length=200)
+    party = models.CharField (max_length=200)
+    educativo = models.CharField (max_length=200)
+    musical = models.CharField (max_length=200)
+
     

@@ -6,6 +6,7 @@ from django.template import Context
 from django.template import RequestContext, loader
 from django.contrib.auth.models import User
 from heuristica.models import Perfil
+from heuristica.models import Juegos
 from django import forms
 from django.core.validators import validate_slug, RegexValidator
 from django.contrib.auth import authenticate, login
@@ -292,6 +293,7 @@ def perfiles (request):
     if pruebas:
         if 'pulsado' in request.session:#detecto si hay un perfil seleccionado y saco sus datos de la BD y se los mando al html
             seleccionado=Perfil.objects.filter(id=request.session['pulsado'])
+        
         else:
             request.session['pulsado']=seleccionado[0].id
         context={ 'datos': seleccionado[0],'pruebas':pruebas}#si lo hay le asigno a guardado el valor de request.session[guardado] que tiene que ser true
@@ -365,6 +367,74 @@ def eliminarPerfil(request):
         seleccionado.delete()
         del request.session['pulsado']#Elimino pulsado de la session
     return redirect('perfiles')
+
+###########################################################################################################
+#Funciones de la pagina de tipos de juegos
+
+def juegos(request):
+    pruebas=[]
+    pruebas= Juegos.objects.filter(propietario=request.session['user'])#Le indico que saque todos los perfiles cuyo propietario sea el usuario logueado
+    seleccionado=pruebas
+    request.session['menu']='juegos'
+    #request.session.clear()
+    if pruebas:
+        if 'pulsadojuego' in request.session:#detecto si hay un perfil seleccionado y saco sus datos de la BD y se los mando al html
+            seleccionado=Juegos.objects.filter(id=request.session['pulsadojuego'])
+        else:
+            request.session['pulsadojuego']=seleccionado[0].id
+        context={ 'datos': seleccionado[0],'pruebas':pruebas}#si lo hay le asigno a guardado el valor de request.session[guardado] que tiene que ser true
+    
+    else:
+        context={ 'datos': pruebas,'pruebas':pruebas}
+
+
+    return render(request,'juegos.htm',context)
+
+#LLamo a la funcion al crear un nuevo perfil
+def nuevoJuego(request):
+    if request.method=='POST':
+        p=Juegos.objects.create(nombre='Nuevo Perfil',propietario=request.session['user'])
+        request.session['pulsadojuego']=p.id
+        return redirect('juegos')
+
+#LLamo a la funcion al ser pulsado un perfil
+def cargarJuego(request):
+    if request.method=='POST':
+        for key in request.POST:
+            value = request.POST['valor']
+            request.session['pulsadojuego']=value #le meto en la session el id del perfil y se lo paso a la funcion perfiles
+            return redirect('juegos')
+    
+    return redirect('juegos')
+
+#Elimina el Perfil activo
+def eliminarJuego(request):
+    if request.method=='POST':
+        seleccionado=Juegos.objects.filter(id=request.session['pulsadojuego'])
+        seleccionado.delete()
+        del request.session['pulsadojuego']#Elimino pulsado de la session
+    return redirect('juegos')
+
+def guardarJuego(request):
+    #request.session['guardado'] = False
+    if request.method == 'POST':#Si se pasan cosas por post quiere decir que ha habido cambios y por tanto los guardo en la base de datos
+        print "Hola"
+        #obtengo los datos del html
+        aventuras = request.POST['aventuras']
+        id=request.POST['id']
+        print "Hola"
+        
+        #introduzco los datos en la BD
+        p=Juegos.objects.get(id=id)
+        p.aventuras=aventuras
+
+        
+        p.save()
+        #request.session['guardado'] = True #Indico que hay algo nuevo guardado en la base de datos
+        
+        #return redirect('perfiles')#Redirecciono a la funcion perfiles pasandole el valor de guardado con request.session[guardado]
+        return JsonResponse({'datos':'juju'})
+
 
 
 
