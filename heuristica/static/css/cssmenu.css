@@ -169,18 +169,41 @@ body{
 }
 #contenido {
     width:100%;
-    height:94%;
+    height:auto;
     
 }
 #menu_lateral {
-    width:19%;
-    height:90%;
+    width:auto;
+    height:auto;
+    min-height:745px;
+    width:230px;
     overflow:scroll;
     float: left;/*Para que se divida verticalmente y no horizontalmente, da igual left o right o eso parece*/
     background:  rgba(232, 232, 232, 0.9);
+    position:relative;
 
 }
+#heuristica {
+    width:auto;
+    height:auto;
+    min-height:745px;
+    overflow:scroll;
+    background-color:rgba(242, 242, 242, 0.9);
+    position:relative;
+    
+}
 #lista_izq {
+    width:auto;
+    height:auto;
+    height:700px;
+    margin-left:5%;
+    margin-right:5%;
+    overflow-y: scroll;
+    background-color:rgba(255, 255, 255, 0);
+    
+    
+}
+#lista_izq2 {
     width:80%;
     height:85%;
     margin-left:5%;
@@ -191,29 +214,7 @@ body{
     
     
 }
-#heuristica {
-    width:81%;
-    height:90%;
-    overflow:scroll;
-    background-color:rgba(242, 242, 242, 0.9);
-    
-}
-#grafico {
-    width:77%;
-    height:100%;
-    overflow:scroll;
-    background-color:rgba(242, 242, 242, 0);
-    
-}
-#preguntas {
-    width:98%;
-    height:80%;
-    margin-left:1%;
-    margin-top:50px;
-    overflow:scroll;
-    background-color:rgba(232, 232, 232, 0.8);
-    
-}
+
 #milist input {
     background-color:rgba(232, 232, 232, 0);
     font-size: 14px;
@@ -245,12 +246,7 @@ body{
 .listnameactive:hover{
     cursor:pointer;
 }
-#mitabla TH {
-    color: #fff;
-    background-color: #337ab7;
-}
-#mitabla TH:hover {
-}
+
 
 TR {
     background-color:#fff;

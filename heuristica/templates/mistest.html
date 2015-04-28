@@ -1,0 +1,72 @@
+{% extends "base_menu.htm" %}
+<html>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        {% block head %}
+        <title>Mis Perfiles</title>
+        {% endblock %}
+        {% block contenido %}
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Eliminar Perfil</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p> ¿Seguro que desea eliminar el perfil: {{datos.nombre}}? </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" onclick="eliminar()" class="btn btn-danger">Sí, Deseo Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="contenido">
+            <div id="menu_lateral">
+                <div id="lista_izq">
+                    <ul id="milist">
+                        {% for prueba in pruebas %}
+                        <li>
+                            <form id="listNombre" action="{% url 'cargarPerfil' %}" method="post">{% csrf_token %}
+                                {% if prueba.id == datos.id %}
+                                <input class="listnameactive" type="submit" name="perfil" id="{{prueba.id|safe}}" value="{{prueba.nombre|safe}}"  ></input>
+                                {% else %}
+                                <input class="listname" type="submit" name="perfil" id="{{prueba.id|safe}}" value="{{prueba.nombre|safe}}"  ></input>
+                                {% endif %}
+                                <input id="soporte" type="hidden" name="valor" value="{{prueba.id|safe}}"></input>
+                            </form>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <form action="{% url 'nuevoPerfil' %}" method="post">{% csrf_token %}
+                    <button class="btn btn-primary " id="aniadirli" type="submit" onclick="aniadirli()">
+                        <span class="glyphicon glyphicon-plus"></span> Añadir Perfil</button>
+                </form>
+            </div>
+            <div id="heuristica">
+                <div role="tabpanel">
+                    
+                    <ul class="nav nav-tabs" role="tablist" id="myTab">
+                        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Configuración</a></li>
+                        <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Resultados</a></li>
+                    </ul>
+                    
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="home">.Configuración.</div>
+                        <div role="tabpanel" class="tab-pane" id="settings">.Resultados.</div>
+                    </div>
+                    
+                    <script>
+                        $(function () {
+                          $('#myTab a:first').tab('show')
+                          })
+                        </script>
+                    
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+</html>

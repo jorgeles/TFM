@@ -1,0 +1,54 @@
+#configIzq{
+    float:left;
+    width:40%;
+}
+
+#configDer{
+    float:right;
+}
+
+#menu_lateral_configuracion2 {
+    width:auto;
+    height:auto;
+    min-height:745px;
+    float: left;/*Para que se divida verticalmente y no horizontalmente, da igual left o right o eso parece*/
+    background:  rgba(232, 232, 232, 0.5);
+    text-align:center;
+    position:relative;
+
+}
+#alerta2{
+    width:80%;
+    position:absolute;
+    bottom:100;
+    left:30;
+    center:0;
+}
+#formulario2{
+    height:auto;
+    margin-top:5%;
+}
+
+#grafico2{
+    margin-top:2%;
+    height:500px;
+    margin-left:350px;
+}
+
+#eliminar_Perfil2{
+    bottom:20;
+    right:30;
+    position:absolute;
+}
+#derecha{
+    height:500px;
+    width:auto;
+    margin-left:-10%;
+    float:right;
+}
+#guardar2{
+    width:80%;
+    position:absolute;
+    bottom:20;
+    left:30;
+}

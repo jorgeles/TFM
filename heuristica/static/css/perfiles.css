@@ -12,12 +12,21 @@
 }
 #grafico{
     margin-top:2%;
-    margin-left:25%;
-    height:80%;
+    margin-left:250px;
+    height:500px;
+    
+}
+#aniadirli{
+    width:80%;
+    position:absolute;
+    bottom:20;
+    left:20;
 }
 
 #alerta{
     height:10%;
+    float:none;
+    margin-top:3%;
 }
 #disruptorley{
     margin-top:10%;
@@ -30,10 +39,15 @@
 }
 #guardar{
     width:80%;
+    position:absolute;
+    bottom:20;
+    left:20
 }
 #eliminar_Perfil{
-    margin-top:5.3%;
-    margin-left:60%;
+    margin-top:15.3%;
+    bottom:20;
+    right:30;
+    position:absolute;
 }
 #nombre{
     margin-bottom:4%;
@@ -46,19 +60,28 @@
 }
 
 #menu_lateral_configuracion {
-    width:23%;
-    height:100%;
+    width:250px;
+    height:auto;
+    min-height:745px;
     float: left;/*Para que se divida verticalmente y no horizontalmente, da igual left o right o eso parece*/
     background:  rgba(232, 232, 232, 0.5);
     text-align:center;
+    position:relative;
+    overflow:Scrollbar;
+    
     
 }
 
 #formulario{
-    height:85%;
-    margin-bottom:15%;
+    height:auto;
     margin-top:5%;
+    
+    
 }
+
+
+
+
 
 
 

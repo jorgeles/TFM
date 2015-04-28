@@ -255,10 +255,23 @@ def registro (request):
 ########################################################################
 #Fucniones de la pagina de Facetas
 
-def inicio (request):
-    context={ 'prueba': request.session['user']}
+def facetas (request):
     request.session['menu']='facetas'
-    return render(request, 'facetas.htm',context)
+    return render(request, 'facetas.htm')
+
+########################################################################
+#Funciones de la pagina MisTest
+
+def mistest (request):
+    request.session['menu']='mistest'
+    return render(request, 'mistest.html')
+
+########################################################################
+#Funciones de la pagina Asignados
+
+def asignados (request):
+    request.session['menu']='asignados'
+    return render(request, 'asignados.html')
 
 ########################################################################
 #Fucniones de la pagina de Login
@@ -273,7 +286,7 @@ def logear(request):
         if user.is_active:
             login(request, user)
             request.session['user'] = username
-            return redirect('inicio')
+            return redirect('mistest')
             # Redirect to a success page.
         show_remove_link = False
         return render(request, 'login.htm', {'show_remove_link': show_remove_link})
@@ -334,7 +347,7 @@ def guardarPerfil(request):
         #request.session['guardado'] = True #Indico que hay algo nuevo guardado en la base de datos
 
         #return redirect('perfiles')#Redirecciono a la funcion perfiles pasandole el valor de guardado con request.session[guardado]
-        return JsonResponse({'datos':'juju'})
+        return JsonResponse({})
 
 
 
@@ -393,7 +406,7 @@ def juegos(request):
 #LLamo a la funcion al crear un nuevo perfil
 def nuevoJuego(request):
     if request.method=='POST':
-        p=Juegos.objects.create(nombre='Nuevo Perfil',propietario=request.session['user'])
+        p=Juegos.objects.create(nombre='Nuevo Juego',propietario=request.session['user'])
         request.session['pulsadojuego']=p.id
         return redirect('juegos')
 
@@ -418,15 +431,41 @@ def eliminarJuego(request):
 def guardarJuego(request):
     #request.session['guardado'] = False
     if request.method == 'POST':#Si se pasan cosas por post quiere decir que ha habido cambios y por tanto los guardo en la base de datos
-        print "Hola"
+        
         #obtengo los datos del html
         aventuras = request.POST['aventuras']
-        id=request.POST['id']
+        accion = request.POST['accion']
+        fp = request.POST['fp']
+        simulacion = request.POST['simulacion']
+        plataformas = request.POST['plataformas']
+        estrategia = request.POST['estrategia']
+        deporte = request.POST['deporte']
+        motor = request.POST['motor']
+        rol = request.POST['rol']
         print "Hola"
+        sandbox = request.POST['sandbox']
+        party = request.POST['party']
+        educativo = request.POST['educativo']
+        musical = request.POST['musical']
+        nombre = request.POST['nombre']
+        id=request.POST['id']
         
         #introduzco los datos en la BD
         p=Juegos.objects.get(id=id)
         p.aventuras=aventuras
+        p.accion=accion
+        p.fps=fp
+        p.simulacion=simulacion
+        p.plataformas=plataformas
+        p.estrategia=estrategia
+        p.deporte=deporte
+        p.motor=motor
+        p.rol=rol
+        p.sandbox=sandbox
+        p.party=party
+        p.educativo=educativo
+        p.musical=musical
+        p.nombre=nombre
 
         
         p.save()

@@ -7,8 +7,8 @@
     {% block content %}
         <div id='micssmenu'>
             <ul>
-                <li class='has-sub' id="inicio"><a href='#'>Inicio</a></li>
-                <li class='has-sub' ><a href='#'>Asignados</a>
+                <li id="Mistest"><a href="{% url 'mistest' %}">MisTest</a></li>
+                <li id="Asignados" ><a href="{% url 'asignados' %}">Asignados</a>
                     <ul>
                         <li class='has-sub'><a href='#'>Opciones 1</a>
                             <ul>
@@ -24,12 +24,14 @@
                         </li>
                     </ul>
                 </li>
-                <li id="Facetas"><a href="{% url 'inicio' %}">Facetas</a></li>
+                <li id="Facetas"><a href="{% url 'facetas' %}">Facetas</a></li>
                 <li id="Perfil"><a href="{% url 'perfiles' %}" type="submit">Perfil Jugadores</a></li>
                 <li id="Juegos"><a href="{% url 'juegos' %}">Tipos de Juegos</a></li>
                 <li><a href='#'>Ayuda</a></li>
+                <!--
                 <li><a href="{% url 'google' %}">Lectura XML</a></li>
                 <li><a href="{% url 'mongo' %}">Mongo_DB</a></li>
+                 -->
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Mi Perfil:{{ request.session.user }} <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
@@ -60,6 +62,12 @@
                 }
                 else if(c=="juegos"){
                     document.getElementById("Juegos").className="active";
+                }
+                else if(c=="mistest"){
+                    document.getElementById("Mistest").className="active";
+                }
+                else if(c=="asignados"){
+                    document.getElementById("Asignados").className="active";
                 }
             }
         window.onload=ActivarMenu();

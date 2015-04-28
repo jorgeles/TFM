@@ -5,7 +5,7 @@
         <title>Mis Facetas</title>
     {% endblock %}
     {% block contenido %}
-        <div id="cotenido">
+        <div id="contenido">
             <div id="menu_lateral">
                 <div id="lista_izq">
                     <ul id="milist">
@@ -31,10 +31,10 @@
                 </div>
             </div>
             <div id="heuristica">
-                <div id="Preguntas">
+                <div id="preguntas" class="Preguntas">
                     <TABLE BORDER class="table table-hover table-condensed" id="mitabla">
                         <TR>
-                            <TH>Activo</TH> <TH>COD</TH> <TH>Heurística</TH><TH>Puntuación</TH><TH>Comentarios</TH>
+                            <TH>Activo</TH> <TH>COD</TH> <TH>Heurística</TH><TH>Puntuación</TH><TH>Comentarios</TH><TH></TH>
                         </TR>
                         <TR class="marcado">
                             <TD id="check"><input type="checkbox" name="option" checked><br></TD>
@@ -43,19 +43,55 @@
                             <TD>F</TD>
                             <TD>F</TD>
                         </TR>
-                        <TR>
-                            <TD id="check"><input type="checkbox" name="option"><br></TD>
-                            <TD>E</TD>
-                            <TD>F</TD>
-                            <TD>F</TD>
-                            <TD>F</TD>
+                        <TR >
+                            <TD id="check"><input type="checkbox"  name="option"><br></TD>
+                            <TD></TD>
+                            <TD></TD>
+                            <TD></TD>
+                            <TD></TD>
+                            <TD class="pulsar" onclick="datos()"><a id="botonver" href="#" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-search"></span> Ver</a></TD>
                         </TR>
                     </TABLE>
                 </div>
-                <a href="#" class="btn btn-primary" id="botonOpciones"><span class="glyphicon glyphicon-plus"></span> Añadir Pregunta</a>
-                <a href="#" class="btn btn-danger" id="botonOpciones2"><span class="glyphicon glyphicon-trash"></span> Eliminar Pregunta</a>
-                <a href="#" class="btn btn-success"  id="botonOpciones2"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</a>
+                <div id="datosConfiguracion" class="oculta" >
+                </div>
+                <a id="añadirT" href="#" class="btn btn-primary" onclick="insertar()" id="botonOpciones"><span class="glyphicon glyphicon-plus"></span> Añadir Pregunta</a>
+                <a id="eliminarT" href="#" class="btn btn-danger" id="botonOpciones2"><span class="glyphicon glyphicon-trash"></span> Eliminar Pregunta</a>
+                <a href="#" class="btn btn-success" onclick="tabla()"  id="botonOpciones2"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</a>
             </div>
         </div>
+        <script>
+            function insertar(){
+                var table = document.getElementById('mitabla');
+                var row = table.insertRow(table.rows.length);
+                var cell0 = row.insertCell(0);
+                var cell1 = row.insertCell(1);
+                var cell2 = row.insertCell(2);
+                var cell3 = row.insertCell(3);
+                var cell4 = row.insertCell(4);
+                var cell5 = row.insertCell(5);
+                cell5.addEventListener("click", datos, false);
+                cell0.innerHTML = '<td id="check"><input type="checkbox"  name="option"><br></td>';
+                cell2.innerHTML = '<td></td>';
+                cell3.innerHTML = '<td></td>';
+                cell4.innerHTML = '<td></td>';
+                cell5.innerHTML = '<a id="botonver" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-search"></span> Ver</a>';
+            }
+        </script>
+        <script>
+            function datos(){
+                document.getElementById('datosConfiguracion').className = "configuracion";
+                document.getElementById('preguntas').className = "oculta";
+                document.getElementById('eliminarT').className = "oculta";
+                document.getElementById('añadirT').className = "oculta";
+            }
+            function tabla(){
+                document.getElementById('datosConfiguracion').className = "oculta";
+                document.getElementById('preguntas').className = "Preguntas";
+                document.getElementById('eliminarT').className = "btn btn-danger";
+                document.getElementById('añadirT').className = "btn btn-primary";
+            }
+        </script>
     {% endblock %}
+    
 </html>
