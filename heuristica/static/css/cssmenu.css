@@ -272,4 +272,11 @@ TR {
     margin-left:3%;
     margin-top:2%;
 }
+.headers{
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    line-height: 1.1;
+    color: #317eac;
+}
+
 

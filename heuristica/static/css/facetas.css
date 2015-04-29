@@ -14,11 +14,17 @@
 .oculta{
     display: none;
 }
+.mostrar{
+    display: block;
+}
 .configuracion{
     height:auto;
     width:auto;
-    margin-top:6%;
     height:600px;
+    background-color:rgba(232, 232, 232, 0.8);
+    padding-top:1%;
+    padding-left:1%;
+    overflow-y:scroll;
 }
 .preguntas {
     width:auto;
@@ -31,3 +37,45 @@
     background-color:rgba(232, 232, 232, 0.8);
     
 }
+#mostrarTodos{
+    margin-top:2%;
+}
+#inputCuestion{
+    width:91%;
+}
+#cuestion{
+}
+#comentarios{
+}
+#inputComentarios{
+    width:98.5%;
+    max-width:98.5%;
+    height:15%;
+    display: block;
+    padding: 8px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555555;
+    background-color: #ffffff;
+    background-image: none;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+#propiedades{
+    float:left;
+    height:auto;
+    width:70%;
+    overflow:scroll;
+}
+#elementos{
+    height:20%;
+    width:30%;
+    float:right;
+    padding-left:1%;
+}
+
