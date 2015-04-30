@@ -7,11 +7,13 @@ from django.template import RequestContext, loader
 from django.contrib.auth.models import User
 from heuristica.models import Perfil
 from heuristica.models import Juegos
+from heuristica.models import Heuristica
 from django import forms
 from django.core.validators import validate_slug, RegexValidator
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.http import JsonResponse
+from django.core import serializers
 
 
 #cosas chorras para las prácticas de SSBW se podran borrar algunas excepto las marcadas
@@ -256,8 +258,30 @@ def registro (request):
 #Fucniones de la pagina de Facetas
 
 def facetas (request):
+    heuristicas=[]
+    heuristicas=Heuristica.objects.filter(propietario=request.session['user'])
+    context={'datos':heuristicas}
     request.session['menu']='facetas'
-    return render(request, 'facetas.htm')
+    return render(request, 'facetas.htm',context)
+
+def guardar_Heuristica(request):
+    if request.method == 'POST':#Si se pasan cosas por post quiere decir que ha habido cambios y por tanto los guardo en la base de datos
+        id = request.POST['id']
+        cuestion = request.POST['cuestion']
+        comentarios = request.POST['comentarios']
+        
+        p=Heuristica.objects.get(id=id)
+        p.id=id
+        p.nombre=cuestion
+        p.comentario=comentarios
+        p.save()
+        return JsonResponse({})
+
+def cargar_dato(request):
+    if request.method == 'POST':#Si se pasan cosas por post quiere decir que ha habido cambios y por tanto los guardo en la base de datos
+        heuristicas=Heuristica.objects.filter(propietario=request.session['user'])
+        envio = serializers.serialize('json', heuristicas)
+        return JsonResponse({"datos":envio},safe=False)
 
 ########################################################################
 #Funciones de la pagina MisTest

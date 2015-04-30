@@ -33,4 +33,11 @@ class Juegos (models.Model):
     educativo = models.CharField (max_length=200)
     musical = models.CharField (max_length=200)
 
+class Heuristica(models.Model):
+    id=models.AutoField(primary_key=True)
+    propietario=models.CharField (max_length=200)
+    nombre = models.CharField (max_length=200)
+    comentario = models.CharField (max_length=2000)
+
+
     

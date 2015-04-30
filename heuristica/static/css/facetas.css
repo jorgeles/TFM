@@ -2,12 +2,7 @@
     cursor:pointer;
     
 }
-#mitabla TH {
-    color: #fff;
-    background-color: #337ab7;
-}
-#mitabla TH:hover {
-}
+
 #botonver{
     width:100%;
 }
@@ -22,7 +17,6 @@
     width:auto;
     height:600px;
     background-color:rgba(232, 232, 232, 0.8);
-    padding-top:1%;
     padding-left:1%;
     overflow-y:scroll;
 }
@@ -41,7 +35,7 @@
     margin-top:2%;
 }
 #inputCuestion{
-    width:91%;
+    width:98.5%;
 }
 #cuestion{
 }
