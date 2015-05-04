@@ -37,8 +37,8 @@
                             <TH>Activo</TH> <TH>COD</TH> <TH>Heurística</TH><TH></TH>
                         </TR>
                         {% for dato in datos %}
-                            <TR class="info">
-                                <TD id="check"><input type="checkbox" name="option"><br></TD>
+                            <TR class="info" id="fila{{dato.id}}">
+                                <TD id="check"><input type="checkbox" onclick="seleccionado({{ dato.id }})" name="option"><br></TD>
                                 <TD id="dato{{dato.id}}">{{ dato.id }}</TD>
                                 <TD ><p id="cuestion{{dato.id}}">{{ dato.nombre }}</p></TD>
                                 <TD><a id="botonver" onclick="datos({{dato.id}})"class="btn btn-info btn-sm"><span class="glyphicon glyphicon-search"></span> Ver</a></TD>
@@ -55,7 +55,7 @@
                     <h4 id="Comentarios"class="headers">Comentarios</h4>
                     <textarea id="inputComentarios"></textarea>
                     <h4 class="headers">Rango
-                        <select>
+                        <select id="selectRange" oninput="changeRange()">
                             <option>1 a 5</option>
                             <option>1 a 10</option>
                         </select>
@@ -111,7 +111,7 @@
                     
                 </div>
                 <a id="añadirT" href="javascript:void(0)" class="btn btn-primary" onclick="insertar()"><span class="glyphicon glyphicon-plus"></span> Añadir Pregunta</a>
-                <a id="eliminarT" href="javascript:void(0)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Eliminar Pregunta</a>
+                <a id="eliminarT" onclick="eliminar()" href="javascript:void(0)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Eliminar Pregunta</a>
                 <a href="javascript:void(0)" class="btn btn-success" onclick="aver()"  id="guardarHeuristica"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</a>
                 <div class="bs-example" id="alertaHeuristica">
                     <div class="alert alert-success">
@@ -123,30 +123,61 @@
         </div>
         <script>
             function insertar(){
-                var table = document.getElementById('mitabla');
-                var row = table.insertRow(table.rows.length);
-                row.className="info";
-                var cell0 = row.insertCell(0);
-                var cell1 = row.insertCell(1);
-                var cell2 = row.insertCell(2);
-                var cell3 = row.insertCell(3);
-                cell3.addEventListener("click", function(){ datos()}, false);
-                cell0.innerHTML = '<td id="check"><input type="checkbox"  name="option"><br></td>';
-                cell2.innerHTML = '<td></td>';
-                cell3.innerHTML = '<a id="botonver" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-search"></span> Ver</a>';
-            }
-        </script>
-        <script>
-            var atras;
-            function datos(dato){
                 document.getElementById('datosConfiguracion').className = "configuracion";
                 document.getElementById('preguntas').className = "oculta";
                 document.getElementById('eliminarT').className = "oculta";
                 document.getElementById('añadirT').className = "oculta";
                 document.getElementById('mostrarTodos').className = "btn btn-primary";
                 
+                document.getElementById("inputCuestion").value= ""
+                document.getElementById("inputComentarios").value= ""
+                document.getElementById("inputId").value=""
+                
+                if(window.location.pathname.split("/").pop()!="datos"){
+                    var urlarr=window.location.pathname.split("/");
+                    urlarr.shift();//Quito el primer elemento que es vacio
+                    window.history.pushState({vision_tabla:true}, "{{ page_title }}", "/"+urlarr.join('/')+"/datos");
+                    atras=true;
+                }
+                
+            }
+            var seleccionados = []
+            function seleccionado(id){
+                if(seleccionados.lastIndexOf(id)==-1){
+                    seleccionados.push(id)
+                }
+                else{
+                    seleccionados.splice(seleccionados.lastIndexOf(id));
+                }
+                console.log(seleccionados);
+            
+            }
+        function eliminar(){
+            $.post("{% url 'eliminar_dato' %}",{ids:seleccionados,csrfmiddlewaretoken:'{{csrf_token}}'},
+                   function (result){
+                   for (i in seleccionados){
+                   console.log(seleccionados[i])
+                   elem = document.getElementById("fila"+seleccionados[i]);
+                   elem.parentNode.removeChild(elem);
+                   }
+                   
+                   
+                   })
+        }
+        </script>
+        <script>
+            var atras;
+            function datos(dato){
+                
+                
                 $.post("{% url 'cargar_dato' %}",{id:dato,csrfmiddlewaretoken:'{{csrf_token}}'},
                        function (result){
+                       document.getElementById('datosConfiguracion').className = "configuracion";
+                       document.getElementById('preguntas').className = "oculta";
+                       document.getElementById('eliminarT').className = "oculta";
+                       document.getElementById('añadirT').className = "oculta";
+                       document.getElementById('mostrarTodos').className = "btn btn-primary";
+                       
                        var datos = result.datos;
                        datos =JSON.parse(datos)
                        document.getElementById("inputCuestion").value= datos[0].fields.nombre;
@@ -200,6 +231,20 @@
             }
             window.onload=estado();
             
+            var range=1;
+            
+            function changeRange(){
+                var selectBox = document.getElementById("selectRange");
+                var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+                
+                if(selectedValue=="1 a 5"){
+                    console.log("Funciona");
+                    range = 1;
+                }
+                else{
+                    range=2;
+                }
+            }
             
             $('#guardarHeuristica').click(function(){
                                           var id= document.getElementById("inputId").value;
@@ -207,12 +252,33 @@
                                           var comentarios=document.getElementById("inputComentarios").value;
                                           
                                           $.post("{% url 'guardar_Heuristica' %}",{id:id,cuestion:cuestion,comentarios:comentarios,csrfmiddlewaretoken:'{{csrf_token}}'},
-                                                 function result(){
+                                                 function (result){
                                                  document.getElementById("alertaHeuristica").style.visibility = "visible";
                                                  timeoutID = window.setTimeout(function clerAlert() {
                                                                                document.getElementById("alertaHeuristica").style.visibility = "hidden";
                                                                                }, 2000);
-                                                 document.getElementById("cuestion"+id).innerText= cuestion;
+                                                 
+                                                 if(result.nuevo=="true"){
+                                                    var table = document.getElementById('mitabla');
+                                                    var row = table.insertRow(table.rows.length);
+                                                    row.className="info";
+                                                    row.id="fila"+result.id
+                                                    var cell0 = row.insertCell(0);
+                                                    var cell1 = row.insertCell(1);
+                                                    var cell2 = row.insertCell(2);
+                                                    var cell3 = row.insertCell(3);
+                                                    cell3.addEventListener("click", function(){ datos(result.id)}, false);
+                                                    cell2.id="cuestion"+result.id;
+                                                    cell0.innerHTML = '<td id="check"><input onclick="seleccionado('+result.id+')"type="checkbox"  name="option"><br></td>';
+                                                    cell1.innerHTML = '<td>'+result.id+'</td>';
+                                                    cell2.innerHTML = '<td></td>';
+                                                    cell3.innerHTML = '<a id="botonver" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-search"></span> Ver</a>';
+                                                    document.getElementById("cuestion"+result.id).innerText= cuestion;
+                                                    document.getElementById("inputId").value=result.id;
+                                                 }
+                                                 else{
+                                                    document.getElementById("cuestion"+id).innerText= cuestion;
+                                                 }
                                                  }
                                                  )
                                           })

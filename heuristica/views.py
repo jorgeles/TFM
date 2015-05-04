@@ -270,18 +270,34 @@ def guardar_Heuristica(request):
         cuestion = request.POST['cuestion']
         comentarios = request.POST['comentarios']
         
-        p=Heuristica.objects.get(id=id)
-        p.id=id
-        p.nombre=cuestion
-        p.comentario=comentarios
-        p.save()
-        return JsonResponse({})
+        #count = Heuristica.objects.filter(id=id)
+        if id:
+            p=Heuristica.objects.get(id=id)
+            p.id=id
+            p.nombre=cuestion
+            p.comentario=comentarios
+            p.save()
+            return JsonResponse({'nuevo':'false'})
+        else:
+            p=Heuristica.objects.create(nombre=cuestion,propietario=request.session['user'],comentario=comentarios)
+            return JsonResponse({'nuevo':'true','id':p.id})
 
 def cargar_dato(request):
     if request.method == 'POST':#Si se pasan cosas por post quiere decir que ha habido cambios y por tanto los guardo en la base de datos
-        heuristicas=Heuristica.objects.filter(propietario=request.session['user'])
+        id = request.POST['id']
+        heuristicas=Heuristica.objects.filter(propietario=request.session['user'],id=id)
         envio = serializers.serialize('json', heuristicas)
-        return JsonResponse({"datos":envio},safe=False)
+        return JsonResponse({"datos":envio})
+
+def eliminar_dato(request):
+    if request.method == 'POST':
+        ids = []
+        ids = request.POST.getlist('ids[]')
+        for id in ids:
+            print id
+            seleccionado=Heuristica.objects.filter(id=id)
+            seleccionado.delete()
+        return JsonResponse({})
 
 ########################################################################
 #Funciones de la pagina MisTest

@@ -21,6 +21,7 @@ urlpatterns = patterns('',
                        url(r'^asignados', views.asignados, name='asignados'),
                        url(r'^guardar_Heuristica', views.guardar_Heuristica, name='guardar_Heuristica'),
                        url(r'^cargar_dato', views.cargar_dato, name='cargar_dato'),
+                       url(r'^eliminar_dato', views.eliminar_dato, name='eliminar_dato'),
                        
                        # Url para borrar mas adelante
                        url(r'^google', views.google, name='google'),
