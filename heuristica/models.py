@@ -38,6 +38,8 @@ class Heuristica(models.Model):
     propietario=models.CharField (max_length=200)
     nombre = models.CharField (max_length=200)
     comentario = models.CharField (max_length=2000)
+    rango = models.CharField (max_length=20)
+    elementos = models.CharField (max_length=2000)
 
 
     

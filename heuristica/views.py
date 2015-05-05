@@ -14,6 +14,7 @@ from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.http import JsonResponse
 from django.core import serializers
+import json
 
 
 #cosas chorras para las prácticas de SSBW se podran borrar algunas excepto las marcadas
@@ -269,17 +270,20 @@ def guardar_Heuristica(request):
         id = request.POST['id']
         cuestion = request.POST['cuestion']
         comentarios = request.POST['comentarios']
-        
-        #count = Heuristica.objects.filter(id=id)
+        selectedElms = request.POST.getlist('selectedElmsIds[]')
+        selectedElms = json.dumps(selectedElms)
+        range = request.POST['range']
         if id:
             p=Heuristica.objects.get(id=id)
             p.id=id
             p.nombre=cuestion
             p.comentario=comentarios
+            p.rango= range
+            p.elementos = selectedElms
             p.save()
             return JsonResponse({'nuevo':'false'})
         else:
-            p=Heuristica.objects.create(nombre=cuestion,propietario=request.session['user'],comentario=comentarios)
+            p=Heuristica.objects.create(nombre=cuestion,propietario=request.session['user'],comentario=comentarios,elementos=selectedElms,rango=range)
             return JsonResponse({'nuevo':'true','id':p.id})
 
 def cargar_dato(request):
