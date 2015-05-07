@@ -9,9 +9,6 @@
 .oculta{
     display: none;
 }
-.mostrar{
-    display: block;
-}
 .configuracion{
     height:auto;
     width:auto;
@@ -23,23 +20,26 @@
 .preguntas {
     width:auto;
     height:auto;
-    height:600px;
-    margin-left:1%;
+    height:610px;
     margin-right:1%;
     margin-top:6%;
+    margin-bottom:1%;
     overflow:scroll;
     background-color:rgba(232, 232, 232, 0.8);
     
 }
 #mostrarTodos{
     margin-top:2%;
+    margin-bottom:1%;
 }
 #inputCuestion{
     width:98.5%;
 }
-#cuestion{
+.fallo{
+    color: rgba(215, 40, 40, 0.9);
 }
-#comentarios{
+#alertaHeuristica{
+    float:right
 }
 #inputComentarios{
     width:98.5%;

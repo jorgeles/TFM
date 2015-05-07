@@ -35,11 +35,13 @@ class Juegos (models.Model):
 
 class Heuristica(models.Model):
     id=models.AutoField(primary_key=True)
+    jugabilidad=models.CharField (max_length=2)
     propietario=models.CharField (max_length=200)
     nombre = models.CharField (max_length=200)
     comentario = models.CharField (max_length=2000)
     rango = models.CharField (max_length=20)
-    elementos = models.CharField (max_length=2000)
+    elementos = models.CharField (max_length=20000)
+    atributos = models.CharField (max_length=20000)
 
 
     

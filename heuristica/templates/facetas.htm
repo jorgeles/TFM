@@ -5,28 +5,72 @@
         <title>Mis Facetas</title>
     {% endblock %}
     {% block contenido %}
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Eliminar Perfil</h4>
+                </div>
+                <div class="modal-body">
+                    <p> ¿Seguro que desea eliminar las Heurísticas seleccionadas? </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" onclick="eliminar()" class="btn btn-danger">Sí, Deseo Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
         <div id="contenido">
             <div id="menu_lateral">
                 <div id="lista_izq">
-                    <ul id="milist">
+                    <ul id="milistJugabilidad">
                         <li>
-                            <h3 class="name" >Jugabilidad Intrínseca</h3>
+                            {% if request.session.jugabilidad == '1' %}
+                            <h3 class="listnameactive" onclick="jugabilidad(1)"> Jugabilidad Intrínseca</h3>
+                            {% else%}
+                            <h3 class="listname" onclick="jugabilidad(1)"> Jugabilidad Intrínseca</h3>
+                            {% endif %}
                         </li>
                         <li>
-                            <h3 class="name">Jugabilidad Mecánica</h3>
+                            {% if request.session.jugabilidad == '2' %}
+                            <h3 class="listnameactive" onclick="jugabilidad(2)">Jugabilidad Mecánica</h3>
+                            {% else%}
+                            <h3 class="listname" onclick="jugabilidad(2)">Jugabilidad Mecánica</h3>
+                            {% endif %}
                         </li>
                         <li>
-                            <h3 class="name">Jugabilidad Interactica</h3>
+                            {% if request.session.jugabilidad == '3' %}
+                            <h3 class="listnameactive" onclick="jugabilidad(3)">Jugabilidad Interactiva </h3>
+                            {% else%}
+                            <h3 class="listname" onclick="jugabilidad(3)">Jugabilidad Interactiva </h3>
+                            {% endif %}
                         </li>
                         <li>
-                            <h3 class="name">Jugabilidad Artística</h3>
+                            {% if request.session.jugabilidad == '4' %}
+                            <h3 class="listnameactive" onclick="jugabilidad(4)"> Jugabilidad Artística</h3>
+                            {% else%}
+                            <h3 class="listname" onclick="jugabilidad(4)"> Jugabilidad Artística</h3>
+                            {% endif %}
                         </li>
                         <li>
-                            <h3 class="name">Jugabilidad Intrapersonal</h3>
+                            {% if request.session.jugabilidad == '5' %}
+                            <h3 class="listnameactive" onclick="jugabilidad(5)">Jugabilidad Intrapersonal </h3>
+                            {% else%}
+                            <h3 class="listname" onclick="jugabilidad(5)">Jugabilidad Intrapersonal </h3>
+                            {% endif %}
                         </li>
                         <li>
-                            <h3 class="name">Jugabilidad Interpersonal</h3>
+                            {% if request.session.jugabilidad == '6' %}
+                            <h3 class="listnameactive" onclick="jugabilidad(6)">Jugabilidad Interpersonal </h3>
+                            {% else%}
+                            <h3 class="listname" onclick="jugabilidad(6)">Jugabilidad Interpersonal </h3>
+                            {% endif %}
                         </li>
+                        <form id="formJugabilidad" action="{% url 'cargarJugabilidad' %}" method="post">{% csrf_token %}
+                            <input id="jugabilidad_activa" type="hidden" name="jugabilidad" value=""></input>
+                        </form>
                     </ul>
                 </div>
             </div>
@@ -50,8 +94,9 @@
                 <a  id="mostrarTodos" onclick="tabla()" class="oculta"><span class="glyphicon glyphicon-th"></span> Mostrar Todos</a>
                 <div id="datosConfiguracion" class="oculta" >
                     <h4 id="cuestion" class="headers">Cuestión</h4>
-                    <input id="inputId" type="hidden"></input>
-                    <input id="inputCuestion"></input>
+                    <b id="fallocuestion" class="oculta"> No has introducido ningún titulo para la cuestión</b>
+                    <input id="inputId" type="hidden" ></input>
+                    <input id="inputCuestion" ></input>
                     <h4 id="Comentarios"class="headers">Comentarios</h4>
                     <textarea id="inputComentarios"></textarea>
                     <h4 class="headers">Rango
@@ -62,7 +107,7 @@
                     </h4>
                     <div id="propiedades">
                         <div id="aniadirElementos">
-                            <table class="table table-striped table-hover ">
+                            <table id="tablaAtributos" class="table table-striped table-hover ">
                                 <h4 id="Comentarios"class="headers">Añadir Atributos</h4>
                                 <thead>
                                     <tr>
@@ -84,15 +129,17 @@
                                         </select></td>
                                         <td><select  id="opciones">
                                         </select></td>
-                                        <td><input></input></td>
-                                        <td><button class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Añadir</button></td>
+                                        <td><input type="number" id="gradoAtributo"></input></td>
+                                        <td><button class="btn btn-default" onclick="aniadirAtributos()"><span class="glyphicon glyphicon-plus"></span> Añadir</button></td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
+                        <b id="fallogrado" class="oculta"> Debes incluir un valor en grado y que sea un número</b>
+                        <b id="falloatributos" class="oculta"> No has añadido ningún atributo</b>
                         <div id="verElementos">
                             <h4 id="Comentarios"class="headers">Atributos Añadidos</h4>
-                            <table class="table table-striped table-hover ">
+                            <table id="tablaAniadidos" class="table table-striped table-hover ">
                                 <thead>
                                     <tr>
                                         <th>Propiedad</th>
@@ -103,6 +150,7 @@
                             </table>
                         </div>
                     </div>
+                    <b id="falloelementos" class="oculta"> No has seleccionado ningún elemento</b>
                     <div id="elementos">
                         <h4 id="Comentarios"class="headers">Elementos Afectados</h4>
                         <div id="arbol">
@@ -111,8 +159,8 @@
                     
                 </div>
                 <a id="añadirT" href="javascript:void(0)" class="btn btn-primary" onclick="insertar()"><span class="glyphicon glyphicon-plus"></span> Añadir Pregunta</a>
-                <a id="eliminarT" onclick="eliminar()" href="javascript:void(0)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Eliminar Pregunta</a>
-                <a href="javascript:void(0)" class="btn btn-success" id="guardarHeuristica"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</a>
+                <a id="eliminarT" class="btn btn-danger" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-trash"></span> Eliminar Pregunta</a>
+                <a href="javascript:void(0)" class="oculta" id="guardarHeuristica"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</a>
                 <div class="bs-example" id="alertaHeuristica">
                     <div class="alert alert-success">
                         <a  href="#" class="close" data-dismiss="alert"></a>
@@ -121,7 +169,7 @@
                 </div>
             </div>
         </div>
-        <script>
+        <script type="text/javascript">
             function insertar(){
                 document.getElementById('datosConfiguracion').className = "configuracion";
                 document.getElementById('preguntas').className = "oculta";
@@ -149,30 +197,35 @@
                 else{
                     seleccionados.splice(seleccionados.lastIndexOf(id));
                 }
-                console.log(seleccionados);
             
             }
         function eliminar(){
+            
             $.post("{% url 'eliminar_dato' %}",{ids:seleccionados,csrfmiddlewaretoken:'{{csrf_token}}'},
                    function (result){
+                   $('#myModal').modal('hide');
                    for (i in seleccionados){
-                   console.log(seleccionados[i])
                    elem = document.getElementById("fila"+seleccionados[i]);
                    elem.parentNode.removeChild(elem);
+                   
                    }
                    
                    
                    })
         }
+        $('#myModal').on('shown.bs.modal', function () {$('#myInput').focus()})
+        
+        function jugabilidad(id){
+            document.getElementById('jugabilidad_activa').value=id;
+            document.getElementById('formJugabilidad').submit();
+        }
         </script>
         <script>
             var atras;
             var range=1;
-            
+            var atributos=[];
             
             function datos(dato){
-                
-                
                 $.post("{% url 'cargar_dato' %}",{id:dato,csrfmiddlewaretoken:'{{csrf_token}}'},
                        function (result){
                        document.getElementById('datosConfiguracion').className = "configuracion";
@@ -180,6 +233,7 @@
                        document.getElementById('eliminarT').className = "oculta";
                        document.getElementById('añadirT').className = "oculta";
                        document.getElementById('mostrarTodos').className = "btn btn-primary";
+                       document.getElementById('guardarHeuristica').className = "btn btn-success";
                        
                        var datos = result.datos;
                        datos =JSON.parse(datos)
@@ -194,12 +248,42 @@
                        $('#arbol').jstree("deselect_all");
                        for(i in elementos){
                        nodo = "#"+elementos[i];
-                       console.log(nodo)
                        $('#arbol').jstree(true).open_all();
                        $('#arbol').jstree(true).select_node($(nodo));
                        $('#arbol').jstree(true).close_all();
                        $('#arbol').jstree(true).open_node('#videogame');
                        //$('#arbol').jstree("select_node",$(nodo));
+                       }
+                       if(datos[0].fields.atributos){
+                       atributos = []
+                       atributos2 = JSON.parse(datos[0].fields.atributos);
+                       var table = document.getElementById('tablaAniadidos');
+                       for(var i = table.rows.length - 1; i > 0; i--){
+                       table.deleteRow(i);
+                       }
+                       for(i in atributos2 ){
+                       var atributo = { propiedad:"", atributo:"",grado:""}
+                       atributos3 = JSON.parse(atributos2[i]);
+                       atributo.propiedad=atributos3.propiedad;
+                       atributo.atributo=atributos3.atributo;
+                       atributo.grado=atributos3.grado;
+                       atributos.push(atributo);
+                       
+                       var row = table.insertRow(table.rows.length);
+                       row.className="info";
+                       
+                       var cell0 = row.insertCell(0);
+                       var cell1 = row.insertCell(1);
+                       var cell2 = row.insertCell(2);
+                       var cell3 = row.insertCell(3);
+                       cell3.addEventListener("click", function(){ deleterow(table.rows.length-1)}, false);
+                       
+                       cell0.innerHTML = '<td><b>'+atributo.propiedad+'</b></td>';
+                       cell1.innerHTML = '<td><b>'+atributo.atributo+'</b></td>';
+                       cell2.innerHTML = '<td><b>'+atributo.grado+'</b></td>';
+                       cell3.innerHTML = '<a id="botonver" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-minus"></span> Eliminar</a>';
+                       
+                       }
                        }
                        }
                        )
@@ -217,6 +301,7 @@
                 document.getElementById('eliminarT').className = "btn btn-danger";
                 document.getElementById('añadirT').className = "btn btn-primary";
                 document.getElementById('mostrarTodos').className = "oculta";
+                document.getElementById('guardarHeuristica').className = "oculta";
             }
         
             window.addEventListener('popstate', function(event) {
@@ -240,6 +325,52 @@
                                     },
             false);
             
+            function aniadirAtributos(){
+                document.getElementById('fallogrado').className = "oculta";
+                document.getElementById('falloatributos').className = "oculta";
+                if(!isNaN(document.getElementById("gradoAtributo").value)&&document.getElementById("gradoAtributo").value.length>0){
+                    var table = document.getElementById('tablaAniadidos');
+                    var row = table.insertRow(table.rows.length);
+                    var selectBox = document.getElementById("selectBox");
+                    var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+                    var selectBox2 = document.getElementById("opciones");
+                    var selectedValue2 = selectBox2.options[selectBox2.selectedIndex].value;
+                    var gradoAtributo = document.getElementById("gradoAtributo").value;
+                    row.className="info";
+                    //row.id="fila"+result.id
+                    var cell0 = row.insertCell(0);
+                    var cell1 = row.insertCell(1);
+                    var cell2 = row.insertCell(2);
+                    var cell3 = row.insertCell(3);
+                    cell3.addEventListener("click", function(){ deleterow(table.rows.length-1)}, false);
+                    //cell2.id="cuestion"+result.id;
+                    cell0.innerHTML = '<td><b>'+selectedValue+'</b></td>';
+                    cell1.innerHTML = '<td><b>'+selectedValue2+'</b></td>';
+                    cell2.innerHTML = '<td><b>'+gradoAtributo+'</b></td>';
+                    cell3.innerHTML = '<a id="botonver" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-minus"></span> Eliminar</a>';
+                
+                    var atributo = { propiedad:"", atributo:"",grado:""}
+                    atributo.propiedad=selectedValue;
+                    atributo.atributo=selectedValue2;
+                    atributo.grado=gradoAtributo;
+                
+                    atributos.push(atributo);
+                }
+                else{
+                    document.getElementById('fallogrado').className = "fallo";
+                }
+                
+                
+            }
+        
+        function deleterow(row){
+            var table = document.getElementById('tablaAniadidos');
+            table.deleteRow(row);
+            console.log(row);
+            console.log(atributos.length);
+            atributos.splice(row-1,1);
+        }
+        
             function estado(){
                 var urlarr=window.location.pathname.split("/");
                 urlarr.shift();//Quito el primer elemento que es vacio
@@ -256,7 +387,6 @@
                 var selectedValue = selectBox.options[selectBox.selectedIndex].value;
                 
                 if(selectedValue=="1 a 5"){
-                    console.log("Funciona");
                     range = 1;
                 }
                 else{
@@ -265,12 +395,35 @@
             }
             
             $('#guardarHeuristica').click(function(){
+                                          var guardar = true;
                                           var id= document.getElementById("inputId").value;
                                           var cuestion= document.getElementById("inputCuestion").value;
                                           var comentarios=document.getElementById("inputComentarios").value;
                                           var selectedElmsIds = $('#arbol').jstree("get_selected");
-                                          console.log(selectedElmsIds)
-                                          $.post("{% url 'guardar_Heuristica' %}",{id:id,cuestion:cuestion,comentarios:comentarios,range:range,selectedElmsIds:selectedElmsIds,csrfmiddlewaretoken:'{{csrf_token}}'},
+                                          var misatributos = []
+                                          for(i in atributos){
+                                            misatributos.push(JSON.stringify(atributos[i]))
+                                          }
+                                          
+                                          document.getElementById('fallocuestion').className = "oculta";
+                                          document.getElementById('falloatributos').className = "oculta";
+                                          document.getElementById('falloelementos').className = "oculta";
+                                          document.getElementById('fallogrado').className = "oculta";
+                                          
+                                          if(cuestion==''){
+                                            guardar=false;
+                                            document.getElementById('fallocuestion').className = "fallo";
+                                          }
+                                          if(atributos.length<=0){
+                                            guardar=false
+                                            document.getElementById('falloatributos').className = "fallo";
+                                          }
+                                          if(selectedElmsIds.length<=0){
+                                            guardar=false
+                                            document.getElementById('falloelementos').className = "fallo";
+                                          }
+                                          if(guardar){
+                                          $.post("{% url 'guardar_Heuristica' %}",{id:id,cuestion:cuestion,comentarios:comentarios,range:range,selectedElmsIds:selectedElmsIds,atributos:misatributos,csrfmiddlewaretoken:'{{csrf_token}}'},
                                                  function (result){
                                                  document.getElementById("alertaHeuristica").style.visibility = "visible";
                                                  timeoutID = window.setTimeout(function clerAlert() {
@@ -300,6 +453,7 @@
                                                  }
                                                  }
                                                  )
+                                          }
                                           })
                                     
         </script>
@@ -313,7 +467,6 @@
                     
                     var select = document.getElementById("opciones");
                     var length = select.options.length;
-                    console.log(length);
                     for (i in select.options) {
                         select.options[i] = null;
                     }
@@ -327,7 +480,6 @@
                     
                     var select = document.getElementById("opciones");
                     var length = select.options.length;
-                    console.log(length);
                     for (i in select.options) {
                         select.options[i] = null;
                     }
@@ -341,7 +493,6 @@
                     
                     var select = document.getElementById("opciones");
                     var length = select.options.length;
-                    console.log(length);
                     for (i in select.options) {
                         select.options[i] = null;
                     }
@@ -355,7 +506,6 @@
                     
                     var select = document.getElementById("opciones");
                     var length = select.options.length;
-                    console.log(length);
                     for (i in select.options) {
                         select.options[i] = null;
                     }
@@ -369,7 +519,6 @@
                     
                     var select = document.getElementById("opciones");
                     var length = select.options.length;
-                    console.log(length);
                     for (i in select.options) {
                         select.options[i] = null;
                     }
@@ -383,7 +532,6 @@
                     
                     var select = document.getElementById("opciones");
                     var length = select.options.length;
-                    console.log(length);
                     for (i in select.options) {
                         select.options[i] = null;
                     }
@@ -397,7 +545,6 @@
                     
                     var select = document.getElementById("opciones");
                     var length = select.options.length;
-                    console.log(length);
                     for (i in select.options) {
                         select.options[i] = null;
                     }

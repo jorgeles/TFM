@@ -260,7 +260,12 @@ def registro (request):
 
 def facetas (request):
     heuristicas=[]
-    heuristicas=Heuristica.objects.filter(propietario=request.session['user'])
+    if 'jugabilidad' in request.session:
+        heuristicas=Heuristica.objects.filter(propietario=request.session['user'],jugabilidad=request.session['jugabilidad'])
+    else:
+        heuristicas=Heuristica.objects.filter(propietario=request.session['user'],jugabilidad=1)
+        request.session['jugabilidad']=1
+
     context={'datos':heuristicas}
     request.session['menu']='facetas'
     return render(request, 'facetas.htm',context)
@@ -272,6 +277,9 @@ def guardar_Heuristica(request):
         comentarios = request.POST['comentarios']
         selectedElms = request.POST.getlist('selectedElmsIds[]')
         selectedElms = json.dumps(selectedElms)
+        selectedAtr = request.POST.getlist('atributos[]')
+        selectedAtr = json.dumps(selectedAtr)
+        print selectedAtr
         range = request.POST['range']
         if id:
             p=Heuristica.objects.get(id=id)
@@ -280,10 +288,12 @@ def guardar_Heuristica(request):
             p.comentario=comentarios
             p.rango= range
             p.elementos = selectedElms
+            p.atributos = selectedAtr
+            p.jugabilidad = request.session['jugabilidad']
             p.save()
             return JsonResponse({'nuevo':'false'})
         else:
-            p=Heuristica.objects.create(nombre=cuestion,propietario=request.session['user'],comentario=comentarios,elementos=selectedElms,rango=range)
+            p=Heuristica.objects.create(nombre=cuestion,propietario=request.session['user'],comentario=comentarios,elementos=selectedElms,rango=range,atributos=selectedAtr,jugabilidad=request.session['jugabilidad'])
             return JsonResponse({'nuevo':'true','id':p.id})
 
 def cargar_dato(request):
@@ -302,6 +312,15 @@ def eliminar_dato(request):
             seleccionado=Heuristica.objects.filter(id=id)
             seleccionado.delete()
         return JsonResponse({})
+
+def cargarJugabilidad(request):
+    if request.method == 'POST':
+        jugabilidad = request.POST['jugabilidad']
+        request.session['jugabilidad']=jugabilidad
+        return redirect('facetas')
+    return redirect('facetas')
+        
+
 
 ########################################################################
 #Funciones de la pagina MisTest
