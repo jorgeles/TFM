@@ -264,7 +264,7 @@ def facetas (request):
         heuristicas=Heuristica.objects.filter(propietario=request.session['user'],jugabilidad=request.session['jugabilidad'])
     else:
         heuristicas=Heuristica.objects.filter(propietario=request.session['user'],jugabilidad=1)
-        request.session['jugabilidad']=1
+        request.session['jugabilidad']='1'
 
     context={'datos':heuristicas}
     request.session['menu']='facetas'
