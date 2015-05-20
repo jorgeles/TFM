@@ -8,6 +8,8 @@ from django.contrib.auth.models import User
 from heuristica.models import Perfil
 from heuristica.models import Juegos
 from heuristica.models import Heuristica
+from heuristica.models import MiTest
+from django.core.exceptions import ObjectDoesNotExist
 from django import forms
 from django.core.validators import validate_slug, RegexValidator
 from django.contrib.auth import authenticate, login
@@ -297,7 +299,7 @@ def guardar_Heuristica(request):
             return JsonResponse({'nuevo':'true','id':p.id})
 
 def cargar_dato(request):
-    if request.method == 'POST':#Si se pasan cosas por post quiere decir que ha habido cambios y por tanto los guardo en la base de datos
+    if request.method == 'POST':
         id = request.POST['id']
         heuristicas=Heuristica.objects.filter(propietario=request.session['user'],id=id)
         envio = serializers.serialize('json', heuristicas)
@@ -319,6 +321,8 @@ def cargarJugabilidad(request):
         request.session['jugabilidad']=jugabilidad
         return redirect('facetas')
     return redirect('facetas')
+
+
         
 
 
@@ -327,7 +331,101 @@ def cargarJugabilidad(request):
 
 def mistest (request):
     request.session['menu']='mistest'
+    mistests= MiTest.objects.filter(propietario=request.session['user'])
+    heuristicas=[]
+    if mistests:
+        if 'mitest' in request.session:
+            test=MiTest.objects.filter(propietario=request.session['user'],id=request.session['mitest'])
+            if 'configuracion_jugabilidad' in request.session:
+                heuristicas=Heuristica.objects.filter(propietario=request.session['user'],jugabilidad=request.session['jugabilidad'])
+            else:
+                heuristicas=Heuristica.objects.filter(propietario=request.session['user'],jugabilidad=1)
+            context={ 'mitest': test[0],'tests':mistests,'heuristicas':heuristicas}
+        else:
+            request.session['mitest']=mistests[0].id
+            if 'configuracion_jugabilidad' in request.session:
+                heuristicas=Heuristica.objects.filter(propietario=request.session['user'],jugabilidad=request.session['jugabilidad'])
+            else:
+                heuristicas=Heuristica.objects.filter(propietario=request.session['user'],jugabilidad=1)
+
+            context={ 'mitest': mistests[0],'tests':mistests,'heuristicas':heuristicas}
+        return render(request, 'mistest.html',context)
+
     return render(request, 'mistest.html')
+
+def cargarTest(request):
+    if request.method=='POST':
+            value = request.POST['testpulsado']
+            request.session['mitest']=value #le meto en la session el id del perfil y se lo paso a la funcion perfiles
+            return redirect('mistest')
+    
+    return redirect('mistest')
+
+def nuevoTest(request):
+    if request.method=='POST':
+        p=MiTest.objects.create(nombre='Nuevo Test',propietario=request.session['user'])
+        request.session['mitest']=p.id
+        return redirect('mistest')
+    
+    return redirect('mistest')
+
+def cargarTablas(request):
+    if request.method=='POST':
+        heuristicas = []
+        if request.POST['id']=='Intrinseca':
+            heuristicas = Heuristica.objects.filter(propietario=request.session['user'],jugabilidad=1)
+            heuristicas = serializers.serialize('json', heuristicas)
+        elif request.POST['id']=='Mecanica':
+            heuristicas = Heuristica.objects.filter(propietario=request.session['user'],jugabilidad=2)
+            heuristicas = serializers.serialize('json', heuristicas)
+        elif request.POST['id']=='Interactiva':
+            heuristicas = Heuristica.objects.filter(propietario=request.session['user'],jugabilidad=3)
+            heuristicas = serializers.serialize('json', heuristicas)
+        elif request.POST['id']=='Artistica':
+            heuristicas = Heuristica.objects.filter(propietario=request.session['user'],jugabilidad=4)
+            heuristicas = serializers.serialize('json', heuristicas)
+        elif request.POST['id']=='Intrapersonal':
+            heuristicas = Heuristica.objects.filter(propietario=request.session['user'],jugabilidad=5)
+            heuristicas = serializers.serialize('json', heuristicas)
+        elif request.POST['id']=='Interpersonal':
+            heuristicas = Heuristica.objects.filter(propietario=request.session['user'],jugabilidad=6)
+            heuristicas = serializers.serialize('json', heuristicas)
+        return JsonResponse({'heuristica':heuristicas})
+
+
+    return JsonResponse({})
+
+def guardarTest(request):
+    if request.method=='POST':
+        id = request.session['mitest']
+        seleccionados = request.POST.getlist('seleccionados[]')
+        seleccionados = json.dumps(seleccionados)
+        p=MiTest.objects.get(id=id)
+        p.seleccionados=seleccionados
+        p.save()
+    
+    return JsonResponse({})
+
+def cargarUsuarios(request):
+    if request.method=='POST':
+        usuarios= User.objects.filter(username__istartswith=request.POST['user'])
+        #usuarios = serializers.serialize('json', usuarios)
+        list = []
+        print usuarios
+        for usuario in usuarios:
+            list.append(usuario.username)
+        return JsonResponse({'usuarios':list})
+
+def UsuarioExiste(request):
+    if request.method=='POST':
+        try:
+            usuarios= User.objects.get(username=request.POST['user'])
+            return JsonResponse({'existe':True})
+        except ObjectDoesNotExist:
+            return JsonResponse({'existe':False})
+    return JsonResponse({'existe':False})
+        
+
 
 ########################################################################
 #Funciones de la pagina Asignados
@@ -419,7 +517,6 @@ def guardarPerfil(request):
 #LLamo a la funcion al ser pulsado un perfil
 def cargarPerfil(request):
     if request.method=='POST':
-        for key in request.POST:
             value = request.POST['valor']
             request.session['pulsado']=value #le meto en la session el id del perfil y se lo paso a la funcion perfiles
             return redirect('perfiles')

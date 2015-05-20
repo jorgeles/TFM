@@ -23,6 +23,12 @@ urlpatterns = patterns('',
                        url(r'^cargar_dato', views.cargar_dato, name='cargar_dato'),
                        url(r'^eliminar_dato', views.eliminar_dato, name='eliminar_dato'),
                        url(r'^cargarJugabilidad', views.cargarJugabilidad, name='cargarJugabilidad'),
+                       url(r'^cargarTest', views.cargarTest, name='cargarTest'),
+                       url(r'^nuevoTest', views.nuevoTest, name='nuevoTest'),
+                       url(r'^cargarTablas', views.cargarTablas, name='cargarTablas'),
+                       url(r'^guardarTest', views.guardarTest, name='guardarTest'),
+                       url(r'^cargarUsuarios', views.cargarUsuarios, name='cargarUsuarios'),
+                       url(r'^UsuarioExiste', views.UsuarioExiste, name='UsuarioExiste'),
                        
                        # Url para borrar mas adelante
                        url(r'^google', views.google, name='google'),

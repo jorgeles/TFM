@@ -43,5 +43,11 @@ class Heuristica(models.Model):
     elementos = models.CharField (max_length=20000)
     atributos = models.CharField (max_length=20000)
 
+class MiTest(models.Model):
+    id=models.AutoField(primary_key=True)
+    propietario=models.CharField (max_length=200)
+    nombre = models.CharField (max_length=200)
+    titulo = models.CharField (max_length=200)
+    seleccionados = models.CharField (max_length=2000)
 
     

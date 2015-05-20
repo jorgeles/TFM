@@ -49,4 +49,67 @@
     -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    position:relative;
+    height:690px;
 }
+#home{
+    width:100%;
+    height:700px;
+    padding-left:10px;
+    padding-right:10px;
+    overflow:scroll;
+}
+#nombreDelTest{
+    width:100%;
+}
+#nombreDelJuego{
+    width:100%;
+    margin-bottom:10px;
+}
+#tablasHeuristicas{
+    width:100%;
+    height:370px;
+    margin-bottom:10px;
+}
+.listajugabilidades:hover{
+    color:rgba(255,255,255,1);
+    cursor:pointer;
+}
+.marcada{
+    color:rgba(255,255,255,1);
+}
+#tabconfiguracion{
+    
+}
+.botonesConfiguracion{
+    position:absolute;
+    bottom:17px;
+    
+}
+#guardarConfiguracion{
+    left:200px;
+}
+#eliminarConfiguracion{
+    left:305px;
+}
+.usuariosaniadidos{
+    height:50%;
+    overflow:scroll;
+}
+.eliminarAsignados{
+    float:right;
+    margin-top:10px;
+}
+.asignado{
+    float:left;
+}
+.aniadirAsignado{
+    margin-top:3px;
+    float:right;
+}
+#usuarioNoExiste{
+    float:left;
+    width:40%;
+    visibility:hidden;
+}
+
