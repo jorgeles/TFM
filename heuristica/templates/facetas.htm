@@ -225,6 +225,7 @@
             var atras;
             var range=1;
             var atributos=[];
+            var idsRows=0;
             
             function datos(dato){
                 $.post("{% url 'cargar_dato' %}",{id:dato,csrfmiddlewaretoken:'{{csrf_token}}'},
@@ -272,17 +273,20 @@
                        
                        var row = table.insertRow(table.rows.length);
                        row.className="info";
+                       idsRows++;
+                        row.id="row"+idsRows;
                        
                        var cell0 = row.insertCell(0);
                        var cell1 = row.insertCell(1);
                        var cell2 = row.insertCell(2);
                        var cell3 = row.insertCell(3);
-                       cell3.addEventListener("click", function(){ deleterow(table.rows.length-1)}, false);
                        
+                       var miaux = idsRows;
+
                        cell0.innerHTML = '<td><b>'+atributo.propiedad+'</b></td>';
                        cell1.innerHTML = '<td><b>'+atributo.atributo+'</b></td>';
                        cell2.innerHTML = '<td><b>'+atributo.grado+'</b></td>';
-                       cell3.innerHTML = '<a id="botonver" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-minus"></span> Eliminar</a>';
+                       cell3.innerHTML = '<a id="botonver" class="btn btn-danger btn-sm" onclick="deleterow('+miaux+')"><span class="glyphicon glyphicon-minus"></span> Eliminar</a>';
                        
                        }
                        }
@@ -338,17 +342,21 @@
                     var selectedValue2 = selectBox2.options[selectBox2.selectedIndex].value;
                     var gradoAtributo = document.getElementById("gradoAtributo").value;
                     row.className="info";
+                    idsRows++;
+                    row.id="row"+idsRows;
                     //row.id="fila"+result.id
                     var cell0 = row.insertCell(0);
                     var cell1 = row.insertCell(1);
                     var cell2 = row.insertCell(2);
                     var cell3 = row.insertCell(3);
-                    cell3.addEventListener("click", function(){ deleterow(table.rows.length-1)}, false);
                     //cell2.id="cuestion"+result.id;
+                    
+                    var miaux = idsRows;
+
                     cell0.innerHTML = '<td><b>'+selectedValue+'</b></td>';
                     cell1.innerHTML = '<td><b>'+selectedValue2+'</b></td>';
                     cell2.innerHTML = '<td><b>'+gradoAtributo+'</b></td>';
-                    cell3.innerHTML = '<a id="botonver" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-minus"></span> Eliminar</a>';
+                    cell3.innerHTML = '<a id="botonver" class="btn btn-danger btn-sm" onclick="deleterow('+miaux+')"><span class="glyphicon glyphicon-minus"></span> Eliminar</a>';
                 
                     var atributo = { propiedad:"", atributo:"",grado:""}
                     atributo.propiedad=selectedValue;
@@ -364,12 +372,11 @@
                 
             }
         
-        function deleterow(row){
-            var table = document.getElementById('tablaAniadidos');
-            table.deleteRow(row);
-            console.log(row);
-            console.log(atributos.length);
-            atributos.splice(row-1,1);
+        function deleterow(rowid){
+          console.log("row"+rowid)
+            var row = document.getElementById("row"+rowid);
+            row.parentNode.removeChild(row);
+            atributos.splice(rowid-1,1);
         }
         
             function estado(){

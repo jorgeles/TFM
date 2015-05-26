@@ -9,6 +9,8 @@ from heuristica.models import Perfil
 from heuristica.models import Juegos
 from heuristica.models import Heuristica
 from heuristica.models import MiTest
+from heuristica.models import Asignados
+from heuristica.models import Resultados
 from django.core.exceptions import ObjectDoesNotExist
 from django import forms
 from django.core.validators import validate_slug, RegexValidator
@@ -356,14 +358,21 @@ def mistest (request):
 def cargarTest(request):
     if request.method=='POST':
             value = request.POST['testpulsado']
-            request.session['mitest']=value #le meto en la session el id del perfil y se lo paso a la funcion perfiles
+            request.session['mitest']=value
             return redirect('mistest')
     
     return redirect('mistest')
 
 def nuevoTest(request):
     if request.method=='POST':
-        p=MiTest.objects.create(nombre='Nuevo Test',propietario=request.session['user'])
+        misids = []
+        asignados = []
+        ids = Heuristica.objects.filter(propietario=request.session['user'])
+        for id in ids:
+            help = Heuristica.objects.filter(id=id.id)
+            misids.append(serializers.serialize('json', help))
+        misids=json.dumps(misids)
+        p=MiTest.objects.create(nombre='Nuevo Test',propietario=request.session['user'],seleccionados=misids,asignados=asignados)
         request.session['mitest']=p.id
         return redirect('mistest')
     
@@ -399,12 +408,89 @@ def guardarTest(request):
     if request.method=='POST':
         id = request.session['mitest']
         seleccionados = request.POST.getlist('seleccionados[]')
-        seleccionados = json.dumps(seleccionados)
+        envioseleccionados = []
+        for seleccion in seleccionados:
+            help = Heuristica.objects.filter(id=seleccion)
+            print help
+            envioseleccionados.append(serializers.serialize('json', help))
+        
+        seleccionados = json.dumps(envioseleccionados)
+        asignados = request.POST.getlist('asignados[]')
+        asignados = json.dumps(asignados)
         p=MiTest.objects.get(id=id)
         p.seleccionados=seleccionados
+        p.asignados = asignados
+        p.nombre=request.POST['nombre']
+        p.titulo=request.POST['titulo']
         p.save()
     
     return JsonResponse({})
+
+def guardarEnviar(request):
+    if request.method=='POST':
+        id = request.session['mitest']
+        seleccionados = request.POST.getlist('seleccionados[]')
+        envioseleccionados = []
+        print seleccionados
+        for seleccion in seleccionados:
+            help = Heuristica.objects.filter(id=seleccion)
+            print help
+            envioseleccionados.append(serializers.serialize('json', help))
+    
+        print envioseleccionados
+        seleccionados = json.dumps(envioseleccionados)
+        print "hl"
+        asignados = request.POST.getlist('asignados[]')
+        aux = asignados
+        asignados = json.dumps(asignados)
+        test=MiTest.objects.get(id=id)
+        nombre=request.POST['nombre']
+        titulo=request.POST['titulo']
+        test.seleccionados=seleccionados
+        test.asignados = asignados
+        test.nombre=request.POST['nombre']
+        test.titulo=request.POST['titulo']
+        Asignados.objects.filter(idTest=id).delete()
+        for asignado in aux:
+            p=Asignados.objects.create(nombre=nombre,creador=request.session['user'],seleccionados=seleccionados, propietario=asignado, titulo=titulo,idTest=id)
+        
+        test.save()
+    
+    return JsonResponse({})
+
+def guardarEnviarIndividual(request):
+    if request.method=='POST':
+        id = request.session['mitest']
+        seleccionados = request.POST.getlist('seleccionados[]')
+        envioseleccionados = []
+        for seleccion in seleccionados:
+            help = Heuristica.objects.filter(id=seleccion)
+            envioseleccionados.append(serializers.serialize('json', help))
+        
+        seleccionados = json.dumps(envioseleccionados)
+        asignados = request.POST.getlist('asignados[]')
+        envio = request.POST.getlist('envio[]')
+        aux = envio
+        asignados = json.dumps(asignados)
+        test=MiTest.objects.get(id=id)
+        nombre=request.POST['nombre']
+        titulo=request.POST['titulo']
+        test.seleccionados=seleccionados
+        test.asignados = asignados
+        test.nombre=request.POST['nombre']
+        test.titulo=request.POST['titulo']
+        for asignado in aux:
+            u=Asignados.objects.filter(idTest=id,propietario=asignado)
+            if u.count() > 0:
+                Asignados.objects.filter(idTest=id,propietario=asignado).delete()
+                p=Asignados.objects.create(nombre=nombre,creador=request.session['user'],seleccionados=seleccionados, propietario=asignado, titulo=titulo,idTest=id)
+            else:
+                p=Asignados.objects.create(nombre=nombre,creador=request.session['user'],seleccionados=seleccionados, propietario=asignado, titulo=titulo,idTest=id)
+        
+        test.save()
+    
+    return JsonResponse({})
+
 
 def cargarUsuarios(request):
     if request.method=='POST':
@@ -424,6 +510,17 @@ def UsuarioExiste(request):
         except ObjectDoesNotExist:
             return JsonResponse({'existe':False})
     return JsonResponse({'existe':False})
+
+def cargarValoracion(request):
+    if request.method=='POST':
+        resultados= Resultados.objects.filter(idTest=request.session['mitest'])
+        if resultados:
+            resultados = serializers.serialize('json',resultados)
+            return JsonResponse({'existe':True,'resultados':resultados})
+        else:
+            return JsonResponse({'existe':False})
+
+    return JsonResponse({'existe':False})
         
 
 
@@ -432,7 +529,51 @@ def UsuarioExiste(request):
 
 def asignados (request):
     request.session['menu']='asignados'
+    asignados= Asignados.objects.filter(propietario=request.session['user'])
+    if asignados:
+        if 'asignado' in request.session:
+            asignado=Asignados.objects.filter(propietario=request.session['user'], id=request.session['asignado'])
+            if asignado:
+                context={ 'asignados':asignados,'asignado':asignado[0]}
+            else:
+                context={ 'asignados':asignados,'asignado':asignados[0]}
+                request.session['asignado']=asignados[0].id
+        else:
+            context={ 'asignados':asignados,'asignado':asignados[0]}
+            request.session['asignado']=asignados[0].id
+        return render(request, 'asignados.html',context)
+
     return render(request, 'asignados.html')
+
+def cargarAsignado(request):
+    if request.method=='POST':
+        value = request.POST['asignadopulsado']
+        request.session['asignado']=value
+
+    return redirect('asignados')
+
+def cargarPreguntas(request):
+    asignado=Asignados.objects.filter(propietario=request.session['user'], id=request.session['asignado'])
+    auxiliar = serializers.serialize('json', asignado)
+    return JsonResponse({'envio':auxiliar})
+
+def guardarResultado(request):
+    if request.method=='POST':
+        asignado=Asignados.objects.get(propietario=request.session['user'], id=request.session['asignado'])
+        respuestas = request.POST['resultados']
+        asignado.respuestas = respuestas
+        asignado.save()
+        return JsonResponse({})
+
+def enviarResultado(request):
+    if request.method=='POST':
+
+        asignado=Asignados.objects.get(propietario=request.session['user'], id=request.session['asignado'])
+        print request.session['asignado']
+        respuestas = request.POST['resultados']
+        Resultados.objects.create(propietario=request.session['user'],idTest=asignado.idTest,respuestas=respuestas,seleccionados=asignado.seleccionados)
+        asignado.delete()
+    return JsonResponse({})
 
 ########################################################################
 #Fucniones de la pagina de Login

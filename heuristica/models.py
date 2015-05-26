@@ -48,6 +48,23 @@ class MiTest(models.Model):
     propietario=models.CharField (max_length=200)
     nombre = models.CharField (max_length=200)
     titulo = models.CharField (max_length=200)
-    seleccionados = models.CharField (max_length=2000)
+    seleccionados = models.CharField (max_length=200000)
+    asignados = models.CharField (max_length=2000)
 
-    
+class Asignados(models.Model):
+    id=models.AutoField(primary_key=True)
+    propietario=models.CharField (max_length=200)
+    creador=models.CharField (max_length=200)
+    nombre = models.CharField (max_length=200)
+    titulo = models.CharField (max_length=200)
+    seleccionados = models.CharField (max_length=200000)
+    idTest=models.CharField (max_length=200)
+    respuestas=models.CharField (max_length=200000)
+
+class Resultados(models.Model):
+    id=models.AutoField(primary_key=True)
+    propietario=models.CharField (max_length=200)
+    idTest=models.CharField (max_length=200)
+    respuestas=models.CharField (max_length=200000)
+    seleccionados = models.CharField (max_length=200000)
+

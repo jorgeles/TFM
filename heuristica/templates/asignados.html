@@ -1,50 +1,195 @@
 {% extends "base_menu.htm" %}
 <html>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        {% block head %}
-        <title>Mis Perfiles</title>
-        {% endblock %}
-        {% block contenido %}
-        <!-- Modal -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		{% block head %}
+		<title>Mis Perfiles</title>
+		{% endblock %}
+		{% block contenido %}
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">Enviar Resultado</h4>
+					</div>
+					<div class="modal-body">
+						<p> ¿Seguro que desea enviar estos resultados? Recuerde que tras enviar se le borrará el test de Asignados y ya no podrá realizar ningún cambio </p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+						<button type="button" onclick="enviar()" class="btn btn-danger">Sí, Deseo Enviar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="ModalComentario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Eliminar Perfil</h4>
+                        <h4 class="modal-title" id="exampleModalLabel">Comentario</h4>
                     </div>
                     <div class="modal-body">
-                        <p> ¿Seguro que desea eliminar el perfil: {{datos.nombre}}? </p>
+     					<textarea id="textocomentario"></textarea>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button type="button" onclick="eliminar()" class="btn btn-danger">Sí, Deseo Eliminar</button>
+                        <button type="button" class="btn btn-primary" onclick="cerrarModal()">Aceptar</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="contenido">
-            <div id="menu_lateral">
-                <div id="lista_izq">
-                    <ul id="milist">
-                        {% for prueba in pruebas %}
-                        <li>
-                            <form id="listNombre" action="{% url 'cargarPerfil' %}" method="post">{% csrf_token %}
-                                {% if prueba.id == datos.id %}
-                                <input class="listnameactive" type="submit" name="perfil" id="{{prueba.id|safe}}" value="{{prueba.nombre|safe}}"  ></input>
-                                {% else %}
-                                <input class="listname" type="submit" name="perfil" id="{{prueba.id|safe}}" value="{{prueba.nombre|safe}}"  ></input>
-                                {% endif %}
-                                <input id="soporte" type="hidden" name="valor" value="{{prueba.id|safe}}"></input>
-                            </form>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-            <div id="heuristica">
-                <div id="maestro"></div>
-            </div>
-        </div>
-        {% endblock %}
+		<div id="contenido">
+			<div id="menu_lateral">
+				<div id="lista_izq">
+					<ul id="milist">
+						{% for aux in asignados %}
+						<li>
+							<form id="listNombre" action="{% url 'cargarAsignado' %}" method="post">{% csrf_token %}
+								{% if aux.id == asignado.id %}
+								<input class="listnameactive" type="submit" name="perfil" id="{aux.id|safe}}" value="{{aux.nombre|safe}}"></input>
+								{% else %}
+								<input class="listname" type="submit"  name="perfil" id="{{aux.id|safe}}" value="{{aux.nombre|safe}}"></input>
+								{% endif %}
+								<input id="soporte" type="hidden" name="asignadopulsado" value="{{aux.id|safe}}"></input>
+							</form>
+						</li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+			<div id="heuristica">
+				<div id="previaAsignado">
+					<h2 class="headers" id="Titulo"> {{asignado.nombre|safe}} </h2>
+					<b class="headerAsignado"> Titulo del Juego:&nbsp;&nbsp;</b>
+					<b class="headerAsignado"> {{ asignado.titulo|safe}}</b>
+					<b class="headerAsignado2"> {{ asignado.propietario|safe}}</b>
+					<b class="headerAsignado2"> Asignado por:&nbsp;&nbsp;</b>
+					<br></br>
+					<TABLE class="table table-striped table-hover " id="tablapreguntas">
+						<TR>
+							<TH>Heurística</TH><TH>Puntuacion</TH> <TH>Comentarios</TH>
+						</TR>
+					</TABLE>
+					<button class="btn btn-success" id="guardarRespuestas" onclick="guardar()"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+					<button class="btn btn-primary" id="enviarResultado" onclick="ModalEnviar()"><span class="glyphicon glyphicon-send"></span> Enviar Resultados</button>
+					<form id="enviarResultado" action="{% url 'enviarResultado' %}" method="post">{% csrf_token %}</form>
+				</div>
+				
+			</div>
+		</div>
+		<script>
+			Respuestas = [];
+			
+			function cargarPreguntas(){
+				$.post("{% url 'cargarPreguntas' %}",{csrfmiddlewaretoken:'{{csrf_token}}'},
+					function (result){
+					   	envio=JSON.parse(result.envio)
+					   	envio=envio[0];
+					   	console.log(envio.fields)
+					   	misrespuestas=envio.fields.respuestas
+					   	envio = JSON.parse(envio.fields.seleccionados)
+					   	var table = document.getElementById('tablapreguntas');
+					   	for (i in envio){
+					   		mienvio=JSON.parse(envio[i])[0]
+					   		console.log(mienvio)
+					   		var row = table.insertRow(table.rows.length);
+					   		row.className="info";
+					   
+					   		var cell0 = row.insertCell(0);
+					   		var cell1 = row.insertCell(1);
+					   		var cell2 = row.insertCell(2);
+					   
+					   
+					   		cell0.className="heuristicaTabla";
+					   		cell0.innerHTML = '<td">'+mienvio.fields.nombre+'</td>';
+					   		if(mienvio.fields.rango==1){
+					   			cell1.innerHTML = '<TD><select id="Range'+mienvio.pk+'" oninput="guardarRange('+mienvio.pk+')"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></TD>';
+					   		}
+					   		else{
+					   			cell1.innerHTML = '<TD><select id="Range'+mienvio.pk+'" oninput="guardarRange('+mienvio.pk+')"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></TD>'
+					   		}
+					   
+					   		cell2.innerHTML = '<TD><a id="comentario"class="btn btn-info btn-sm" onclick="abrirFormularioModal('+mienvio.pk+')"><span class="glyphicon glyphicon-search"></span> Cometario</a></TD>';
+					   
+					   		var respuesta = {id:"", value:"", comentario:""};
+					   		respuesta.id=mienvio.pk;
+					   		if(misrespuestas.length>0){
+					   			misrespuestasparse = JSON.parse(misrespuestas)
+								respuesta.value="1";
+					   			for (j in misrespuestasparse){
+					   				if(misrespuestasparse[j].id==mienvio.pk){
+					   					if(misrespuestasparse[j].value.length>0){
+					   						respuesta.value=misrespuestasparse[j].value
+					   					}
+					   					else{
+					   						misrespuestasparse[j].value=respuesta.value
+					   					}
+					   					respuesta.comentario=misrespuestasparse[j].comentario
+					   					var selectBox = document.getElementById("Range"+mienvio.pk);
+			  							selectBox.selectedIndex=respuesta.value-1;
+					   				}
+
+					   			}
+					   		}
+					   		Respuestas.push(respuesta);
+					   	}
+
+					})
+						   
+			}
+			window.onload=cargarPreguntas();
+
+			function guardarRange(id){
+				for(i in Respuestas){
+					if(Respuestas[i].id==id){
+						var selectBox = document.getElementById("Range"+id);
+			  			var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+			  			Respuestas[i].value=selectedValue;
+					}
+				}
+			  
+			}
+
+			function guardar(){
+					$.post("{% url 'guardarResultado' %}",{resultados:JSON.stringify(Respuestas),csrfmiddlewaretoken:'{{csrf_token}}'},
+					function (result){
+
+					})
+			}
+
+			function enviar(){
+				console.log("Hola·");
+				$.post("{% url 'enviarResultado' %}",{resultados:JSON.stringify(Respuestas),csrfmiddlewaretoken:'{{csrf_token}}'},
+					function (result){
+
+					})
+			}
+
+			idmodal=0;
+			function abrirFormularioModal(id){
+				idmodal=id;
+				for(i in Respuestas){
+					if(Respuestas[i].id==id.toString()){
+						document.getElementById("textocomentario").value=Respuestas[i].comentario;	
+					}
+				}
+            	$('#ModalComentario').modal('show')
+        	}
+
+        	function cerrarModal(){
+        		for(i in Respuestas){
+        			if(Respuestas[i].id==idmodal.toString()){
+        				Respuestas[i].comentario=document.getElementById("textocomentario").value;
+        			}
+        		}
+        		$('#ModalComentario').modal('hide')
+        		
+        	}
+        	function ModalEnviar(){
+        		$('#myModal').modal();
+        	}
+		</script>
+		
+		{% endblock %}
 </html>

@@ -1,113 +1,113 @@
 {% extends "base_menu.htm" %}
 <html>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        {% block head %}
-        <title>Mis Perfiles</title>
-        {% endblock %}
-        {% block contenido %}
-        <!-- Modal -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Eliminar Perfil</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p> ¿Seguro que desea eliminar el test? </p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button type="button" onclick="eliminar()" class="btn btn-danger">Sí, Deseo Eliminar</button>
-                    </div>
-                </div>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+{% block head %}
+<title>Mis Perfiles</title>
+{% endblock %}
+{% block contenido %}
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar Perfil</h4>
+            </div>
+            <div class="modal-body">
+                <p> ¿Seguro que desea eliminar el test? </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" onclick="eliminar()" class="btn btn-danger">Sí, Deseo Eliminar</button>
             </div>
         </div>
-        <div class="modal fade" id="ModalAsignados" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="exampleModalLabel">Usuarios añadidos</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="form-group">
-                                <label for="recipient-name" class="control-label">Buscar</label>
-                                <input type="text" list="usuarios" class="form-control" oninput="complete()" id="inputBuscar">
-                                <div class="alert alert-danger" id="usuarioNoExiste" role="alert">El usuario no existe</div>
-                                <a onclick="aniadirAsignado()" class="btn btn-primary btn-sm aniadirAsignado"><span class="glyphicon glyphicon-plus"></span> Añadir</a>
-                            </div>
-                            <br></br>
-                            <div class="form-group">
-                                <h4 for="message-text" class="control-label">Añadidos</h4>
-                                <div class="usuariosaniadidos" id="usuariosaniadidos">
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
-                    </div>
-                </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalAsignados" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Usuarios añadidos</h4>
             </div>
-        </div>
-        <datalist id="usuarios">
-        </datalist>
-        <div id="contenido">
-            <div id="menu_lateral">
-                <div id="lista_izq">
-                    <ul id="milist">
-                        {% for test in tests %}
-                        <li>
-                            <form id="listNombre" action="{% url 'cargarTest' %}" method="post">{% csrf_token %}
-                                {% if test.id == mitest.id %}
-                                <input class="listnameactive" type="submit" name="perfil" id="{{test.id|safe}}" value="{{test.nombre|safe}}"  ></input>
-                                {% else %}
-                                <input class="listname" type="submit" name="perfil" id="{{test.id|safe}}" value="{{test.nombre|safe}}"  ></input>
-                                {% endif %}
-                                <input id="soporte" type="hidden" name="testpulsado" value="{{test.id|safe}}"></input>
-                            </form>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <form action="{% url 'nuevoTest' %}" method="post">{% csrf_token %}
-                    <button class="btn btn-primary " id="aniadirli" type="submit" onclick="aniadirli()">
-                        <span class="glyphicon glyphicon-plus"></span> Añadir Test</button>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">Buscar</label>
+                        <input type="text" list="usuarios" class="form-control" oninput="complete()" id="inputBuscar">
+                        <div class="alert alert-danger" id="usuarioNoExiste" role="alert">El usuario no existe</div>
+                        <a onclick="aniadirAsignado()" class="btn btn-primary btn-sm aniadirAsignado"><span class="glyphicon glyphicon-plus"></span> Añadir</a>
+                    </div>
+                    <br></br>
+                    <div class="form-group">
+                        <h4 for="message-text" class="control-label">Añadidos</h4>
+                        <div class="usuariosaniadidos" id="usuariosaniadidos">
+                        </div>
+                    </div>
                 </form>
             </div>
-            <div id="heuristica">
-                <div role="tabpanel">
-                    
-                    <ul class="nav nav-tabs" role="tablist" id="myTab">
-                        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Configuración</a></li>
-                        <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Resultados</a></li>
-                    </ul>
-                    
-                    <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="home">
-                            <h5 class="headers">Titulo del Test </h5>
-                            <input id="nombreDelTest" value="{{mitest.nombre}}"></input>
-                            <h5 class="headers">Titulo del Juego </h5>
-                            <input id="nombreDelJuego" value="{{mitest.titulo}}"></input>
-                            <button class="btn btn-primary" onclick="abrirFormularioModal()"><span class="glyphicon glyphicon-plus"></span> Asignar Test</button>
-                            <h4 class="headers">Seleccione las preguntas del Test </h4>
-                            <div class="container-fluid">
-                                <div class="navbar-header">
-                                    <a class="navbar-brand listajugabilidades marcada" id="Intrinseca" onclick="marcar(Intrinseca)">Intrínseca</a>
-                                    <a class="navbar-brand listajugabilidades" id="Mecanica" onclick="marcar(Mecanica)">Mecánica</a>
-                                    <a class="navbar-brand listajugabilidades" id="Interactiva" onclick="marcar(Interactiva)">Interáctiva</a>
-                                    <a class="navbar-brand listajugabilidades" id="Artistica" onclick="marcar(Artistica)">Artística</a>
-                                    <a class="navbar-brand listajugabilidades" id="Intrapersonal" onclick="marcar(Intrapersonal)">Intrapersonal</a>
-                                    <a class="navbar-brand listajugabilidades" id="Interpersonal" onclick="marcar(Interpersonal)">Interpersonal</a>
-                                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<datalist id="usuarios">
+</datalist>
+<div id="contenido">
+    <div id="menu_lateral">
+        <div id="lista_izq">
+            <ul id="milist">
+                {% for test in tests %}
+                <li>
+                    <form id="listNombre" action="{% url 'cargarTest' %}" method="post">{% csrf_token %}
+                        {% if test.id == mitest.id %}
+                        <input class="listnameactive" type="submit" name="perfil" id="{{test.id|safe}}" value="{{test.nombre|safe}}"  ></input>
+                        {% else %}
+                        <input class="listname" type="submit" name="perfil" id="{{test.id|safe}}" value="{{test.nombre|safe}}"  ></input>
+                        {% endif %}
+                        <input id="soporte" type="hidden" name="testpulsado" value="{{test.id|safe}}"></input>
+                    </form>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <form action="{% url 'nuevoTest' %}" method="post">{% csrf_token %}
+            <button class="btn btn-primary " id="aniadirli" type="submit" onclick="aniadirli()">
+                <span class="glyphicon glyphicon-plus"></span> Añadir Test</button>
+            </form>
+        </div>
+        <div id="heuristica">
+            <div role="tabpanel">
+
+                <ul class="nav nav-tabs" role="tablist" id="myTab">
+                    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Configuración</a></li>
+                    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Resultados</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="home">
+                        <h5 class="headers">Titulo del Test </h5>
+                        <input id="nombreDelTest" value="{{mitest.nombre}}"></input>
+                        <h5 class="headers">Titulo del Juego </h5>
+                        <input id="nombreDelJuego" value="{{mitest.titulo}}"></input>
+                        <button class="btn btn-primary" onclick="abrirFormularioModal()"><span class="glyphicon glyphicon-plus"></span> Asignar Test</button>
+                        <h4 class="headers">Seleccione las preguntas del Test </h4>
+                        <div class="container-fluid">
+                            <div class="navbar-header">
+                                <a class="navbar-brand listajugabilidades marcada" id="Intrinseca" onclick="marcar(Intrinseca)">Intrínseca</a>
+                                <a class="navbar-brand listajugabilidades" id="Mecanica" onclick="marcar(Mecanica)">Mecánica</a>
+                                <a class="navbar-brand listajugabilidades" id="Interactiva" onclick="marcar(Interactiva)">Interáctiva</a>
+                                <a class="navbar-brand listajugabilidades" id="Artistica" onclick="marcar(Artistica)">Artística</a>
+                                <a class="navbar-brand listajugabilidades" id="Intrapersonal" onclick="marcar(Intrapersonal)">Intrapersonal</a>
+                                <a class="navbar-brand listajugabilidades" id="Interpersonal" onclick="marcar(Interpersonal)">Interpersonal</a>
                             </div>
-                            <div id="tablasHeuristicas">
-                                <TABLE class="table table-striped table-hover " id="mitabla">
-                                    <TR>
-                                        <TH>Seleccionada</TH> <TH>COD</TH> <TH>Heurística</TH>
-                                    </TR>
+                        </div>
+                        <div id="tablasHeuristicas">
+                            <TABLE class="table table-striped table-hover " id="mitabla">
+                                <TR>
+                                    <TH>Seleccionada</TH> <TH>COD</TH> <TH>Heurística</TH>
+                                </TR>
                                     <!--{% for dato in heuristicas %}
                                     <!-- <TR class="info" id="fila{{dato.id}}">
                                         <TD id="check"><input type="checkbox" id="{{ dato.id }}" name="option" checked onclick="seleccionar({{ dato.id }})"><br></TD>
@@ -118,7 +118,7 @@
                                     
                                 </TABLE>
                             </div>
-                            <button class="btn btn-primary botonesConfiguracion"><span class="glyphicon glyphicon-send"></span> Guardar y Enviar Test</button>
+                            <button class="btn btn-primary botonesConfiguracion" onclick="guardarEnviar()"><span class="glyphicon glyphicon-send"></span> Guardar y Enviar Test</button>
                             <button class="btn btn-success botonesConfiguracion" onclick="guardar()"id="guardarConfiguracion"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
                             <button class="btn btn-danger botonesConfiguracion" id="eliminarConfiguracion"><span class="glyphicon glyphicon-minus"></span> Eliminar Test</button>
                         </div>
@@ -127,7 +127,7 @@
                             <nav class=" minavbar">
                                 <div class="container-fluid">
                                     <div class="navbar-header">
-                                        <a class="navbar-brand" href="#">Valoración</a>
+                                        <a class="navbar-brand navbar-active" href="#maestro_detalle" aria-controls="maestro_detalle" role="tab" data-toggle="tab">Valoración</a>
                                         <a class="navbar-brand" href="#">Análisis Facetas</a>
                                         <a class="navbar-brand" href="#">Análisis Atributos</a>
                                         <a class="navbar-brand" href="#">Análisis Elementos</a>
@@ -137,178 +137,323 @@
                                 </div>
                             </nav>
                             <div id="contenidoMisTest">
-                                <div id="maestro_detalle">
+                                <div class="oculta " id="maestro_detalle">
                                     <div id="menu_resultados">
                                     </div>
                                     <div id="detalle">
                                         <div id="panel_resultados">
                                         </div>
                                         <div id="panel_comentarios">
-                                            <p>Comentarios<p>
-                                            <textarea id="comentarios_resultados"></textarea>
+                                            <h4 class="headers">Comentarios<h4>
+                                                <textarea id="comentarios_resultados"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="" id="verValoración">
+                                        <div id="tablaValoracion">
+                                            <TABLE class="table table-striped " id="mitabla">
+                                                <TR>
+                                                    <TH></TH><TH>Satisfacción</TH><TH>Aprendizaje</TH><TH>Eficiencia</TH><TH>Inmersión</TH><TH>Motivación</TH><TH>Emoción</TH><TH>Socialización</TH><TH>Media</TH>
+                                                </TR>
+                                                <TR class="">
+                                                    <TH class="">J.Intrínseca</TH>
+                                                    <td class="row"></td>
+                                                </TR>
+                                                <TR class="">
+                                                    <TH>J.Mecánica</TH>
+                                                </TR>
+                                                <TR class="">
+                                                    <TH>J.Interactiva</TH>
+                                                </TR>
+                                                <TR class="">
+                                                    <TH>J.Artística</TH>
+                                                </TR>
+                                                <TR class="">
+                                                    <TH>J.Personal</TH>
+                                                </TR>
+                                                <TR class="">
+                                                    <TH>J.Social</TH>
+                                                </TR>
+                                                <TR class="">
+                                                    <TH>Media</TH>
+                                                </TR>
+
+                                            </TABLE>
+                                        </div>
+                                        <div id="panel_comentarios">
+                                            <h4 class="headers">Comentarios<h4>
+                                                <textarea id="comentarios_resultados"></textarea>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
-                        </div>
-                        
-                    </div>
-                    
-                    <script>
-                        $(function () {
-                          $('#myTab a:first').tab('show')
+
+                            <script>
+                            $(function () {
+                              $('#myTab a:first').tab('show')
                           })
-                        </script>
-                    
+                            </script>
+
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <script>
-        var seleccionados=[];
-        function aniadirli(){
-            var ul = document.getElementById("milist");
-            var li = document.createElement("li");
-            li.appendChild(document.createTextNode("Nuevo Test"));
-            ul.appendChild(li);
+                <script>
+                var seleccionados=[];
+                var asignados=[];
+                function aniadirli(){
+                    var ul = document.getElementById("milist");
+                    var li = document.createElement("li");
+                    li.appendChild(document.createTextNode("Nuevo Test"));
+                    ul.appendChild(li);
+                }
+                function marcar(id){
+                    id.className = "navbar-brand listajugabilidades marcada";
+                    if(id.id!="Intrinseca"){
+                        document.getElementById("Intrinseca").className="navbar-brand listajugabilidades ";
+                    }
+                    if(id.id!="Mecanica"){
+                        document.getElementById("Mecanica").className="navbar-brand listajugabilidades ";
+                    }
+                    if(id.id!="Interactiva"){
+                        document.getElementById("Interactiva").className="navbar-brand listajugabilidades ";
+                    }
+                    if(id.id!="Artistica"){
+                        document.getElementById("Artistica").className="navbar-brand listajugabilidades ";
+                    }
+                    if(id.id!="Intrapersonal"){
+                        document.getElementById("Intrapersonal").className="navbar-brand listajugabilidades ";
+                    }
+                    if(id.id!="Interpersonal"){
+                        document.getElementById("Interpersonal").className="navbar-brand listajugabilidades ";
+                    }
+                    $.post("{% url 'cargarTablas' %}",{id:id.id,csrfmiddlewaretoken:'{{csrf_token}}'},
+                     function (result){
+                         datos = JSON.parse(result.heuristica);
+
+
+                         var table = document.getElementById('mitabla');
+                         while(table.hasChildNodes()){
+                             table.removeChild(table.firstChild);
+                         }
+
+                         var header = table.createTBody();
+                         var row = header.insertRow(0);
+                         table.className="table table-striped table-hover";
+
+                         var cell = row.insertCell(0);
+                         var cell1 = row.insertCell(1);
+                         var cell2 = row.insertCell(2);
+
+                         cell.innerHTML = "<b>Seleccionada</b>";
+                         cell1.innerHTML = "<b>COD</b>";
+                         cell2.innerHTML = "<b>Heurística</b>";
+
+                         for (i in datos){
+                             var table = document.getElementById('mitabla');
+
+
+
+                             var row = table.insertRow(table.rows.length);
+                             row.className="info";
+
+                             var cell0 = row.insertCell(0);
+                             var cell1 = row.insertCell(1);
+                             var cell2 = row.insertCell(2);
+
+                             if(seleccionados.lastIndexOf(datos[i].pk.toString())==-1){
+                                cell0.innerHTML = '<td><input type="checkbox" id="'+datos[i].pk+'" onclick="seleccionar('+datos[i].pk+')" name="option"><br></td>';
+                            }
+
+                            else{
+                                cell0.innerHTML = '<td><input type="checkbox" id="'+datos[i].pk+'" onclick="seleccionar('+datos[i].pk+')" name="option" checked><br></td>';
+                            }
+
+                            cell1.innerHTML = '<td><b>'+datos[i].pk+'</b></td>';
+                            cell2.innerHTML = '<td><b>'+datos[i].fields.nombre+'</b></td>';
+                        }
+                    })
+
+}
+
+function guardar(){
+    console.log(seleccionados);
+    nombre = document.getElementById("nombreDelTest").value;
+    titulo = document.getElementById("nombreDelJuego").value;
+    $.post("{% url 'guardarTest' %}",{seleccionados:seleccionados,asignados:asignados,nombre:nombre,titulo:titulo,csrfmiddlewaretoken:'{{csrf_token}}'},
+       function (result){
+           document.getElementById("{{mitest.id}}").value=nombre;
+       })
+}
+
+function abrirFormularioModal(){
+    $('#ModalAsignados').modal('show')
+}
+
+
+function seleccionar(id){
+    if(seleccionados.lastIndexOf(id.toString())==-1){
+        seleccionados.push(id.toString())
+    }
+    else{
+        seleccionados.splice(seleccionados.lastIndexOf(id),1);
+    }
+    console.log(seleccionados)
+}
+
+function cargarSeleccionados(){
+    var aux = {{ mitest.seleccionados|safe }}
+    if(aux){
+        for(i in aux){
+            aux2 = JSON.parse(aux[i])
+            seleccionados.push(aux2[0].pk.toString());
         }
-        function marcar(id){
-            id.className = "navbar-brand listajugabilidades marcada";
-            if(id.id!="Intrinseca"){
-                document.getElementById("Intrinseca").className="navbar-brand listajugabilidades ";
-            }
-            if(id.id!="Mecanica"){
-                document.getElementById("Mecanica").className="navbar-brand listajugabilidades ";
-            }
-            if(id.id!="Interactiva"){
-                document.getElementById("Interactiva").className="navbar-brand listajugabilidades ";
-            }
-            if(id.id!="Artistica"){
-                document.getElementById("Artistica").className="navbar-brand listajugabilidades ";
-            }
-            if(id.id!="Intrapersonal"){
-                document.getElementById("Intrapersonal").className="navbar-brand listajugabilidades ";
-            }
-            if(id.id!="Interpersonal"){
-                document.getElementById("Interpersonal").className="navbar-brand listajugabilidades ";
-            }
-            $.post("{% url 'cargarTablas' %}",{id:id.id,csrfmiddlewaretoken:'{{csrf_token}}'},
-                   function (result){
-                   datos = JSON.parse(result.heuristica);
-                  
-                   
-                   var table = document.getElementById('mitabla');
-                   while(table.hasChildNodes()){
-                   table.removeChild(table.firstChild);
-                   }
-                   
-                   var header = table.createTBody();
-                   var row = header.insertRow(0);
-                   table.className="table table-striped table-hover";
-                   
-                   var cell = row.insertCell(0);
-                   var cell1 = row.insertCell(1);
-                   var cell2 = row.insertCell(2);
-                   
-                   cell.innerHTML = "<b>Seleccionada</b>";
-                   cell1.innerHTML = "<b>COD</b>";
-                   cell2.innerHTML = "<b>Heurística</b>";
-                   
-                   for (i in datos){
-                   var table = document.getElementById('mitabla');
-                   
-                  
-                   
-                   var row = table.insertRow(table.rows.length);
-                   row.className="info";
-                   
-                   var cell0 = row.insertCell(0);
-                   var cell1 = row.insertCell(1);
-                   var cell2 = row.insertCell(2);
-                
-                   if(seleccionados.lastIndexOf(datos[i].pk.toString())==-1){
-                        cell0.innerHTML = '<td><input type="checkbox" id="'+datos[i].pk+'" onclick="seleccionar('+datos[i].pk+')" name="option"><br></td>';
-                   }
-                   
-                   else{
-                        cell0.innerHTML = '<td><input type="checkbox" id="'+datos[i].pk+'" onclick="seleccionar('+datos[i].pk+')" name="option" checked><br></td>';
-                   }
-                   
-                   cell1.innerHTML = '<td><b>'+datos[i].pk+'</b></td>';
-                   cell2.innerHTML = '<td><b>'+datos[i].fields.nombre+'</b></td>';
-                   }
-                   })
-            
+    }
+    marcar(Intrinseca)
+}
+
+function cargarAsignados(){
+    var aux = {{ mitest.asignados|safe }}
+    if(aux){
+        for(i in aux){
+            asignados.push(aux[i]);
+            options = '<br></br>'
+            options+='<h4 class="asignado">'+aux[i]+'</h4>'
+            options+='<a class="btn btn-danger btn-xs eliminarAsignados" onclick="eliminarAsignados(\''+aux[i]+'\')"><span class="glyphicon glyphicon-minus"></span> Eliminar</a>';
+            options+='<a href="#" class="btn btn-primary btn-xs enviarAsignado" onclick="enviarAsignado(\''+aux[i]+'\')"><span class="glyphicon glyphicon-send"></span> Guardar y Enviar</a>'
+            document.getElementById('usuariosaniadidos').innerHTML += options;
+            console.log(aux[i].toString());
         }
-        
-        function guardar(){
-            console.log(seleccionados);
-            $.post("{% url 'guardarTest' %}",{seleccionados:seleccionados,csrfmiddlewaretoken:'{{csrf_token}}'},
-                   function (result){
-                   
-                   })
-        }
-        
-        function abrirFormularioModal(){
-            $('#ModalAsignados').modal('show')
-        }
-        
-        
-        function seleccionar(id){
-            if(seleccionados.lastIndexOf(id.toString())==-1){
-                seleccionados.push(id.toString())
+    }
+}
+
+function eliminarAsignados(nombre){
+    asignados.splice(asignados.lastIndexOf(nombre),1);
+    document.getElementById('usuariosaniadidos').innerHTML ='<b></b>';
+    for (i in asignados){
+        options = '<br></br>'
+        options+='<h4 class="asignado">'+asignados[i]+'</h4>'
+        options+='<a class="btn btn-danger btn-xs eliminarAsignados" onclick="eliminarAsignados(\''+asignados[i]+'\')"><span class="glyphicon glyphicon-minus"></span> Eliminar</a>';
+        options+='<a href="#" class="btn btn-primary btn-xs enviarAsignado" onclick="enviarAsignado(\''+asignados[i]+'\')"><span class="glyphicon glyphicon-send"></span> Guardar y Enviar</a>'
+        document.getElementById('usuariosaniadidos').innerHTML += options;
+    }
+    console.log(asignados);
+}
+
+function complete(){
+    if(document.getElementById("inputBuscar").value.length>=3){
+        $.post("{% url 'cargarUsuarios' %}",{user:document.getElementById("inputBuscar").value,csrfmiddlewaretoken:'{{csrf_token}}'},
+           function (result){
+               list = result.usuarios
+               options = ""
+               for (i in list){
+                   options += '<option value= "'+list[i]+'" />';
+               }
+
+               document.getElementById('usuarios').innerHTML = options;
+           })
+
+    }
+}
+function aniadirAsignado(){
+    if(document.getElementById('inputBuscar').value.length!=0){
+        $.post("{% url 'UsuarioExiste' %}",{user:document.getElementById("inputBuscar").value,csrfmiddlewaretoken:'{{csrf_token}}'},
+           function (result){
+               console.log(result.existe)
+               if(result.existe){
+                   options = '<br></br>'
+                   options+='<h4 class="asignado">'+document.getElementById('inputBuscar').value+'</h4>'
+                   options+='<a class="btn btn-danger btn-xs eliminarAsignados" onclick="eliminarAsignados(\''+document.getElementById('inputBuscar').value+'\')"><span class="glyphicon glyphicon-minus"></span> Eliminar</a>'
+                   options+='<a href="#" class="btn btn-primary btn-xs enviarAsignado" onclick="enviarAsignado(\''+document.getElementById('inputBuscar').value+'\')"><span class="glyphicon glyphicon-send"></span> Guardar y Enviar</a>'
+                   document.getElementById('usuariosaniadidos').innerHTML += options;
+                   asignados.push(document.getElementById('inputBuscar').value);
+                   console.log(asignados);
+               }
+               else{
+                   document.getElementById("usuarioNoExiste").style.visibility = "visible";
+                   timeoutID = window.setTimeout(function clerAlert() {
+                     document.getElementById("usuarioNoExiste").style.visibility = "hidden";
+                 }, 2000);
+               }
+           })
+
+}
+}
+
+function enviarAsignado(nombre){
+    aux = []
+    aux.push(nombre)
+    nombre2 = document.getElementById("nombreDelTest").value;
+    titulo = document.getElementById("nombreDelJuego").value;
+    console.log("Hola·")
+    $.post("{% url 'guardarIndividual' %}",{seleccionados:seleccionados,asignados:asignados,envio:aux,nombre:nombre2,titulo:titulo,csrfmiddlewaretoken:'{{csrf_token}}'},
+       function (result){
+           document.getElementById("{{mitest.id}}").value=nombre2;
+       })
+}
+
+function guardarEnviar(){
+    nombre = document.getElementById("nombreDelTest").value;
+    titulo = document.getElementById("nombreDelJuego").value;
+    $.post("{% url 'guardarEnviar' %}",{seleccionados:seleccionados,asignados:asignados,nombre:nombre,titulo:titulo,csrfmiddlewaretoken:'{{csrf_token}}'},
+       function (result){
+           document.getElementById("{{mitest.id}}").value=nombre;
+
+       })
+
+}
+var resultados;
+var datosparseados = []
+function cargarValoracion(){
+    $.post("{% url 'cargarValoracion' %}",{csrfmiddlewaretoken:'{{csrf_token}}'},
+        function (result){
+            if(result.existe){
+                resultados = JSON.parse(result.resultados)[0]
+                datosValoracion();
             }
-            else{
-                seleccionados.splice(seleccionados.lastIndexOf(id),1);
-            }
-            console.log(seleccionados)
-        }
-        
-        function cargarSeleccionados(){
-            var aux = {{ mitest.seleccionados|safe }}
-            for(i in aux){
-                seleccionados.push(aux[i]);
-                console.log(aux[i].toString());
-            }
-            marcar(Intrinseca)
-        }
-        function complete(){
-            if(document.getElementById("inputBuscar").value.length>=3){
-                $.post("{% url 'cargarUsuarios' %}",{user:document.getElementById("inputBuscar").value,csrfmiddlewaretoken:'{{csrf_token}}'},
-                       function (result){
-                       list = result.usuarios
-                       options = ""
-                       for (i in list){
-                       options += '<option value= "'+list[i]+'" />';
-                       }
-                       
-                       document.getElementById('usuarios').innerHTML = options;
-                       })
-                
-            }
-        }
-        function aniadirAsignado(){
-            if(document.getElementById('inputBuscar').value.length!=0){
-                $.post("{% url 'UsuarioExiste' %}",{user:document.getElementById("inputBuscar").value,csrfmiddlewaretoken:'{{csrf_token}}'},
-                       function (result){
-                       console.log(result.existe)
-                       if(result.existe){
-                       options = '<br></br>'
-                       options+='<h4 class="asignado">'+document.getElementById('inputBuscar').value+'</h4>'
-                       options+='<a class="btn btn-danger btn-xs eliminarAsignados"><span class="glyphicon glyphicon-minus"></span> Eliminar</a>'
-                       document.getElementById('usuariosaniadidos').innerHTML += options;
-                       }
-                       else{
-                       document.getElementById("usuarioNoExiste").style.visibility = "visible";
-                       timeoutID = window.setTimeout(function clerAlert() {
-                                                     document.getElementById("usuarioNoExiste").style.visibility = "hidden";
-                                                     }, 2000);
-                       }
-                       })
-                
+
+        })
+}
+
+function DatoParseado(jugabilidad,propiedad,atributo,grado){
+    this.jugabilidad=jugabilidad
+    this.propiedad=propiedad
+    this.atributo=atributo
+    this.grado=grado
+}
+
+
+function datosValoracion(){
+    misrespuestas = resultados.fields.respuestas
+    misseleccionados = resultados.fields.seleccionados
+    misrespuestas = JSON.parse(misrespuestas)
+    misseleccionados = JSON.parse(misseleccionados)
+    for (i in misrespuestas){
+        for (j in misseleccionados){
+            aux = JSON.parse(misseleccionados[j])
+            if(misrespuestas[i].id==aux[0].pk){
+                atributos = aux[0].fields.atributos
+                atributos = JSON.parse(atributos)
+                if(atributos.length>0){
+                    for(k in atributos){
+                        jugabilidad = aux[0].fields.jugabilidad
+                        auxAtributos = JSON.parse(atributos[k])
+                        propiedad = auxAtributos.propiedad
+                        atributo=auxAtributos.atributo
+                        grado=misrespuestas[i].value
+                        datosparseados.push(new DatoParseado(jugabilidad,propiedad,atributo,grado))
+                    }
+
+                }
             }
         }
-        
-        window.onload=cargarSeleccionados();
-        </script>
-        {% endblock %}
+    }
+}
+
+window.onload=cargarSeleccionados();
+window.onload=cargarAsignados();
+window.onload=cargarValoracion();
+</script>
+{% endblock %}
 </html>

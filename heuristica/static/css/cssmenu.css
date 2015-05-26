@@ -293,5 +293,7 @@ TR {
     line-height: 1.1;
     color: #317eac;
 }
-
+.oculta{
+    display: none;
+}
 
