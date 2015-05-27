@@ -16,17 +16,28 @@
     float:left;
     background-color:rgba(0, 255, 255, 0.9);
 }
-#detalle{
-    height:650px;
-    padding-left:180px;
-    width:auto;
+#listaResultados{
+    background-color:rgba(255, 255, 255, 0.1);
+    height:450px;
+    width:180px;
+    float: left;
+}
+.cursor:hover{
+    cursor: pointer ;
 }
 #panel_resultados{
     height:450px;
     width:auto;
-    background-color:rgba(0, 0, 255, 0.9);
+    background-color:rgba(255, 255, 255, 0.5);
+    overflow: scroll;
+    margin-left: 180px;
 }
 #panel_comentarios{
+    width:auto;
+    height:200px;
+    padding-left:1%;
+}
+#panel_comentarios2{
     width:auto;
     height:200px;
     padding-left:1%;
@@ -109,6 +120,7 @@
     padding-right: 5px;
     padding-bottom: 5px;
     padding-top: 5px;
+    overflow: scroll;
 }
 .row-header{
     background-color: #ddd;
@@ -119,4 +131,42 @@
 .navbar-active{
     color: rgba(200,200,200,1);
 }
+
+#milistFacetas {
+    margin:0;
+    padding:20px 0px 20px;
+    
+}
+#milistFacetas > li {
+    display:block;
+    padding:10px;
+    box-shadow: inset 0 0px 0 #fff;
+    color:rgba(0, 120, 255, 1);
+    
+}
+#milistFacetas input {
+    background-color:rgba(232, 232, 232, 0);
+    font-size: 14px;
+    border-width:0;
+    width:100%;
+    height:5%;
+    font-weight: normal;
+    font-family: 'Oxygen Mono', Tahoma, Arial, sans-serif;
+}
+#grafIzq{
+    float: left;
+    margin-top: 15px;
+    height: 400px;
+    width:500px;
+    color: rgba(255,0,0,1);
+}
+#grafDer{
+    margin-top: 15px;
+    height: 400px;
+    width:480px;
+    margin-left: 530px;
+    color: rgba(255,0,0,1);
+}
+
+
 

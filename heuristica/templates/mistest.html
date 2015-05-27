@@ -82,7 +82,7 @@
 
                 <ul class="nav nav-tabs" role="tablist" id="myTab">
                     <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Configuración</a></li>
-                    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Resultados</a></li>
+                    <li role="presentation"><a href="#settings" onclick="cargarValoracion()" aria-controls="settings" role="tab" data-toggle="tab">Resultados</a></li>
                 </ul>
 
                 <div class="tab-content">
@@ -127,55 +127,112 @@
                             <nav class=" minavbar">
                                 <div class="container-fluid">
                                     <div class="navbar-header">
-                                        <a class="navbar-brand navbar-active" href="#maestro_detalle" aria-controls="maestro_detalle" role="tab" data-toggle="tab">Valoración</a>
-                                        <a class="navbar-brand" href="#">Análisis Facetas</a>
-                                        <a class="navbar-brand" href="#">Análisis Atributos</a>
-                                        <a class="navbar-brand" href="#">Análisis Elementos</a>
-                                        <a class="navbar-brand" href="#">Respuesta</a>
+                                        <a class="navbar-brand navbar-active cursor" id="menu_verValoracion" onclick="cargarValoracion()">Valoración</a>
+                                        <a id="Resultados_verFacetas" onclick="verFacetas('Global')" class="navbar-brand cursor">Análisis Facetas</a>
+                                        <a class="navbar-brand cursor" href="#">Análisis Atributos</a>
+                                        <a class="navbar-brand cursor" href="#">Análisis Elementos</a>
+                                        <a class="navbar-brand cursor" href="#">Respuesta</a>
                                         
                                     </div>
                                 </div>
                             </nav>
                             <div id="contenidoMisTest">
                                 <div class="oculta " id="maestro_detalle">
-                                    <div id="menu_resultados">
+                                    <div id="listaResultados">
+                                        <ul id="milistFacetas">
+                                        </ul>
                                     </div>
-                                    <div id="detalle">
-                                        <div id="panel_resultados">
-                                        </div>
-                                        <div id="panel_comentarios">
-                                            <h4 class="headers">Comentarios<h4>
-                                                <textarea id="comentarios_resultados"></textarea>
-                                            </div>
-                                        </div>
+                                    <div id="panel_resultados">
+                                        <div id="grafIzq"></div>
+                                        <div id="grafDer"></div>
                                     </div>
+                                    <div id="panel_comentarios2">
+                                        <h4 class="headers">Comentarios<h4>
+                                            <textarea id="comentarios_resultados"></textarea>
+                                    </div>
+                                </div>
                                     <div class="" id="verValoración">
                                         <div id="tablaValoracion">
-                                            <TABLE class="table table-striped " id="mitabla">
+                                            <TABLE class="table table-striped " id="mitabla2">
                                                 <TR>
                                                     <TH></TH><TH>Satisfacción</TH><TH>Aprendizaje</TH><TH>Eficiencia</TH><TH>Inmersión</TH><TH>Motivación</TH><TH>Emoción</TH><TH>Socialización</TH><TH>Media</TH>
                                                 </TR>
                                                 <TR class="">
                                                     <TH class="">J.Intrínseca</TH>
                                                     <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
                                                 </TR>
                                                 <TR class="">
                                                     <TH>J.Mecánica</TH>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
                                                 </TR>
                                                 <TR class="">
                                                     <TH>J.Interactiva</TH>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
                                                 </TR>
                                                 <TR class="">
                                                     <TH>J.Artística</TH>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
                                                 </TR>
                                                 <TR class="">
                                                     <TH>J.Personal</TH>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
                                                 </TR>
                                                 <TR class="">
                                                     <TH>J.Social</TH>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
                                                 </TR>
                                                 <TR class="">
                                                     <TH>Media</TH>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
+                                                    <td class="row"></td>
                                                 </TR>
 
                                             </TABLE>
@@ -403,28 +460,38 @@ function guardarEnviar(){
        })
 
 }
+
+/*Zona en la que cargo datos de los resultados obtenidos por los test resueltos por los usuarios a los que se le ha asignado*/
 var resultados;
 var datosparseados = []
-function cargarValoracion(){
+function cargarDatos(){
     $.post("{% url 'cargarValoracion' %}",{csrfmiddlewaretoken:'{{csrf_token}}'},
         function (result){
             if(result.existe){
                 resultados = JSON.parse(result.resultados)[0]
-                datosValoracion();
+                parseoDatos();
             }
 
         })
 }
 
-function DatoParseado(jugabilidad,propiedad,atributo,grado){
+/* Clase donde cargo los resultados de cada pregunta con sus atributos correspondinetes*/
+function DatoParseado(jugabilidad,propiedad,atributo,nota,grado,elementos,rango){
     this.jugabilidad=jugabilidad
     this.propiedad=propiedad
     this.atributo=atributo
-    this.grado=grado
+    this.nota=nota
+    this.grado = grado
+    this.elementos = elementos
+    this.rango = rango
 }
+/* Array que contiene todos los elementos de un juego y sirve para poder hacer comprobaciones*/
+TodosElementos = ["videogame", "desarrollo_de_personajes", "historia", "narrativa", "banda_sonora", "efectos_sonoros", "sonido_ambiental", "cardinalidad", "estetica", "realismo2", "control", "disposicion", "metaforas", "navegacion", "realimentacion", "aspecto_sonoro", "aspecto_visual", "interactividad", "cardinalidad2", "escala", "fronteras", "continuo", "libre", "variable", "ambiental", "emocional", "etica", "fisica", "temporal", "individual", "multijugador", "primarios", "secundarios", "implicitos", "explicitos", "esporadico", "a_ritmo_propio", "extrinsico", "intrinseco", "ritmo_externo", "aleatoriedad", "armonia", "contenido", "curva_de_aprendizaje", "dimensionalidad", "entidad", "equilibrio", "estado_de_progreso", "genero", "numero_de_jugadores", "realismo", "objetivos", "recompensas", "reglas", "retos", "ritmo", "segmentacion", "sistema_de_salvado", "tipo_de_contenido", "desarrollo_argumental", "experiencia_del_usuario", "mecanicas", "motor_fisico", "motor_grafico", "motor_de_ia", "motor_de_sonido", "sistema_de_comunicacion", "sistema_de_control_interactivo", "sistema_de_scripting", "interfaz_auditiva", "interfaz_tactil", "interfaz_visual", "interfaz_plataforma", "interfaz_de_usuario", "look_and_feel", "realimentacion2", "puntos_de_vista", "interfaz_fisica", "interfaz_software", "game_core", "game_engine", "game_interface"]
 
+TodosAtributos = ["Satisfacción","Aprendizaje","Eficiencia","Inmersión","Motivación","Emoción","Socialización"]
 
-function datosValoracion(){
+/* Parseo los datos y los convierto en un array de objeto tipo DatoParseado*/
+function parseoDatos(){
     misrespuestas = resultados.fields.respuestas
     misseleccionados = resultados.fields.seleccionados
     misrespuestas = JSON.parse(misrespuestas)
@@ -435,25 +502,417 @@ function datosValoracion(){
             if(misrespuestas[i].id==aux[0].pk){
                 atributos = aux[0].fields.atributos
                 atributos = JSON.parse(atributos)
+                elementos = JSON.parse(aux[0].fields.elementos)
                 if(atributos.length>0){
                     for(k in atributos){
+                        rango = aux[0].fields.rango
                         jugabilidad = aux[0].fields.jugabilidad
                         auxAtributos = JSON.parse(atributos[k])
                         propiedad = auxAtributos.propiedad
+                        grado = auxAtributos.grado
                         atributo=auxAtributos.atributo
-                        grado=misrespuestas[i].value
-                        datosparseados.push(new DatoParseado(jugabilidad,propiedad,atributo,grado))
+                        nota=misrespuestas[i].value
+                        datosparseados.push(new DatoParseado(jugabilidad,propiedad,atributo,nota,grado,elementos,rango))
                     }
 
                 }
             }
         }
     }
+    
+}
+
+/******************/
+/* Función que carga y muestro los datos de la pestaña de Valoración para los resultados
+*/
+function cargarValoracion(){
+    document.getElementById("menu_verValoracion").className="navbar-brand navbar-active cursor"
+    document.getElementById("Resultados_verFacetas").className="navbar-brand  cursor"
+    document.getElementById("verValoración").className=""
+    document.getElementById("maestro_detalle").className="oculta"
+    var contadores = [];
+    for(var i=0; i<=6; i++) {
+        contadores[i] = [];
+        for(k in TodosAtributos) {
+            contadores[i][k] = 0;
+            contadores[i][k]=[];
+            contadores[i][k][0]=0
+            contadores[i][k][1]=0
+        }
+    }
+    for( i in datosparseados){
+        for (var j = 1; j <=6; j++) {
+            for( k in TodosAtributos){
+                if(datosparseados[i].jugabilidad==j.toString() && datosparseados[i].propiedad==TodosAtributos[k]){
+                    contadores[j-1][k][1]++;
+                    if(datosparseados[i].rango=="2"){
+                        contadores[j-1][k][0]+=(datosparseados[i].nota*2)*(datosparseados[i].grado/100)
+                    }
+                    else{
+                        contadores[j-1][k][0]+=(datosparseados[i].nota*1)*(datosparseados[i].grado/100)
+                    }
+                }
+            }
+        }
+    }
+
+    var table = document.getElementById("mitabla2");
+    MediaAtributos=0
+    MediaJugabilidad=0
+    for (var i = 1; i< table.rows.length; i++) {
+        row = table.rows[i]
+        sumatoria = 0
+        if(i<table.rows.length-1){
+            for(var j=1; j<row.cells.length;j++){
+                if(j<row.cells.length-1){
+                    if(contadores[i-1][j-1][0]!=0){
+                        sumatoria+=contadores[i-1][j-1][0]/contadores[i-1][j-1][1]
+                        row.cells[j].innerHTML='<p>'+(contadores[i-1][j-1][0]/contadores[i-1][j-1][1]).toFixed(2)+'</p>'
+                    }
+                    else{
+                        sumatoria+=0
+                        row.cells[j].innerHTML='<p>'+0+'</p>'
+                    }
+                }
+                else{
+                    MediaJugabilidad+=sumatoria/7
+                    row.cells[j].innerHTML='<p>'+(sumatoria/7).toFixed(2)+'</p>'
+                }
+            }
+        }
+        else{
+            for(var k=0; k<7;k++){
+                sumatoria2=0;
+                for(var j=0; j<row.cells.length-2;j++){
+                    if(contadores[j][k][0]!=0){
+                        sumatoria2+=contadores[j][k][0]/contadores[j][k][1]
+                    }
+                    
+                }
+                MediaAtributos+=sumatoria2/6
+                table.rows[j].cells[k+1].innerHTML='<p>'+(sumatoria2/6).toFixed(2)+'</p>'
+            }
+        }
+    }
+    if(MediaJugabilidad==0){
+        total=0
+    }
+    else{
+        total = (MediaAtributos/6) + (MediaJugabilidad/7)
+    }
+    table.rows[7].cells[8].innerHTML='<p>'+total.toFixed(2)+'</p>'
+}
+
+/*
+Función que muestro los datos de los resultados por Facetas. Se hacen muchas comprobaciones para ver que elemento de la lista de Facetas se ha pulsado. Además se llama a las funciones de Gráficos para que muestre la información adecuada en cada momento
+*/
+
+function verFacetas(faceta){
+    document.getElementById("menu_verValoracion").className="navbar-brand cursor"
+    document.getElementById("Resultados_verFacetas").className="navbar-brand navbar-active cursor"
+    document.getElementById("verValoración").className="oculta"
+    document.getElementById("maestro_detalle").className=""
+
+    options='<li>'
+    if(faceta.toString()=='Global'){
+        options+='<input class="listnameactive" onclick="verFacetas(\'Global\')" type="submit" name="perfil"value="Global"></input>'
+    }
+    else{
+        options+='<input class="listname" onclick="verFacetas(\'Global\')" type="submit" name="perfil"value="Global"></input>'
+    }
+    options+='<br></br>'
+    if(faceta.toString()=='Intrínseca'){
+        options+='<input class="listnameactive" onclick="verFacetas(\'Intrínseca\')" type="submit" name="perfil"value="J.Intrínseca"></input>'
+    }
+    else{
+        options+='<input class="listname" onclick="verFacetas(\'Intrínseca\')" type="submit" name="perfil"value="J.Intrínseca"></input>'
+    }
+    options+='<br></br>'
+    if(faceta.toString()=='Mecánica'){
+        options+='<input class="listnameactive" onclick="verFacetas(\'Mecánica\')" type="submit" name="perfil"value="J.Mecánica"></input>'
+    }
+    else{
+        options+='<input class="listname" onclick="verFacetas(\'Mecánica\')" type="submit" name="perfil"value="J.Mecánica"></input>'
+    }
+    options+='<br></br>'
+    if(faceta.toString()=='Interactiva'){
+        options+='<input class="listnameactive" onclick="verFacetas(\'Interactiva\')" type="submit" name="perfil"value="J.Interactiva"></input>'
+    }
+    else{
+        options+='<input class="listname" onclick="verFacetas(\'Interactiva\')" type="submit" name="perfil"value="J.Interactiva"></input>'
+    }
+    options+='<br></br>'
+    if(faceta.toString()=='Artística'){
+        options+='<input class="listnameactive" onclick="verFacetas(\'Artística\')" type="submit" name="perfil"value="J.Artística"></input>'
+    }
+    else{
+        options+='<input class="listname" onclick="verFacetas(\'Artística\')" type="submit" name="perfil"value="J.Artística"></input>'
+    }
+    options+='<br></br>'
+    if(faceta.toString()=='Personal'){
+        options+='<input class="listnameactive" onclick="verFacetas(\'Personal\')" type="submit" name="perfil"value="J.Personal"></input>'
+    }
+    else{
+        options+='<input class="listname" onclick="verFacetas(\'Personal\')" type="submit" name="perfil"value="J.Personal"></input>'
+    }
+    options+='<br></br>'
+    if(faceta.toString()=='Social'){
+        options+='<input class="listnameactive" onclick="verFacetas(\'Social\')" type="submit" name="perfil"value="J.Social"></input>'
+    }
+    else{
+        options+='<input class="listname" onclick="verFacetas(\'Social\')" type="submit" name="perfil"value="J.Social"></input>'
+    }
+    options+='</li>'
+
+    document.getElementById("milistFacetas").innerHTML=options
+
+    var contadores = [];
+    for(var i=0; i<=6; i++) {
+        contadores[i] = [];
+        for(k in TodosAtributos) {
+            contadores[i][k] = 0;
+            contadores[i][k]=[];
+            contadores[i][k][0]=0
+            contadores[i][k][1]=0
+        }
+    }
+    for( i in datosparseados){
+        for (var j = 1; j <=6; j++) {
+            for( k in TodosAtributos){
+                if(datosparseados[i].jugabilidad==j.toString() && datosparseados[i].propiedad==TodosAtributos[k]){
+                    contadores[j-1][k][1]++;
+                    if(datosparseados[i].rango=="2"){
+                        contadores[j-1][k][0]+=(datosparseados[i].nota*2)*(datosparseados[i].grado/100)
+                    }
+                    else{
+                        contadores[j-1][k][0]+=(datosparseados[i].nota*1)*(datosparseados[i].grado/100)
+                    }
+                }
+            }
+        }
+    }
+
+    basic_radar(contadores,faceta);
+    basic_bars(contadores,faceta);
 }
 
 window.onload=cargarSeleccionados();
 window.onload=cargarAsignados();
-window.onload=cargarValoracion();
+window.onload=cargarDatos();
+
+/*
+Funciones de gráficos para ver desde las Facetas
+*/
+function basic_radar(contadores,faceta) {
+    // Fill series s1 and s2.
+    
+
+    datosAux = []
+
+    if(faceta.toString()=='Global'){
+        for (var j = 0; j <7; j++) {
+            aux=0
+            for( var i=0; i<contadores.length; i++){
+                if(contadores[i][j][1]!=0){
+                    aux += contadores[i][j][0]/contadores[i][j][1];
+                }
+
+            }
+            datosAux.push(aux/6)
+        }
+    }
+    else if(faceta.toString()=='Intrínseca'){
+        for (var j = 0; j <7; j++) {
+            aux=0
+            if(contadores[0][j][1]!=0){
+                aux += contadores[0][j][0]/contadores[0][j][1];
+            }
+            datosAux.push(aux)
+        }
+    }
+    else if(faceta.toString()=='Mecánica'){
+        for (var j = 0; j <7; j++) {
+            aux=0
+            if(contadores[1][j][1]!=0){
+                aux += contadores[1][j][0]/contadores[1][j][1];
+            }
+            datosAux.push(aux)
+        }
+    }
+    else if(faceta.toString()=='Interactiva'){
+        for (var j = 0; j <7; j++) {
+            aux=0
+            if(contadores[2][j][1]!=0){
+                aux += contadores[2][j][0]/contadores[2][j][1];
+            }
+            datosAux.push(aux)
+        }
+    }
+    else if(faceta.toString()=='Artística'){
+        for (var j = 0; j <7; j++) {
+            aux=0
+            if(contadores[3][j][1]!=0){
+                aux += contadores[3][j][0]/contadores[3][j][1];
+            }
+            datosAux.push(aux)
+        }
+    }
+    else if(faceta.toString()=='Personal'){
+        for (var j = 0; j <7; j++) {
+            aux=0
+            if(contadores[4][j][1]!=0){
+                aux += contadores[4][j][0]/contadores[4][j][1];
+            }
+            datosAux.push(aux)
+        }
+    }
+    else if(faceta.toString()=='Social'){
+        for (var j = 0; j <7; j++) {
+            aux=0
+            if(contadores[5][j][1]!=0){
+                aux += contadores[5][j][0]/contadores[5][j][1];
+            }
+            datosAux.push(aux)
+        }
+    }
+
+    var
+    s1 = { label : 'Global', data : [[0, datosAux[0]], [1, datosAux[1]], [2, datosAux[2]], [3, datosAux[3]], [4, datosAux[4]], [5, datosAux[5]],[6, datosAux[6]]] },
+    graph, ticks;
+
+    // Radar Labels
+    ticks = [
+    [0, "Satisfacción"],
+    [1, "Aprendizaje"],
+    [2, "Eficiencia"],
+    [3, "Inmersión"],
+    [4, "Motivación"],
+    [5, "Emoción"],
+    [6, "Socialización"]
+    ];
+
+  // Draw the graph.
+    graph = Flotr.draw(document.getElementById("grafIzq"), [ s1 ], {
+        radar : { show : true}, 
+        grid  : { circular : true, minorHorizontalLines : true}, 
+        yaxis : { min : 0, max : 10, minorTickFreq : 2}, 
+        xaxis : { ticks : ticks}});
+}
+
+function basic_bars(contadores,faceta,horizontal) {
+
+    datosAux = []
+
+    if(faceta.toString()=='Global'){
+        for (var j = 0; j <7; j++) {
+            aux=0
+            for( var i=0; i<contadores.length; i++){
+                if(contadores[i][j][1]!=0){
+                    aux += contadores[i][j][0]/contadores[i][j][1];
+                }
+
+            }
+            datosAux.push(aux/6)
+        }
+    }
+    else if(faceta.toString()=='Intrínseca'){
+        for (var j = 0; j <7; j++) {
+            aux=0
+            if(contadores[0][j][1]!=0){
+                aux += contadores[0][j][0]/contadores[0][j][1];
+            }
+            datosAux.push(aux)
+        }
+    }
+    else if(faceta.toString()=='Mecánica'){
+        for (var j = 0; j <7; j++) {
+            aux=0
+            if(contadores[1][j][1]!=0){
+                aux += contadores[1][j][0]/contadores[1][j][1];
+            }
+            datosAux.push(aux)
+        }
+    }
+    else if(faceta.toString()=='Interactiva'){
+        for (var j = 0; j <7; j++) {
+            aux=0
+            if(contadores[2][j][1]!=0){
+                aux += contadores[2][j][0]/contadores[2][j][1];
+            }
+            datosAux.push(aux)
+        }
+    }
+    else if(faceta.toString()=='Artística'){
+        for (var j = 0; j <7; j++) {
+            aux=0
+            if(contadores[3][j][1]!=0){
+                aux += contadores[3][j][0]/contadores[3][j][1];
+            }
+            datosAux.push(aux)
+        }
+    }
+    else if(faceta.toString()=='Personal'){
+        for (var j = 0; j <7; j++) {
+            aux=0
+            if(contadores[4][j][1]!=0){
+                aux += contadores[4][j][0]/contadores[4][j][1];
+            }
+            datosAux.push(aux)
+        }
+    }
+    else if(faceta.toString()=='Social'){
+        for (var j = 0; j <7; j++) {
+            aux=0
+            if(contadores[5][j][1]!=0){
+                aux += contadores[5][j][0]/contadores[5][j][1];
+            }
+            datosAux.push(aux)
+        }
+    }
+
+    var
+    d1 = [[0, datosAux[0]], [1, datosAux[1]], [2, datosAux[2]], [3, datosAux[3]], [4, datosAux[4]], [5, datosAux[5]],[6, datosAux[6]]], 
+    point,                                    // Data point variable declaration
+    i;
+
+    ticks = [
+    [0, "Satisfacción"],
+    [1, "Aprendizaje"],
+    [2, "Eficiencia"],
+    [3, "Inmersión"],
+    [4, "Motivación"],
+    [5, "Emoción"],
+    [6, "Socialización"]
+    ];
+
+
+  // Draw the graph
+  Flotr.draw(
+    document.getElementById("grafDer"),
+    [d1],
+    {
+      bars : {
+        show : true,
+        horizontal : horizontal,
+        shadowSize : 0,
+        barWidth : 0.5
+    },
+    mouse : {
+        track : true,
+        relative : true
+    },
+    yaxis : {
+        min : 0,
+        autoscaleMargin : 1
+    },
+    xaxis : { ticks : ticks}
+}
+);
+}
+
+/*
+Funciones para mostrar los datos desde la vista de Atributos
+*/
 </script>
 {% endblock %}
 </html>
