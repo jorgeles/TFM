@@ -355,6 +355,14 @@ def mistest (request):
 
     return render(request, 'mistest.html')
 
+def eliminarTest(request):
+    if request.method=='POST':
+        MiTest.objects.filter(propietario=request.session['user'],id=request.session['mitest']).delete()
+        mistests= MiTest.objects.filter(propietario=request.session['user'])
+        if mistests:
+            request.session['mitest']=mistests[0].id
+    return redirect('mistest')
+
 def cargarTest(request):
     if request.method=='POST':
             value = request.POST['testpulsado']
@@ -431,15 +439,11 @@ def guardarEnviar(request):
         id = request.session['mitest']
         seleccionados = request.POST.getlist('seleccionados[]')
         envioseleccionados = []
-        print seleccionados
         for seleccion in seleccionados:
             help = Heuristica.objects.filter(id=seleccion)
-            print help
             envioseleccionados.append(serializers.serialize('json', help))
     
-        print envioseleccionados
         seleccionados = json.dumps(envioseleccionados)
-        print "hl"
         asignados = request.POST.getlist('asignados[]')
         aux = asignados
         asignados = json.dumps(asignados)
@@ -452,11 +456,23 @@ def guardarEnviar(request):
         test.titulo=request.POST['titulo']
         Asignados.objects.filter(idTest=id).delete()
         for asignado in aux:
+            Resultados.objects.filter(idTest=id,propietario=asignado).delete()
             p=Asignados.objects.create(nombre=nombre,creador=request.session['user'],seleccionados=seleccionados, propietario=asignado, titulo=titulo,idTest=id)
         
         test.save()
     
     return JsonResponse({})
+
+def guardarComentarios(request):
+    if request.method=='POST':
+        comentarios=request.POST['comentarios']
+        id = request.session['mitest']
+        test=MiTest.objects.get(id=id)
+        test.comentarios=comentarios
+        test.save()
+
+    return JsonResponse({})
+
 
 def guardarEnviarIndividual(request):
     if request.method=='POST':
@@ -480,6 +496,7 @@ def guardarEnviarIndividual(request):
         test.nombre=request.POST['nombre']
         test.titulo=request.POST['titulo']
         for asignado in aux:
+            Resultados.objects.filter(idTest=id,propietario=asignado).delete()
             u=Asignados.objects.filter(idTest=id,propietario=asignado)
             if u.count() > 0:
                 Asignados.objects.filter(idTest=id,propietario=asignado).delete()
@@ -552,10 +569,21 @@ def cargarAsignado(request):
 
     return redirect('asignados')
 
+def eliminarAsignado(request):
+    if request.method=='POST':
+        Asignados.objects.filter(id=request.session['asignado']).delete()
+        asignados= Asignados.objects.filter(propietario=request.session['user'])
+        if asignados:
+            request.session['asignado']=asignados[0].id
+
+    return redirect('asignados')
+
 def cargarPreguntas(request):
-    asignado=Asignados.objects.filter(propietario=request.session['user'], id=request.session['asignado'])
-    auxiliar = serializers.serialize('json', asignado)
-    return JsonResponse({'envio':auxiliar})
+    if 'asignado' in request.session:
+        asignado=Asignados.objects.filter(propietario=request.session['user'], id=request.session['asignado'])
+        auxiliar = serializers.serialize('json', asignado)
+        return JsonResponse({'envio':auxiliar,'nada':False})
+    return JsonResponse({'nada':True})
 
 def guardarResultado(request):
     if request.method=='POST':
@@ -567,10 +595,9 @@ def guardarResultado(request):
 
 def enviarResultado(request):
     if request.method=='POST':
-
         asignado=Asignados.objects.get(propietario=request.session['user'], id=request.session['asignado'])
-        print request.session['asignado']
         respuestas = request.POST['resultados']
+        Resultados.objects.filter(idTest=asignado.idTest,propietario=request.session['user']).delete()
         Resultados.objects.create(propietario=request.session['user'],idTest=asignado.idTest,respuestas=respuestas,seleccionados=asignado.seleccionados)
         asignado.delete()
     return JsonResponse({})

@@ -50,6 +50,7 @@ class MiTest(models.Model):
     titulo = models.CharField (max_length=200)
     seleccionados = models.CharField (max_length=200000)
     asignados = models.CharField (max_length=2000)
+    comentarios = models.CharField (max_length=200000)
 
 class Asignados(models.Model):
     id=models.AutoField(primary_key=True)

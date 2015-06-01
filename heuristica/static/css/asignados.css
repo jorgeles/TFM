@@ -41,3 +41,12 @@
     bottom: 10px;
     left: 150px;
 }
+#eliminarAsignado{
+    position: absolute;
+    bottom: 10px;
+    left: 350px;
+}
+#divPreguntas{
+    height: 580px;
+    overflow: scroll;
+}

@@ -1,269 +1,278 @@
 {% extends "base_menu.htm" %}
 <html>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    {% block head %}        
-        <title>Mis Facetas</title>
-    {% endblock %}
-    {% block contenido %}
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Eliminar Perfil</h4>
-                </div>
-                <div class="modal-body">
-                    <p> ¿Seguro que desea eliminar las Heurísticas seleccionadas? </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="button" onclick="eliminar()" class="btn btn-danger">Sí, Deseo Eliminar</button>
-                </div>
-            </div>
-        </div>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+{% block head %}        
+<title>Mis Facetas</title>
+{% endblock %}
+{% block contenido %}
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Eliminar Perfil</h4>
+      </div>
+      <div class="modal-body">
+        <p> ¿Seguro que desea eliminar las Heurísticas seleccionadas? </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" onclick="eliminar()" class="btn btn-danger">Sí, Deseo Eliminar</button>
+     </div>
     </div>
-        <div id="contenido">
-            <div id="menu_lateral">
-                <div id="lista_izq">
-                    <ul id="milistJugabilidad">
-                        <li>
-                            {% if request.session.jugabilidad == '1' %}
-                            <h3 class="listnameactive" onclick="jugabilidad(1)"> Jugabilidad Intrínseca</h3>
-                            {% else%}
-                            <h3 class="listname" onclick="jugabilidad(1)"> Jugabilidad Intrínseca</h3>
-                            {% endif %}
-                        </li>
-                        <li>
-                            {% if request.session.jugabilidad == '2' %}
-                            <h3 class="listnameactive" onclick="jugabilidad(2)">Jugabilidad Mecánica</h3>
-                            {% else%}
-                            <h3 class="listname" onclick="jugabilidad(2)">Jugabilidad Mecánica</h3>
-                            {% endif %}
-                        </li>
-                        <li>
-                            {% if request.session.jugabilidad == '3' %}
-                            <h3 class="listnameactive" onclick="jugabilidad(3)">Jugabilidad Interactiva </h3>
-                            {% else%}
-                            <h3 class="listname" onclick="jugabilidad(3)">Jugabilidad Interactiva </h3>
-                            {% endif %}
-                        </li>
-                        <li>
-                            {% if request.session.jugabilidad == '4' %}
-                            <h3 class="listnameactive" onclick="jugabilidad(4)"> Jugabilidad Artística</h3>
-                            {% else%}
-                            <h3 class="listname" onclick="jugabilidad(4)"> Jugabilidad Artística</h3>
-                            {% endif %}
-                        </li>
-                        <li>
-                            {% if request.session.jugabilidad == '5' %}
-                            <h3 class="listnameactive" onclick="jugabilidad(5)">Jugabilidad Intrapersonal </h3>
-                            {% else%}
-                            <h3 class="listname" onclick="jugabilidad(5)">Jugabilidad Intrapersonal </h3>
-                            {% endif %}
-                        </li>
-                        <li>
-                            {% if request.session.jugabilidad == '6' %}
-                            <h3 class="listnameactive" onclick="jugabilidad(6)">Jugabilidad Interpersonal </h3>
-                            {% else%}
-                            <h3 class="listname" onclick="jugabilidad(6)">Jugabilidad Interpersonal </h3>
-                            {% endif %}
-                        </li>
-                        <form id="formJugabilidad" action="{% url 'cargarJugabilidad' %}" method="post">{% csrf_token %}
-                            <input id="jugabilidad_activa" type="hidden" name="jugabilidad" value=""></input>
-                        </form>
-                    </ul>
-                </div>
-            </div>
-            <div id="heuristica">
-                <div id="preguntas" class="Preguntas">
-                    <TABLE class="table table-striped table-hover " id="mitabla">
-                        <TR>
-                            <TH>Activo</TH> <TH>COD</TH> <TH>Heurística</TH><TH></TH>
-                        </TR>
-                        {% for dato in datos %}
-                            <TR class="info" id="fila{{dato.id}}">
-                                <TD id="check"><input type="checkbox" onclick="seleccionado({{ dato.id }})" name="option"><br></TD>
-                                <TD id="dato{{dato.id}}">{{ dato.id }}</TD>
-                                <TD ><p id="cuestion{{dato.id}}">{{ dato.nombre }}</p></TD>
-                                <TD><a id="botonver" onclick="datos({{dato.id}})"class="btn btn-info btn-sm"><span class="glyphicon glyphicon-search"></span> Ver</a></TD>
-                            </TR>
-                            {% endfor %}
+  </div>
+</div>
+<div id="contenido">
+  <div id="menu_lateral">
+    <div id="lista_izq">
+      <ul id="milistJugabilidad">
+        <li>
+          {% if request.session.jugabilidad == '1' %}
+          <h3 class="listnameactive" onclick="jugabilidad(1)"> Jugabilidad Intrínseca</h3>
+          {% else%}
+          <h3 class="listname" onclick="jugabilidad(1)"> Jugabilidad Intrínseca</h3>
+          {% endif %}
+      </li>
+      <li>
+          {% if request.session.jugabilidad == '2' %}
+          <h3 class="listnameactive" onclick="jugabilidad(2)">Jugabilidad Mecánica</h3>
+          {% else%}
+          <h3 class="listname" onclick="jugabilidad(2)">Jugabilidad Mecánica</h3>
+          {% endif %}
+      </li>
+      <li>
+          {% if request.session.jugabilidad == '3' %}
+          <h3 class="listnameactive" onclick="jugabilidad(3)">Jugabilidad Interactiva </h3>
+          {% else%}
+          <h3 class="listname" onclick="jugabilidad(3)">Jugabilidad Interactiva </h3>
+          {% endif %}
+      </li>
+      <li>
+          {% if request.session.jugabilidad == '4' %}
+          <h3 class="listnameactive" onclick="jugabilidad(4)"> Jugabilidad Artística</h3>
+          {% else%}
+          <h3 class="listname" onclick="jugabilidad(4)"> Jugabilidad Artística</h3>
+          {% endif %}
+      </li>
+      <li>
+          {% if request.session.jugabilidad == '5' %}
+          <h3 class="listnameactive" onclick="jugabilidad(5)">Jugabilidad Intrapersonal </h3>
+          {% else%}
+          <h3 class="listname" onclick="jugabilidad(5)">Jugabilidad Intrapersonal </h3>
+          {% endif %}
+      </li>
+      <li>
+          {% if request.session.jugabilidad == '6' %}
+          <h3 class="listnameactive" onclick="jugabilidad(6)">Jugabilidad Interpersonal </h3>
+          {% else%}
+          <h3 class="listname" onclick="jugabilidad(6)">Jugabilidad Interpersonal </h3>
+          {% endif %}
+      </li>
+      <form id="formJugabilidad" action="{% url 'cargarJugabilidad' %}" method="post">{% csrf_token %}
+          <input id="jugabilidad_activa" type="hidden" name="jugabilidad" value=""></input>
+      </form>
+  </ul>
+</div>
+</div>
+<div id="heuristica">
+    <div id="preguntas" class="Preguntas">
+      <TABLE class="table table-striped table-hover " id="mitabla">
+        <TR>
+          <TH>Activo</TH> <TH>COD</TH> <TH>Heurística</TH><TH></TH>
+      </TR>
+      {% for dato in datos %}
+      <TR class="info" id="fila{{dato.id}}">
+          <TD id="check"><input type="checkbox" onclick="seleccionado({{ dato.id }})" name="option"><br></TD>
+          <TD id="dato{{dato.id}}">{{ dato.id }}</TD>
+          <TD ><p id="cuestion{{dato.id}}">{{ dato.nombre }}</p></TD>
+          <TD><a id="botonver" onclick="datos({{dato.id}})"class="btn btn-info btn-sm"><span class="glyphicon glyphicon-search"></span> Ver</a></TD>
+      </TR>
+      {% endfor %}
 
-                    </TABLE>
-                </div>
-                <a  id="mostrarTodos" onclick="tabla()" class="oculta"><span class="glyphicon glyphicon-th"></span> Mostrar Todos</a>
-                <div id="datosConfiguracion" class="oculta" >
-                    <h4 id="cuestion" class="headers">Cuestión</h4>
-                    <b id="fallocuestion" class="oculta"> No has introducido ningún titulo para la cuestión</b>
-                    <input id="inputId" type="hidden" ></input>
-                    <input id="inputCuestion" ></input>
-                    <h4 id="Comentarios"class="headers">Comentarios</h4>
-                    <textarea id="inputComentarios"></textarea>
-                    <h4 class="headers">Rango
-                        <select id="selectRange" oninput="changeRange()">
-                            <option>1 a 5</option>
-                            <option>1 a 10</option>
-                        </select>
-                    </h4>
-                    <div id="propiedades">
-                        <div id="aniadirElementos">
-                            <table id="tablaAtributos" class="table table-striped table-hover ">
-                                <h4 id="Comentarios"class="headers">Añadir Atributos</h4>
-                                <thead>
-                                    <tr>
-                                        <th>Atributo</th>
-                                        <th>Propiedad</th>
-                                        <th>Grado</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="info">
-                                        <td><select id="selectBox" oninput="changeFunc()">
-                                            <option value="Satisfacción">Satisfacción</option>
-                                            <option>Aprendizaje</option>
-                                            <option>Efectividad</option>
-                                            <option>Inmersión</option>
-                                            <option>Motivación</option>
-                                            <option>Emoción</option>
-                                            <option>Socialización</option>
-                                        </select></td>
-                                        <td><select  id="opciones">
-                                        </select></td>
-                                        <td><input type="number" id="gradoAtributo"></input></td>
-                                        <td><button class="btn btn-default" onclick="aniadirAtributos()"><span class="glyphicon glyphicon-plus"></span> Añadir</button></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <b id="fallogrado" class="oculta"> Debes incluir un valor en grado y que sea un número</b>
-                        <b id="falloatributos" class="oculta"> No has añadido ningún atributo</b>
-                        <div id="verElementos">
-                            <h4 id="Comentarios"class="headers">Atributos Añadidos</h4>
-                            <table id="tablaAniadidos" class="table table-striped table-hover ">
-                                <thead>
-                                    <tr>
-                                        <th>Propiedad</th>
-                                        <th>Atributo</th>
-                                        <th>Grado</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>
-                    <b id="falloelementos" class="oculta"> No has seleccionado ningún elemento</b>
-                    <div id="elementos">
-                        <h4 id="Comentarios"class="headers">Elementos Afectados</h4>
-                        <div id="arbol">
-                        </div>
-                    </div>
-                    
-                </div>
-                <a id="añadirT" href="javascript:void(0)" class="btn btn-primary" onclick="insertar()"><span class="glyphicon glyphicon-plus"></span> Añadir Pregunta</a>
-                <a id="eliminarT" class="btn btn-danger" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-trash"></span> Eliminar Pregunta</a>
-                <a href="javascript:void(0)" class="oculta" id="guardarHeuristica"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</a>
-                <div class="bs-example" id="alertaHeuristica">
-                    <div class="alert alert-success">
-                        <a  href="#" class="close" data-dismiss="alert"></a>
-                        <strong>Guardado!</strong> El perfil ha sido guardado con exito.
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script type="text/javascript">
-            function insertar(){
-                document.getElementById('datosConfiguracion').className = "configuracion";
-                document.getElementById('preguntas').className = "oculta";
-                document.getElementById('eliminarT').className = "oculta";
-                document.getElementById('añadirT').className = "oculta";
-                document.getElementById('mostrarTodos').className = "btn btn-primary";
-                document.getElementById('guardarHeuristica').className = "btn btn-success";
-                
-                document.getElementById("inputCuestion").value= ""
-                document.getElementById("inputComentarios").value= ""
-                document.getElementById("inputId").value=""
-                
-                if(window.location.pathname.split("/").pop()!="datos"){
-                    var urlarr=window.location.pathname.split("/");
+  </TABLE>
+</div>
+<a  id="mostrarTodos" onclick="tabla()" class="oculta"><span class="glyphicon glyphicon-th"></span> Mostrar Todos</a>
+<div id="datosConfiguracion" class="oculta" >
+  <h4 id="cuestion" class="headers">Cuestión</h4>
+  <b id="fallocuestion" class="oculta"> No has introducido ningún titulo para la cuestión</b>
+  <input id="inputId" type="hidden" ></input>
+  <input id="inputCuestion" ></input>
+  <h4 id="Comentarios"class="headers">Comentarios</h4>
+  <textarea id="inputComentarios"></textarea>
+  <h4 class="headers">Rango
+    <select id="selectRange" oninput="changeRange()">
+      <option>1 a 5</option>
+      <option>1 a 10</option>
+  </select>
+</h4>
+<div id="propiedades">
+    <div id="aniadirElementos">
+      <table id="tablaAtributos" class="table table-striped table-hover ">
+        <h4 id="Comentarios"class="headers">Añadir Atributos</h4>
+        <thead>
+          <tr>
+            <th>Atributo</th>
+            <th>Propiedad</th>
+            <th>Grado</th>
+        </tr>
+    </thead>
+    <tbody>
+      <tr class="info">
+        <td><select id="selectBox" oninput="changeFunc()">
+          <option value="Satisfacción">Satisfacción</option>
+          <option>Aprendizaje</option>
+          <option>Efectividad</option>
+          <option>Inmersión</option>
+          <option>Motivación</option>
+          <option>Emoción</option>
+          <option>Socialización</option>
+      </select></td>
+      <td><select  id="opciones">
+      </select></td>
+      <td><input type="number" id="gradoAtributo"></input></td>
+      <td><button class="btn btn-default" onclick="aniadirAtributos()"><span class="glyphicon glyphicon-plus"></span> Añadir</button></td>
+  </tr>
+</tbody>
+</table>
+</div>
+<b id="fallogrado" class="oculta"> Debes incluir un valor en grado y que sea un número</b>
+<b id="falloatributos" class="oculta"> No has añadido ningún atributo</b>
+<div id="verElementos">
+  <h4 id="Comentarios"class="headers">Atributos Añadidos</h4>
+  <table id="tablaAniadidos" class="table table-striped table-hover ">
+    <thead>
+      <tr>
+        <th>Propiedad</th>
+        <th>Atributo</th>
+        <th>Grado</th>
+    </tr>
+</thead>
+</table>
+</div>
+</div>
+<b id="falloelementos" class="oculta"> No has seleccionado ningún elemento</b>
+<div id="elementos">
+    <h4 id="Comentarios"class="headers">Elementos Afectados</h4>
+    <div id="arbol">
+    </div>
+</div>
+
+</div>
+<a id="añadirT" href="javascript:void(0)" class="btn btn-primary" onclick="insertar()"><span class="glyphicon glyphicon-plus"></span> Añadir Pregunta</a>
+<a id="eliminarT" class="btn btn-danger" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-trash"></span> Eliminar Pregunta</a>
+<a href="javascript:void(0)" class="oculta" id="guardarHeuristica"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</a>
+<div class="bs-example" id="alertaHeuristica">
+  <div class="alert alert-success">
+    <a  href="#" class="close" data-dismiss="alert"></a>
+    <strong>Guardado!</strong> El perfil ha sido guardado con exito.
+</div>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+var seleccionados = []
+var atras;
+var range=1;
+var atributos=[];
+var idsRows=0;
+
+
+function insertar(){
+  document.getElementById('datosConfiguracion').className = "configuracion";
+  document.getElementById('preguntas').className = "oculta";
+  document.getElementById('eliminarT').className = "oculta";
+  document.getElementById('añadirT').className = "oculta";
+  document.getElementById('mostrarTodos').className = "btn btn-primary";
+  document.getElementById('guardarHeuristica').className = "btn btn-success";
+
+
+  document.getElementById("inputCuestion").value= ""
+  document.getElementById("inputComentarios").value= ""
+  document.getElementById("inputId").value=""
+  document.getElementById('gradoAtributo').value = "";
+
+  document.getElementById("tablaAniadidos").innerHTML='<thead><tr><th>Propiedad</th><th>Atributo</th><th>Grado</th></tr></thead'
+  seleccionados=[]
+  $('#arbol').jstree("deselect_all");
+
+  if(window.location.pathname.split("/").pop()!="datos"){
+    var urlarr=window.location.pathname.split("/");
                     urlarr.shift();//Quito el primer elemento que es vacio
                     window.history.pushState({vision_tabla:true}, "{{ page_title }}", "/"+urlarr.join('/')+"/datos");
                     atras=true;
                 }
-                
+
             }
-            var seleccionados = []
+            
             function seleccionado(id){
-                if(seleccionados.lastIndexOf(id)==-1){
-                    seleccionados.push(id)
-                }
-                else{
-                    seleccionados.splice(seleccionados.lastIndexOf(id),1);
-                }
-            
+              if(seleccionados.lastIndexOf(id)==-1){
+                seleccionados.push(id)
             }
+            else{
+                seleccionados.splice(seleccionados.lastIndexOf(id),1);
+            }
+            
+        }
         function eliminar(){
-            
-            $.post("{% url 'eliminar_dato' %}",{ids:seleccionados,csrfmiddlewaretoken:'{{csrf_token}}'},
-                   function (result){
-                   $('#myModal').modal('hide');
-                   for (i in seleccionados){
-                   elem = document.getElementById("fila"+seleccionados[i]);
-                   elem.parentNode.removeChild(elem);
-                   
-                   }
-                   
-                   
-                   })
-        }
-        $('#myModal').on('shown.bs.modal', function () {$('#myInput').focus()})
-        
-        function jugabilidad(id){
-            document.getElementById('jugabilidad_activa').value=id;
-            document.getElementById('formJugabilidad').submit();
-        }
-        </script>
-        <script>
-            var atras;
-            var range=1;
-            var atributos=[];
-            var idsRows=0;
-            
-            function datos(dato){
-                $.post("{% url 'cargar_dato' %}",{id:dato,csrfmiddlewaretoken:'{{csrf_token}}'},
-                       function (result){
-                       document.getElementById('datosConfiguracion').className = "configuracion";
-                       document.getElementById('preguntas').className = "oculta";
-                       document.getElementById('eliminarT').className = "oculta";
-                       document.getElementById('añadirT').className = "oculta";
-                       document.getElementById('mostrarTodos').className = "btn btn-primary";
-                       document.getElementById('guardarHeuristica').className = "btn btn-success";
-                       
-                       var datos = result.datos;
-                       datos =JSON.parse(datos)
-                       document.getElementById("inputCuestion").value= datos[0].fields.nombre;
-                       document.getElementById("inputComentarios").value= datos[0].fields.comentario;
-                       document.getElementById("inputId").value= JSON.stringify(datos[0].pk);
-                       var selectBox = document.getElementById("selectRange");
-                       range = datos[0].fields.rango
-                       selectBox.selectedIndex = range-1;
-                       elementos = JSON.parse(datos[0].fields.elementos);
-                       $('#arbol').jstree("get_selected");
-                       $('#arbol').jstree("deselect_all");
-                       for(i in elementos){
-                       nodo = "#"+elementos[i];
-                       $('#arbol').jstree(true).open_all();
-                       $('#arbol').jstree(true).select_node($(nodo));
-                       $('#arbol').jstree(true).close_all();
-                       $('#arbol').jstree(true).open_node('#videogame');
+          
+          $.post("{% url 'eliminar_dato' %}",{ids:seleccionados,csrfmiddlewaretoken:'{{csrf_token}}'},
+             function (result){
+               $('#myModal').modal('hide');
+               for (i in seleccionados){
+                 elem = document.getElementById("fila"+seleccionados[i]);
+                 elem.parentNode.removeChild(elem);
+                 
+             }
+             
+             
+         })
+      }
+      $('#myModal').on('shown.bs.modal', function () {$('#myInput').focus()})
+      
+      function jugabilidad(id){
+          document.getElementById('jugabilidad_activa').value=id;
+          document.getElementById('formJugabilidad').submit();
+      }
+      
+      
+      function datos(dato){
+          document.getElementById('gradoAtributo').value = "";
+          $.post("{% url 'cargar_dato' %}",{id:dato,csrfmiddlewaretoken:'{{csrf_token}}'},
+             function (result){
+               document.getElementById('datosConfiguracion').className = "configuracion";
+               document.getElementById('preguntas').className = "oculta";
+               document.getElementById('eliminarT').className = "oculta";
+               document.getElementById('añadirT').className = "oculta";
+               document.getElementById('mostrarTodos').className = "btn btn-primary";
+               document.getElementById('guardarHeuristica').className = "btn btn-success";
+               
+               var datos = result.datos;
+               datos =JSON.parse(datos)
+               document.getElementById("inputCuestion").value= datos[0].fields.nombre;
+               document.getElementById("inputComentarios").value= datos[0].fields.comentario;
+               document.getElementById("inputId").value= JSON.stringify(datos[0].pk);
+               var selectBox = document.getElementById("selectRange");
+               range = datos[0].fields.rango
+               selectBox.selectedIndex = range-1;
+               elementos = JSON.parse(datos[0].fields.elementos);
+               $('#arbol').jstree("get_selected");
+               $('#arbol').jstree("deselect_all");
+               for(i in elementos){
+                 nodo = "#"+elementos[i];
+                 $('#arbol').jstree(true).open_all();
+                 $('#arbol').jstree(true).select_node($(nodo));
+                 $('#arbol').jstree(true).close_all();
+                 $('#arbol').jstree(true).open_node('#videogame');
                        //$('#arbol').jstree("select_node",$(nodo));
-                       }
-                       if(datos[0].fields.atributos){
-                       atributos = []
-                       atributos2 = JSON.parse(datos[0].fields.atributos);
-                       var table = document.getElementById('tablaAniadidos');
-                       for(var i = table.rows.length - 1; i > 0; i--){
+                   }
+                   if(datos[0].fields.atributos){
+                     atributos = []
+                     atributos2 = JSON.parse(datos[0].fields.atributos);
+                     var table = document.getElementById('tablaAniadidos');
+                     for(var i = table.rows.length - 1; i > 0; i--){
                        table.deleteRow(i);
-                       }
-                       for(i in atributos2 ){
+                   }
+                   for(i in atributos2 ){
                        var atributo = { propiedad:"", atributo:"",grado:""}
                        atributos3 = JSON.parse(atributos2[i]);
                        atributo.propiedad=atributos3.propiedad;
@@ -274,7 +283,7 @@
                        var row = table.insertRow(table.rows.length);
                        row.className="info";
                        idsRows++;
-                        row.id="row"+idsRows;
+                       row.id="row"+idsRows;
                        
                        var cell0 = row.insertCell(0);
                        var cell1 = row.insertCell(1);
@@ -286,32 +295,32 @@
                        cell0.innerHTML = '<td><b>'+atributo.propiedad+'</b></td>';
                        cell1.innerHTML = '<td><b>'+atributo.atributo+'</b></td>';
                        cell2.innerHTML = '<td><b>'+atributo.grado+'</b></td>';
-                       cell3.innerHTML = '<a id="botonver" class="btn btn-danger btn-sm" onclick="deleterow('+miaux+')"><span class="glyphicon glyphicon-minus"></span> Eliminar</a>';
+                       cell3.innerHTML = '<a id="botonver" class="btn btn-danger btn-sm" onclick="deleterow('+miaux+',\''+atributo.propiedad+'\',\''+atributo.atributo+'\',\''+atributo.grado+'\')"><span class="glyphicon glyphicon-minus"></span> Eliminar</a>';
                        
-                       }
-                       }
-                       }
-                       )
-                       
-                if(window.location.pathname.split("/").pop()!="datos"){
-                    var urlarr=window.location.pathname.split("/");
+                   }
+               }
+           }
+           )
+
+if(window.location.pathname.split("/").pop()!="datos"){
+  var urlarr=window.location.pathname.split("/");
                     urlarr.shift();//Quito el primer elemento que es vacio
                     window.history.pushState({vision_tabla:true}, "{{ page_title }}", "/"+urlarr.join('/')+"/datos");
                     atras=true;
                 }
             }
             function tabla(){
-                document.getElementById('datosConfiguracion').className = "oculta";
-                document.getElementById('preguntas').className = "Preguntas";
-                document.getElementById('eliminarT').className = "btn btn-danger";
-                document.getElementById('añadirT').className = "btn btn-primary";
-                document.getElementById('mostrarTodos').className = "oculta";
-                document.getElementById('guardarHeuristica').className = "oculta";
-            }
-        
-            window.addEventListener('popstate', function(event) {
+              document.getElementById('datosConfiguracion').className = "oculta";
+              document.getElementById('preguntas').className = "Preguntas";
+              document.getElementById('eliminarT').className = "btn btn-danger";
+              document.getElementById('añadirT').className = "btn btn-primary";
+              document.getElementById('mostrarTodos').className = "oculta";
+              document.getElementById('guardarHeuristica').className = "oculta";
+          }
+          
+          window.addEventListener('popstate', function(event) {
                                     //if (event.state) {
-                                    if (atras==true) {
+                                      if (atras==true) {
                                         atras=false;
                                         tabla();
                                     }
@@ -320,30 +329,30 @@
                                         atras=true;
                                         datos();
                                     }
-                                
+                                    
                                 //$('#keyword').val(event.state.keyword);
                                 
                                 //$("#divContactos").html(event.state.contactos);
                                 
                                 //}
                                 
-                                    },
-            false);
-            
-            function aniadirAtributos(){
-                document.getElementById('fallogrado').className = "oculta";
-                document.getElementById('falloatributos').className = "oculta";
-                if(!isNaN(document.getElementById("gradoAtributo").value)&&document.getElementById("gradoAtributo").value.length>0){
-                    var table = document.getElementById('tablaAniadidos');
-                    var row = table.insertRow(table.rows.length);
-                    var selectBox = document.getElementById("selectBox");
-                    var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-                    var selectBox2 = document.getElementById("opciones");
-                    var selectedValue2 = selectBox2.options[selectBox2.selectedIndex].value;
-                    var gradoAtributo = document.getElementById("gradoAtributo").value;
-                    row.className="info";
-                    idsRows++;
-                    row.id="row"+idsRows;
+                            },
+                            false);
+          
+          function aniadirAtributos(){
+              document.getElementById('fallogrado').className = "oculta";
+              document.getElementById('falloatributos').className = "oculta";
+              if(!isNaN(document.getElementById("gradoAtributo").value)&&document.getElementById("gradoAtributo").value.length>0){
+                var table = document.getElementById('tablaAniadidos');
+                var row = table.insertRow(table.rows.length);
+                var selectBox = document.getElementById("selectBox");
+                var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+                var selectBox2 = document.getElementById("opciones");
+                var selectedValue2 = selectBox2.options[selectBox2.selectedIndex].value;
+                var gradoAtributo = document.getElementById("gradoAtributo").value;
+                row.className="info";
+                idsRows++;
+                row.id="row"+idsRows;
                     //row.id="fila"+result.id
                     var cell0 = row.insertCell(0);
                     var cell1 = row.insertCell(1);
@@ -356,13 +365,13 @@
                     cell0.innerHTML = '<td><b>'+selectedValue+'</b></td>';
                     cell1.innerHTML = '<td><b>'+selectedValue2+'</b></td>';
                     cell2.innerHTML = '<td><b>'+gradoAtributo+'</b></td>';
-                    cell3.innerHTML = '<a id="botonver" class="btn btn-danger btn-sm" onclick="deleterow('+miaux+')"><span class="glyphicon glyphicon-minus"></span> Eliminar</a>';
-                
+                    cell3.innerHTML = '<a id="botonver" class="btn btn-danger btn-sm" onclick="deleterow('+miaux+',\''+selectedValue+'\',\''+selectedValue2+'\',\''+gradoAtributo+'\')"><span class="glyphicon glyphicon-minus"></span> Eliminar</a>';
+                    
                     var atributo = { propiedad:"", atributo:"",grado:""}
                     atributo.propiedad=selectedValue;
                     atributo.atributo=selectedValue2;
                     atributo.grado=gradoAtributo;
-                
+                    
                     atributos.push(atributo);
                 }
                 else{
@@ -371,651 +380,656 @@
                 
                 
             }
-        
-        function deleterow(rowid){
-          console.log("row"+rowid)
-            var row = document.getElementById("row"+rowid);
-            row.parentNode.removeChild(row);
-            atributos.splice(rowid-1,1);
-        }
-        
-            function estado(){
-                var urlarr=window.location.pathname.split("/");
+            
+            function deleterow(rowid,Propiedad,Atributo,Grado){
+              var row = document.getElementById("row"+rowid);
+              row.parentNode.removeChild(row);
+              for(i in atributos){
+                if(atributos[i].propiedad==Propiedad && atributos[i].atributo==Atributo && atributos[i].grado==Grado){
+                  atributos.splice(i,1);
+                  break; 
+              }
+          }
+          
+      }
+      
+      function estado(){
+          var urlarr=window.location.pathname.split("/");
                 urlarr.shift();//Quito el primer elemento que es vacio
                 if(urlarr.pop()=="datos"){
-                    window.history.pushState({vision_tabla:true}, "{{ page_title }}", "/"+urlarr.join('/'));
-                }
-                document.getElementById("alertaHeuristica").style.visibility = "hidden";
-            }
-            window.onload=estado();
+                  window.history.pushState({vision_tabla:true}, "{{ page_title }}", "/"+urlarr.join('/'));
+              }
+              document.getElementById("alertaHeuristica").style.visibility = "hidden";
+          }
+          window.onload=estado();
+          
+          
+          function changeRange(){
+            var selectBox = document.getElementById("selectRange");
+            var selectedValue = selectBox.options[selectBox.selectedIndex].value;
             
-            
-            function changeRange(){
-                var selectBox = document.getElementById("selectRange");
-                var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-                
-                if(selectedValue=="1 a 5"){
-                    range = 1;
-                }
-                else{
-                    range=2;
-                }
-            }
-            
-            $('#guardarHeuristica').click(function(){
-                                          var guardar = true;
-                                          var id= document.getElementById("inputId").value;
-                                          var cuestion= document.getElementById("inputCuestion").value;
-                                          var comentarios=document.getElementById("inputComentarios").value;
-                                          var selectedElmsIds = $('#arbol').jstree("get_selected");
-                                          var misatributos = []
-                                          for(i in atributos){
-                                            misatributos.push(JSON.stringify(atributos[i]))
-                                          }
-                                          
-                                          document.getElementById('fallocuestion').className = "oculta";
-                                          document.getElementById('falloatributos').className = "oculta";
-                                          document.getElementById('falloelementos').className = "oculta";
-                                          document.getElementById('fallogrado').className = "oculta";
-                                          
-                                          if(cuestion==''){
-                                            guardar=false;
-                                            document.getElementById('fallocuestion').className = "fallo";
-                                          }
-                                          if(atributos.length<=0){
-                                            guardar=false
-                                            document.getElementById('falloatributos').className = "fallo";
-                                          }
-                                          if(selectedElmsIds.length<=0){
-                                            guardar=false
-                                            document.getElementById('falloelementos').className = "fallo";
-                                          }
-                                          if(guardar){
-                                          $.post("{% url 'guardar_Heuristica' %}",{id:id,cuestion:cuestion,comentarios:comentarios,range:range,selectedElmsIds:selectedElmsIds,atributos:misatributos,csrfmiddlewaretoken:'{{csrf_token}}'},
-                                                 function (result){
-                                                 document.getElementById("alertaHeuristica").style.visibility = "visible";
-                                                 timeoutID = window.setTimeout(function clerAlert() {
-                                                                               document.getElementById("alertaHeuristica").style.visibility = "hidden";
-                                                                               }, 2000);
-                                                 
-                                                 if(result.nuevo=="true"){
-                                                    var table = document.getElementById('mitabla');
-                                                    var row = table.insertRow(table.rows.length);
-                                                    row.className="info";
-                                                    row.id="fila"+result.id
-                                                    var cell0 = row.insertCell(0);
-                                                    var cell1 = row.insertCell(1);
-                                                    var cell2 = row.insertCell(2);
-                                                    var cell3 = row.insertCell(3);
-                                                    cell3.addEventListener("click", function(){ datos(result.id)}, false);
-                                                    cell2.id="cuestion"+result.id;
-                                                    cell0.innerHTML = '<td id="check"><input onclick="seleccionado('+result.id+')"type="checkbox"  name="option"><br></td>';
-                                                    cell1.innerHTML = '<td>'+result.id+'</td>';
-                                                    cell2.innerHTML = '<td></td>';
-                                                    cell3.innerHTML = '<a id="botonver" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-search"></span> Ver</a>';
-                                                    document.getElementById("cuestion"+result.id).innerText= cuestion;
-                                                    document.getElementById("inputId").value=result.id;
-                                                 }
-                                                 else{
-                                                    document.getElementById("cuestion"+id).innerText= cuestion;
-                                                 }
-                                                 }
-                                                 )
-                                          }
-                                          })
-                                    
-        </script>
-        <script>
-        
-            function changeFunc() {
-                var selectBox = document.getElementById("selectBox");
-                var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-                if(selectedValue=="Satisfacción"){
-                    var arr=["Diversión","Placer","Atractividad"];
-                    
-                    var select = document.getElementById("opciones");
-                    var length = select.options.length;
-                    for (i in select.options) {
-                        select.options[i] = null;
-                    }
-                    
-                    for(a in arr){
-                        $('#opciones').append($("<option>"+arr[a]+"</option>"));
-                    }
-                }
-                else if(selectedValue=="Aprendizaje"){
-                    var arr=["Conocimiento del Juego","Habilidad","Dificultad","Frustración","Velocidad","Descubrimiento"];
-                    
-                    var select = document.getElementById("opciones");
-                    var length = select.options.length;
-                    for (i in select.options) {
-                        select.options[i] = null;
-                    }
-                    
-                    for(a in arr){
-                        $('#opciones').append($("<option>"+arr[a]+"</option>"));
-                    }
-                }
-                else if(selectedValue=="Efectividad"){
-                    var arr=["Completitud","Estructuración"];
-                    
-                    var select = document.getElementById("opciones");
-                    var length = select.options.length;
-                    for (i in select.options) {
-                        select.options[i] = null;
-                    }
-                    
-                    for(a in arr){
-                        $('#opciones').append($("<option>"+arr[a]+"</option>"));
-                    }
-                }
-                else if(selectedValue=="Inmersión"){
-                    var arr=["Conciencia","Concentración","Realismo","Destreza","Cercanía Sociocultural"];
-                    
-                    var select = document.getElementById("opciones");
-                    var length = select.options.length;
-                    for (i in select.options) {
-                        select.options[i] = null;
-                    }
-                    
-                    for(a in arr){
-                        $('#opciones').append($("<option>"+arr[a]+"</option>"));
-                    }
-                }
-                else if(selectedValue=="Motivación"){
-                    var arr=["Estimulación","Curiosidad","Automejora","Diversidad"];
-                    
-                    var select = document.getElementById("opciones");
-                    var length = select.options.length;
-                    for (i in select.options) {
-                        select.options[i] = null;
-                    }
-                    
-                    for(a in arr){
-                        $('#opciones').append($("<option>"+arr[a]+"</option>"));
-                    }
-                }
-                else if(selectedValue=="Emoción"){
-                    var arr=["Reacción","Conducta","Atracción Sensorial"];
-                    
-                    var select = document.getElementById("opciones");
-                    var length = select.options.length;
-                    for (i in select.options) {
-                        select.options[i] = null;
-                    }
-                    
-                    for(a in arr){
-                        $('#opciones').append($("<option>"+arr[a]+"</option>"));
-                    }
-                }
-                else if(selectedValue=="Socialización"){
-                    var arr=["Percepción Social","Conciencia de Grupo","Implicaicón","Compartición","Comunicación","Interacción"];
-                    
-                    var select = document.getElementById("opciones");
-                    var length = select.options.length;
-                    for (i in select.options) {
-                        select.options[i] = null;
-                    }
-                    
-                    for(a in arr){
-                        $('#opciones').append($("<option>"+arr[a]+"</option>"));
-                    }
-                }
-            }
-        window.onload=changeFunc();
-        </script>
-        <!-- initialize checkboxTree plugin -->
-        <script>
-            $('#arbol').jstree({
-                                         'plugins': [ "checkbox"],
-                                         'core': {
-                                         'data': [{
-                                                  "text": "Videojuego",
-                                                  "id":"videogame",
-                                                  "icon": "glyphicon glyphicon-apple",
-                                                  "state":{
-                                                  },
-                                                  "children": [{
-                                                               "text": "Game Core",
-                                                               "id":"game_core",
-                                                               "icon": "glyphicon glyphicon-apple",
-                                                               "state": {
-                                                               },
-                                                               "children": [{
-                                                                            "text":"Desarrollo Argumental",
-                                                                            "id":"desarrollo_argumental",
-                                                                            "icon": "glyphicon glyphicon-apple",
-                                                                            "children":[{
-                                                                                        "text":"Desarrollo de Personajes",
-                                                                                        "id":"desarrollo_de_personajes",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Historia",
-                                                                                        "id":"historia",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Narrativa",
-                                                                                        "id":"narrativa",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        },]
-                                                                            },
-                                                                            {
-                                                                            "text":"Experiencia del Usuario",
-                                                                            "id":"experiencia_del_usuario",
-                                                                            "icon": "glyphicon glyphicon-apple",
-                                                                            "children":[{
-                                                                                        "text":"Aspecto Sonoro",
-                                                                                        "id":"aspecto_sonoro",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        "children":[{
-                                                                                                    "text":"Banda Sonora",
-                                                                                                    "id":"banda_sonora",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },
-                                                                                                    {
-                                                                                                    "text":"Efectos Sonoros",
-                                                                                                    "id":"efectos_sonoros",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },
-                                                                                                    {
-                                                                                                    "text":"Sonido Ambiental",
-                                                                                                    "id":"sonido_ambiental",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },]
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Aspecto Visual",
-                                                                                        "id":"aspecto_visual",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        "children":[{
-                                                                                                    "text":"Cardinalidad",
-                                                                                                    "id":"cardinalidad",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },
-                                                                                                    {
-                                                                                                    "text":"Estética",
-                                                                                                    "id":"estetica",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },
-                                                                                                    {
-                                                                                                    "text":"Realismo",
-                                                                                                    "id":"realismo2",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },]
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Interactividad",
-                                                                                        "id":"interactividad",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        "children":[{
-                                                                                                    "text":"Control",
-                                                                                                    "id":"control",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },
-                                                                                                    {
-                                                                                                    "text":"Disposición",
-                                                                                                    "id":"disposicion",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },
-                                                                                                    {
-                                                                                                    "text":"Metáforas",
-                                                                                                    "id":"metaforas",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },
-                                                                                                    {
-                                                                                                    "text":"Navegación",
-                                                                                                    "id":"navegacion",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },
-                                                                                                    {
-                                                                                                    "text":"Realimentación",
-                                                                                                    "id":"realimentacion",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },]
-                                                                                        },]},
-                                                                            {
-                                                                            "text":"Mecánicas",
-                                                                            "id":"mecanicas",
-                                                                            "icon": "glyphicon glyphicon-apple",
-                                                                            "children":[{
-                                                                                        "text":"Aleatoriedad",
-                                                                                        "id":"aleatoriedad",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Armonia",
-                                                                                        "id":"armonia",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Contenido",
-                                                                                        "id":"contenido",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Curva de Aprendizaje",
-                                                                                        "id":"curva_de_aprendizaje",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Dimensionalidad",
-                                                                                        "id":"dimensionalidad",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        "children":[{
-                                                                                                    "text":"Ambiental",
-                                                                                                    "id":"ambiental",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },
-                                                                                                    {
-                                                                                                    "text":"Emocional",
-                                                                                                    "id":"emocional",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },
-                                                                                                    {
-                                                                                                    "text":"Ética",
-                                                                                                    "id":"etica",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },
-                                                                                                    {
-                                                                                                    "text":"Física",
-                                                                                                    "id":"fisica",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    "children":[
-                                                                                                                {
-                                                                                                                "text":"Cardinalidad",
-                                                                                                                "id":"cardinalidad2",
-                                                                                                                "icon": "glyphicon glyphicon-apple",
-                                                                                                                },
-                                                                                                                {
-                                                                                                                "text":"Escala",
-                                                                                                                "id":"escala",
-                                                                                                                "icon": "glyphicon glyphicon-apple",
-                                                                                                                },
-                                                                                                                {
-                                                                                                                "text":"Fronteras",
-                                                                                                                "id":"fronteras",
-                                                                                                                "icon": "glyphicon glyphicon-apple",
-                                                                                                                },]
-                                                                                                    },
-                                                                                                    {
-                                                                                                    "text":"Temporal",
-                                                                                                    "id":"temporal",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    "children":[
-                                                                                                                {
-                                                                                                                "text":"Continuo",
-                                                                                                                "id":"continuo",
-                                                                                                                "icon": "glyphicon glyphicon-apple",
-                                                                                                                },
-                                                                                                                {
-                                                                                                                "text":"Libre",
-                                                                                                                "id":"libre",
-                                                                                                                "icon": "glyphicon glyphicon-apple",
-                                                                                                                },
-                                                                                                                {
-                                                                                                                "text":"Variable",
-                                                                                                                "id":"variable",
-                                                                                                                "icon": "glyphicon glyphicon-apple",
-                                                                                                                },]
-                                                                                                    },]
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Entidad",
-                                                                                        "id":"entidad",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Equilibrio",
-                                                                                        "id":"equilibrio",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Estado de Progreso",
-                                                                                        "id":"estado_de_progreso",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Género",
-                                                                                        "id":"genero",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Numero de Jugadores",
-                                                                                        "id":"numero_de_jugadores",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        "children":[
-                                                                                                    {
-                                                                                                    "text":"Individual",
-                                                                                                    "id":"individual",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },
-                                                                                                    {
-                                                                                                    "text":"Multijugador",
-                                                                                                    "id":"multijugador",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },]
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Realismo",
-                                                                                        "id":"realismo",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Objetivos",
-                                                                                        "id":"objetivos",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        "children":[
-                                                                                                    {
-                                                                                                    "text":"Primarios",
-                                                                                                    "id":"primarios",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },
-                                                                                                    {
-                                                                                                    "text":"Secundarios",
-                                                                                                    "id":"secundarios",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },]
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Recompensas",
-                                                                                        "id":"recompensas",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Reglas",
-                                                                                        "id":"reglas",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Retos",
-                                                                                        "id":"retos",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        "children":[
-                                                                                                    {
-                                                                                                    "text":"Implícitos",
-                                                                                                    "id":"implicitos",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },
-                                                                                                    {
-                                                                                                    "text":"Explícitos",
-                                                                                                    "id":"explicitos",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },]
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Ritmo",
-                                                                                        "id":"ritmo",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Segmentación",
-                                                                                        "id":"segmentacion",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Sistema de Salvado",
-                                                                                        "id":"sistema_de_salvado",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        "children":[
-                                                                                                    {
-                                                                                                    "text":"Contínuo",
-                                                                                                    "id":"continuo",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },
-                                                                                                    {
-                                                                                                    "text":"Esporádico",
-                                                                                                    "id":"esporadico",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },
-                                                                                                    {
-                                                                                                    "text":"Libre",
-                                                                                                    "id":"libre",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },]
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Tipo de Contenido",
-                                                                                        "id":"tipo_de_contenido",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        "children":[
-                                                                                                    {
-                                                                                                    "text":"A ritmo propio",
-                                                                                                    "id":"a_ritmo_propio",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },
-                                                                                                    {
-                                                                                                    "text":"Extrínseco",
-                                                                                                    "id":"extrinsico",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },
-                                                                                                    {
-                                                                                                    "text":"Intrínseco",
-                                                                                                    "id":"intrinseco",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },
-                                                                                                    {
-                                                                                                    "text":"Ritmo Externo",
-                                                                                                    "id":"ritmo_externo",
-                                                                                                    "icon": "glyphicon glyphicon-apple",
-                                                                                                    },]
-                                                                                        },]}
-                                                                            ],
-                                                               
-                                                               
-                                                               }, {
-                                                               "text": "Game Engine",
-                                                               "id":"game_engine",
-                                                               "icon": "glyphicon glyphicon-apple",
-                                                               "children":[
-                                                                          {
-                                                                          "text":"Motor Físico",
-                                                                           "id":"motor_fisico",
-                                                                          "icon": "glyphicon glyphicon-apple",
-                                                                          },
-                                                                          {
-                                                                          "text":"Motor Gráfico",
-                                                                           "id":"motor_grafico",
-                                                                          "icon": "glyphicon glyphicon-apple",
-                                                                          },
-                                                                          {
-                                                                          "text":"Motor de IA",
-                                                                           "id":"motor_de_ia",
-                                                                          "icon": "glyphicon glyphicon-apple",
-                                                                          },
-                                                                          {
-                                                                          "text":"Motor de Sonido",
-                                                                           "id":"motor_de_sonido",
-                                                                          "icon": "glyphicon glyphicon-apple",
-                                                                          },
-                                                                          {
-                                                                          "text":"Sistema de Comunicación",
-                                                                           "id":"sistema_de_comunicacion",
-                                                                          "icon": "glyphicon glyphicon-apple",
-                                                                          },
-                                                                          {
-                                                                          "text":"Sistema de Control Interactivo",
-                                                                           "id":"sistema_de_control_interactivo",
-                                                                          "icon": "glyphicon glyphicon-apple",
-                                                                          },
-                                                                          {
-                                                                          "text":"Sistema de Scripting",
-                                                                           "id":"sistema_de_scripting",
-                                                                          "icon": "glyphicon glyphicon-apple",
-                                                                          },]
-                                                               }, {
-                                                               "text": "Game Interface",
-                                                               "id":"game_interface",
-                                                               "icon": "glyphicon glyphicon-apple",
-                                                               "state": {
-                                                               "opened": false
-                                                               },
-                                                               "children": [
-                                                                            {
-                                                                            "text":"Interfaz Física",
-                                                                            "id":"interfaz_fisica",
-                                                                            "icon": "glyphicon glyphicon-apple",
-                                                                            "children":[
-                                                                                        {
-                                                                                        "text":"Interfaz Auditiva",
-                                                                                        "id":"interfaz_auditiva",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Interfaz Táctil",
-                                                                                        "id":"interfaz_tactil",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Interfaz Visual",
-                                                                                        "id":"interfaz_visual",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Interfaz Plataforma",
-                                                                                        "id":"interfaz_plataforma",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        },]
-                                                                            },
-                                                                            {
-                                                                            "text":"Interfaz Software",
-                                                                            "id":"interfaz_software",
-                                                                            "icon": "glyphicon glyphicon-apple",
-                                                                            "children":[
-                                                                                        {
-                                                                                        "text":"Interfaz de Usuario",
-                                                                                        "id":"interfaz_de_usuario",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Look & Feel",
-                                                                                        "id":"look_and_feel",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Realimentación",
-                                                                                        "id":"realimentacion2",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        },
-                                                                                        {
-                                                                                        "text":"Puntos de Vista",
-                                                                                        "id":"puntos_de_vista",
-                                                                                        "icon": "glyphicon glyphicon-apple",
-                                                                                        },
-                                                                            ]
-                                                                            },
-                                                               ],
-                                                               }]
-                                                  },
-                                                  ],
-                                         'themes': {
-                                         'name': 'proton',
-                                         'responsive': true
-                                         }
-                                         }
-                                         });
-        </script>
-    {% endblock %}
+            if(selectedValue=="1 a 5"){
+              range = 1;
+          }
+          else{
+              range=2;
+          }
+      }
+      
+      $('#guardarHeuristica').click(function(){
+        var guardar = true;
+        var id= document.getElementById("inputId").value;
+        var cuestion= document.getElementById("inputCuestion").value;
+        var comentarios=document.getElementById("inputComentarios").value;
+        var selectedElmsIds = $('#arbol').jstree("get_selected");
+        var misatributos = []
+        for(i in atributos){
+          misatributos.push(JSON.stringify(atributos[i]))
+      }
+      
+      document.getElementById('fallocuestion').className = "oculta";
+      document.getElementById('falloatributos').className = "oculta";
+      document.getElementById('falloelementos').className = "oculta";
+      document.getElementById('fallogrado').className = "oculta";
+      
+      if(cuestion==''){
+          guardar=false;
+          document.getElementById('fallocuestion').className = "fallo";
+      }
+      if(atributos.length<=0){
+          guardar=false
+          document.getElementById('falloatributos').className = "fallo";
+      }
+      if(selectedElmsIds.length<=0){
+          guardar=false
+          document.getElementById('falloelementos').className = "fallo";
+      }
+      if(guardar){
+          $.post("{% url 'guardar_Heuristica' %}",{id:id,cuestion:cuestion,comentarios:comentarios,range:range,selectedElmsIds:selectedElmsIds,atributos:misatributos,csrfmiddlewaretoken:'{{csrf_token}}'},
+             function (result){
+               document.getElementById("alertaHeuristica").style.visibility = "visible";
+               timeoutID = window.setTimeout(function clerAlert() {
+                 document.getElementById("alertaHeuristica").style.visibility = "hidden";
+             }, 2000);
+               
+               if(result.nuevo=="true"){
+                  var table = document.getElementById('mitabla');
+                  var row = table.insertRow(table.rows.length);
+                  row.className="info";
+                  row.id="fila"+result.id
+                  var cell0 = row.insertCell(0);
+                  var cell1 = row.insertCell(1);
+                  var cell2 = row.insertCell(2);
+                  var cell3 = row.insertCell(3);
+                  cell3.addEventListener("click", function(){ datos(result.id)}, false);
+                  cell2.id="cuestion"+result.id;
+                  cell0.innerHTML = '<td id="check"><input onclick="seleccionado('+result.id+')"type="checkbox"  name="option"><br></td>';
+                  cell1.innerHTML = '<td>'+result.id+'</td>';
+                  cell2.innerHTML = '<td></td>';
+                  cell3.innerHTML = '<a id="botonver" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-search"></span> Ver</a>';
+                  document.getElementById("cuestion"+result.id).innerText= cuestion;
+                  document.getElementById("inputId").value=result.id;
+              }
+              else{
+                  document.getElementById("cuestion"+id).innerText= cuestion;
+              }
+          }
+          )
+}
+})
+
+</script>
+<script>
+
+function changeFunc() {
+  var selectBox = document.getElementById("selectBox");
+  var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+  if(selectedValue=="Satisfacción"){
+    var arr=["Diversión","Placer","Atractividad"];
     
+    var select = document.getElementById("opciones");
+    var length = select.options.length;
+    for (i in select.options) {
+      select.options[i] = null;
+  }
+  
+  for(a in arr){
+      $('#opciones').append($("<option>"+arr[a]+"</option>"));
+  }
+}
+else if(selectedValue=="Aprendizaje"){
+    var arr=["Conocimiento del Juego","Habilidad","Dificultad","Frustración","Velocidad","Descubrimiento"];
+    
+    var select = document.getElementById("opciones");
+    var length = select.options.length;
+    for (i in select.options) {
+      select.options[i] = null;
+  }
+  
+  for(a in arr){
+      $('#opciones').append($("<option>"+arr[a]+"</option>"));
+  }
+}
+else if(selectedValue=="Efectividad"){
+    var arr=["Completitud","Estructuración"];
+    
+    var select = document.getElementById("opciones");
+    var length = select.options.length;
+    for (i in select.options) {
+      select.options[i] = null;
+  }
+  
+  for(a in arr){
+      $('#opciones').append($("<option>"+arr[a]+"</option>"));
+  }
+}
+else if(selectedValue=="Inmersión"){
+    var arr=["Conciencia","Concentración","Realismo","Destreza","Cercanía Sociocultural"];
+    
+    var select = document.getElementById("opciones");
+    var length = select.options.length;
+    for (i in select.options) {
+      select.options[i] = null;
+  }
+  
+  for(a in arr){
+      $('#opciones').append($("<option>"+arr[a]+"</option>"));
+  }
+}
+else if(selectedValue=="Motivación"){
+    var arr=["Estimulación","Curiosidad","Automejora","Diversidad"];
+    
+    var select = document.getElementById("opciones");
+    var length = select.options.length;
+    for (i in select.options) {
+      select.options[i] = null;
+  }
+  
+  for(a in arr){
+      $('#opciones').append($("<option>"+arr[a]+"</option>"));
+  }
+}
+else if(selectedValue=="Emoción"){
+    var arr=["Reacción","Conducta","Atracción Sensorial"];
+    
+    var select = document.getElementById("opciones");
+    var length = select.options.length;
+    for (i in select.options) {
+      select.options[i] = null;
+  }
+  
+  for(a in arr){
+      $('#opciones').append($("<option>"+arr[a]+"</option>"));
+  }
+}
+else if(selectedValue=="Socialización"){
+    var arr=["Percepción Social","Conciencia de Grupo","Implicaicón","Compartición","Comunicación","Interacción"];
+    
+    var select = document.getElementById("opciones");
+    var length = select.options.length;
+    for (i in select.options) {
+      select.options[i] = null;
+  }
+  
+  for(a in arr){
+      $('#opciones').append($("<option>"+arr[a]+"</option>"));
+  }
+}
+}
+window.onload=changeFunc();
+</script>
+<!-- initialize checkboxTree plugin -->
+<script>
+$('#arbol').jstree({
+   'plugins': [ "checkbox"],
+   'core': {
+     'data': [{
+        "text": "Videojuego",
+        "id":"videogame",
+        "icon": "glyphicon glyphicon-apple",
+        "state":{
+        },
+        "children": [{
+           "text": "Game Core",
+           "id":"game_core",
+           "icon": "glyphicon glyphicon-apple",
+           "state": {
+           },
+           "children": [{
+              "text":"Desarrollo Argumental",
+              "id":"desarrollo_argumental",
+              "icon": "glyphicon glyphicon-apple",
+              "children":[{
+                "text":"Desarrollo de Personajes",
+                "id":"desarrollo_de_personajes",
+                "icon": "glyphicon glyphicon-apple",
+            },
+            {
+                "text":"Historia",
+                "id":"historia",
+                "icon": "glyphicon glyphicon-apple",
+            },
+            {
+                "text":"Narrativa",
+                "id":"narrativa",
+                "icon": "glyphicon glyphicon-apple",
+            },]
+        },
+        {
+          "text":"Experiencia del Usuario",
+          "id":"experiencia_del_usuario",
+          "icon": "glyphicon glyphicon-apple",
+          "children":[{
+            "text":"Aspecto Sonoro",
+            "id":"aspecto_sonoro",
+            "icon": "glyphicon glyphicon-apple",
+            "children":[{
+              "text":"Banda Sonora",
+              "id":"banda_sonora",
+              "icon": "glyphicon glyphicon-apple",
+          },
+          {
+              "text":"Efectos Sonoros",
+              "id":"efectos_sonoros",
+              "icon": "glyphicon glyphicon-apple",
+          },
+          {
+              "text":"Sonido Ambiental",
+              "id":"sonido_ambiental",
+              "icon": "glyphicon glyphicon-apple",
+          },]
+      },
+      {
+        "text":"Aspecto Visual",
+        "id":"aspecto_visual",
+        "icon": "glyphicon glyphicon-apple",
+        "children":[{
+          "text":"Cardinalidad",
+          "id":"cardinalidad",
+          "icon": "glyphicon glyphicon-apple",
+      },
+      {
+          "text":"Estética",
+          "id":"estetica",
+          "icon": "glyphicon glyphicon-apple",
+      },
+      {
+          "text":"Realismo",
+          "id":"realismo2",
+          "icon": "glyphicon glyphicon-apple",
+      },]
+  },
+  {
+    "text":"Interactividad",
+    "id":"interactividad",
+    "icon": "glyphicon glyphicon-apple",
+    "children":[{
+      "text":"Control",
+      "id":"control",
+      "icon": "glyphicon glyphicon-apple",
+  },
+  {
+      "text":"Disposición",
+      "id":"disposicion",
+      "icon": "glyphicon glyphicon-apple",
+  },
+  {
+      "text":"Metáforas",
+      "id":"metaforas",
+      "icon": "glyphicon glyphicon-apple",
+  },
+  {
+      "text":"Navegación",
+      "id":"navegacion",
+      "icon": "glyphicon glyphicon-apple",
+  },
+  {
+      "text":"Realimentación",
+      "id":"realimentacion",
+      "icon": "glyphicon glyphicon-apple",
+  },]
+},]},
+{
+    "text":"Mecánicas",
+    "id":"mecanicas",
+    "icon": "glyphicon glyphicon-apple",
+    "children":[{
+      "text":"Aleatoriedad",
+      "id":"aleatoriedad",
+      "icon": "glyphicon glyphicon-apple",
+  },
+  {
+      "text":"Armonia",
+      "id":"armonia",
+      "icon": "glyphicon glyphicon-apple",
+  },
+  {
+      "text":"Contenido",
+      "id":"contenido",
+      "icon": "glyphicon glyphicon-apple",
+  },
+  {
+      "text":"Curva de Aprendizaje",
+      "id":"curva_de_aprendizaje",
+      "icon": "glyphicon glyphicon-apple",
+  },
+  {
+      "text":"Dimensionalidad",
+      "id":"dimensionalidad",
+      "icon": "glyphicon glyphicon-apple",
+      "children":[{
+        "text":"Ambiental",
+        "id":"ambiental",
+        "icon": "glyphicon glyphicon-apple",
+    },
+    {
+        "text":"Emocional",
+        "id":"emocional",
+        "icon": "glyphicon glyphicon-apple",
+    },
+    {
+        "text":"Ética",
+        "id":"etica",
+        "icon": "glyphicon glyphicon-apple",
+    },
+    {
+        "text":"Física",
+        "id":"fisica",
+        "icon": "glyphicon glyphicon-apple",
+        "children":[
+        {
+          "text":"Cardinalidad",
+          "id":"cardinalidad2",
+          "icon": "glyphicon glyphicon-apple",
+      },
+      {
+          "text":"Escala",
+          "id":"escala",
+          "icon": "glyphicon glyphicon-apple",
+      },
+      {
+          "text":"Fronteras",
+          "id":"fronteras",
+          "icon": "glyphicon glyphicon-apple",
+      },]
+  },
+  {
+    "text":"Temporal",
+    "id":"temporal",
+    "icon": "glyphicon glyphicon-apple",
+    "children":[
+    {
+      "text":"Continuo",
+      "id":"continuo",
+      "icon": "glyphicon glyphicon-apple",
+  },
+  {
+      "text":"Libre",
+      "id":"libre",
+      "icon": "glyphicon glyphicon-apple",
+  },
+  {
+      "text":"Variable",
+      "id":"variable",
+      "icon": "glyphicon glyphicon-apple",
+  },]
+},]
+},
+{
+  "text":"Entidad",
+  "id":"entidad",
+  "icon": "glyphicon glyphicon-apple",
+},
+{
+  "text":"Equilibrio",
+  "id":"equilibrio",
+  "icon": "glyphicon glyphicon-apple",
+},
+{
+  "text":"Estado de Progreso",
+  "id":"estado_de_progreso",
+  "icon": "glyphicon glyphicon-apple",
+},
+{
+  "text":"Género",
+  "id":"genero",
+  "icon": "glyphicon glyphicon-apple",
+},
+{
+  "text":"Numero de Jugadores",
+  "id":"numero_de_jugadores",
+  "icon": "glyphicon glyphicon-apple",
+  "children":[
+  {
+    "text":"Individual",
+    "id":"individual",
+    "icon": "glyphicon glyphicon-apple",
+},
+{
+    "text":"Multijugador",
+    "id":"multijugador",
+    "icon": "glyphicon glyphicon-apple",
+},]
+},
+{
+  "text":"Realismo",
+  "id":"realismo",
+  "icon": "glyphicon glyphicon-apple",
+},
+{
+  "text":"Objetivos",
+  "id":"objetivos",
+  "icon": "glyphicon glyphicon-apple",
+  "children":[
+  {
+    "text":"Primarios",
+    "id":"primarios",
+    "icon": "glyphicon glyphicon-apple",
+},
+{
+    "text":"Secundarios",
+    "id":"secundarios",
+    "icon": "glyphicon glyphicon-apple",
+},]
+},
+{
+  "text":"Recompensas",
+  "id":"recompensas",
+  "icon": "glyphicon glyphicon-apple",
+},
+{
+  "text":"Reglas",
+  "id":"reglas",
+  "icon": "glyphicon glyphicon-apple",
+},
+{
+  "text":"Retos",
+  "id":"retos",
+  "icon": "glyphicon glyphicon-apple",
+  "children":[
+  {
+    "text":"Implícitos",
+    "id":"implicitos",
+    "icon": "glyphicon glyphicon-apple",
+},
+{
+    "text":"Explícitos",
+    "id":"explicitos",
+    "icon": "glyphicon glyphicon-apple",
+},]
+},
+{
+  "text":"Ritmo",
+  "id":"ritmo",
+  "icon": "glyphicon glyphicon-apple",
+},
+{
+  "text":"Segmentación",
+  "id":"segmentacion",
+  "icon": "glyphicon glyphicon-apple",
+},
+{
+  "text":"Sistema de Salvado",
+  "id":"sistema_de_salvado",
+  "icon": "glyphicon glyphicon-apple",
+  "children":[
+  {
+    "text":"Contínuo",
+    "id":"continuo",
+    "icon": "glyphicon glyphicon-apple",
+},
+{
+    "text":"Esporádico",
+    "id":"esporadico",
+    "icon": "glyphicon glyphicon-apple",
+},
+{
+    "text":"Libre",
+    "id":"libre",
+    "icon": "glyphicon glyphicon-apple",
+},]
+},
+{
+  "text":"Tipo de Contenido",
+  "id":"tipo_de_contenido",
+  "icon": "glyphicon glyphicon-apple",
+  "children":[
+  {
+    "text":"A ritmo propio",
+    "id":"a_ritmo_propio",
+    "icon": "glyphicon glyphicon-apple",
+},
+{
+    "text":"Extrínseco",
+    "id":"extrinsico",
+    "icon": "glyphicon glyphicon-apple",
+},
+{
+    "text":"Intrínseco",
+    "id":"intrinseco",
+    "icon": "glyphicon glyphicon-apple",
+},
+{
+    "text":"Ritmo Externo",
+    "id":"ritmo_externo",
+    "icon": "glyphicon glyphicon-apple",
+},]
+},]}
+],
+
+
+}, {
+ "text": "Game Engine",
+ "id":"game_engine",
+ "icon": "glyphicon glyphicon-apple",
+ "children":[
+ {
+    "text":"Motor Físico",
+    "id":"motor_fisico",
+    "icon": "glyphicon glyphicon-apple",
+},
+{
+    "text":"Motor Gráfico",
+    "id":"motor_grafico",
+    "icon": "glyphicon glyphicon-apple",
+},
+{
+    "text":"Motor de IA",
+    "id":"motor_de_ia",
+    "icon": "glyphicon glyphicon-apple",
+},
+{
+    "text":"Motor de Sonido",
+    "id":"motor_de_sonido",
+    "icon": "glyphicon glyphicon-apple",
+},
+{
+    "text":"Sistema de Comunicación",
+    "id":"sistema_de_comunicacion",
+    "icon": "glyphicon glyphicon-apple",
+},
+{
+    "text":"Sistema de Control Interactivo",
+    "id":"sistema_de_control_interactivo",
+    "icon": "glyphicon glyphicon-apple",
+},
+{
+    "text":"Sistema de Scripting",
+    "id":"sistema_de_scripting",
+    "icon": "glyphicon glyphicon-apple",
+},]
+}, {
+   "text": "Game Interface",
+   "id":"game_interface",
+   "icon": "glyphicon glyphicon-apple",
+   "state": {
+     "opened": false
+ },
+ "children": [
+ {
+  "text":"Interfaz Física",
+  "id":"interfaz_fisica",
+  "icon": "glyphicon glyphicon-apple",
+  "children":[
+  {
+    "text":"Interfaz Auditiva",
+    "id":"interfaz_auditiva",
+    "icon": "glyphicon glyphicon-apple",
+},
+{
+    "text":"Interfaz Táctil",
+    "id":"interfaz_tactil",
+    "icon": "glyphicon glyphicon-apple",
+},
+{
+    "text":"Interfaz Visual",
+    "id":"interfaz_visual",
+    "icon": "glyphicon glyphicon-apple",
+},
+{
+    "text":"Interfaz Plataforma",
+    "id":"interfaz_plataforma",
+    "icon": "glyphicon glyphicon-apple",
+},]
+},
+{
+  "text":"Interfaz Software",
+  "id":"interfaz_software",
+  "icon": "glyphicon glyphicon-apple",
+  "children":[
+  {
+    "text":"Interfaz de Usuario",
+    "id":"interfaz_de_usuario",
+    "icon": "glyphicon glyphicon-apple",
+},
+{
+    "text":"Look & Feel",
+    "id":"look_and_feel",
+    "icon": "glyphicon glyphicon-apple",
+},
+{
+    "text":"Realimentación",
+    "id":"realimentacion2",
+    "icon": "glyphicon glyphicon-apple",
+},
+{
+    "text":"Puntos de Vista",
+    "id":"puntos_de_vista",
+    "icon": "glyphicon glyphicon-apple",
+},
+]
+},
+],
+}]
+},
+],
+'themes': {
+   'name': 'proton',
+   'responsive': true
+}
+}
+});
+</script>
+{% endblock %}
+
 </html>
