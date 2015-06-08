@@ -513,6 +513,8 @@ function complete(){
 }
 function aniadirAsignado(){
     if(document.getElementById('inputBuscar').value.length!=0){
+        aux = document.getElementById('inputBuscar').value;
+        if(asignados.lastIndexOf(aux)==-1){
         $.post("{% url 'UsuarioExiste' %}",{user:document.getElementById("inputBuscar").value,csrfmiddlewaretoken:'{{csrf_token}}'},
          function (result){
              if(result.existe){
@@ -530,8 +532,9 @@ function aniadirAsignado(){
                }, 2000);
              }
          })
-
 }
+
+    }
 }
 
 function enviarAsignado(nombre){
