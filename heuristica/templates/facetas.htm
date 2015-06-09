@@ -193,16 +193,17 @@ function insertar(){
 
   document.getElementById("tablaAniadidos").innerHTML='<thead><tr><th>Propiedad</th><th>Atributo</th><th>Grado</th></tr></thead'
   seleccionados=[]
+  atributos=[]
   $('#arbol').jstree("deselect_all");
 
   if(window.location.pathname.split("/").pop()!="datos"){
     var urlarr=window.location.pathname.split("/");
-                    urlarr.shift();//Quito el primer elemento que es vacio
-                    window.history.pushState({vision_tabla:true}, "{{ page_title }}", "/"+urlarr.join('/')+"/datos");
-                    atras=true;
-                }
+    urlarr.shift();//Quito el primer elemento que es vacio
+    window.history.pushState({vision_tabla:true}, "{{ page_title }}", "/"+urlarr.join('/')+"/datos");
+    atras=true;
+  }
 
-            }
+}
             
             function seleccionado(id){
               if(seleccionados.lastIndexOf(id)==-1){
