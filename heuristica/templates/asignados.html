@@ -92,7 +92,7 @@
 					</div>
 					<button class="btn btn-success" id="guardarRespuestas" onclick="guardar()"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
 					<button class="btn btn-primary" id="enviarResultado" onclick="ModalEnviar()"><span class="glyphicon glyphicon-send"></span> Enviar Resultados</button>
-					<button class="btn btn-danger" id="eliminarAsignado" onclick="abrirFormularioModal()"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
+					<button class="btn btn-danger" id="eliminarAsignado" onclick="abrirFormularioModalEliminar()"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
 					<div id="Mialerta"class="alert alert-success" role="alert"></div>
 					<form id="enviarResultado" action="{% url 'enviarResultado' %}" method="post">{% csrf_token %}</form>
 					<form id="formEliminar" action="{% url 'eliminarAsignado' %}" method="post">{% csrf_token %}</form>
@@ -217,7 +217,7 @@
         	function ModalEnviar(){
         		$('#myModal').modal();
         	}
-        	function abrirFormularioModal(){
+        	function abrirFormularioModalEliminar(){
         		$('#ModalEliminar').modal('show')
         	}
         	function eliminar(){

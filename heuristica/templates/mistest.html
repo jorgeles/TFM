@@ -1524,10 +1524,10 @@ function cargarElementos(elemento){
                 indexAtributo = TodosAtributos.lastIndexOf(datosparseados[i].propiedad)
                 if(indexAtributo!=-1){
                     if(datosparseados[i].rango=="2"){
-                        contadores[index][indexAtributo][0]+=(datosparseados[i].nota/2)/(datosparseados[i].grado/100)
+                        contadores[index][indexAtributo][0]+=(datosparseados[i].nota/2)*(datosparseados[i].grado/100)
                     }
                     else{
-                        contadores[index][indexAtributo][0]+=(datosparseados[i].nota*1)/(datosparseados[i].grado/100)
+                        contadores[index][indexAtributo][0]+=(datosparseados[i].nota*1)*(datosparseados[i].grado/100)
                     }
                     contadores[index][indexAtributo][1]++
                         
@@ -1567,6 +1567,9 @@ function basic_radarElementos(contadores,elemento) {
         datosAux[i]=0
         if(contadores[aux][i][0]){
             datosAux[i]=(contadores[aux][i][0]/contadores[aux][i][1])
+            //console.log(contadores[aux][i][0],"Numero")
+            //console.log(contadores[aux][i][1],"Contador")
+            //console.log(datosAux[i])
         }
     }
 
@@ -1606,7 +1609,6 @@ function basic_barsElementos(contadores,elemento,horizontal) {
         if(contadores[aux][i][0]){
             datosAux[i]=(contadores[aux][i][0]/contadores[aux][i][1])
         }
-        console.log(datosAux[i])
     }
 
     var
