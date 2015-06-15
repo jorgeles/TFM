@@ -11,16 +11,16 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Eliminar Perfil</h4>
-      </div>
-      <div class="modal-body">
+    </div>
+    <div class="modal-body">
         <p> ¿Seguro que desea eliminar las Heurísticas seleccionadas? </p>
-      </div>
-      <div class="modal-footer">
+    </div>
+    <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
         <button type="button" onclick="eliminar()" class="btn btn-danger">Sí, Deseo Eliminar</button>
-     </div>
     </div>
-  </div>
+</div>
+</div>
 </div>
 <div id="contenido">
   <div id="menu_lateral">
@@ -201,107 +201,108 @@ function insertar(){
     urlarr.shift();//Quito el primer elemento que es vacio
     window.history.pushState({vision_tabla:true}, "{{ page_title }}", "/"+urlarr.join('/')+"/datos");
     atras=true;
-  }
+}
 
 }
-            
-            function seleccionado(id){
-              if(seleccionados.lastIndexOf(id)==-1){
-                seleccionados.push(id)
-            }
-            else{
-                seleccionados.splice(seleccionados.lastIndexOf(id),1);
-            }
-            
-        }
-        function eliminar(){
-          
-          $.post("{% url 'eliminar_dato' %}",{ids:seleccionados,csrfmiddlewaretoken:'{{csrf_token}}'},
-             function (result){
-               $('#myModal').modal('hide');
-               for (i in seleccionados){
-                 elem = document.getElementById("fila"+seleccionados[i]);
-                 elem.parentNode.removeChild(elem);
-                 
-             }
-             
-             
-         })
-      }
-      $('#myModal').on('shown.bs.modal', function () {$('#myInput').focus()})
-      
-      function jugabilidad(id){
-          document.getElementById('jugabilidad_activa').value=id;
-          document.getElementById('formJugabilidad').submit();
-      }
-      
-      
-      function datos(dato){
-          document.getElementById('gradoAtributo').value = "";
-          $.post("{% url 'cargar_dato' %}",{id:dato,csrfmiddlewaretoken:'{{csrf_token}}'},
-             function (result){
-               document.getElementById('datosConfiguracion').className = "configuracion";
-               document.getElementById('preguntas').className = "oculta";
-               document.getElementById('eliminarT').className = "oculta";
-               document.getElementById('añadirT').className = "oculta";
-               document.getElementById('mostrarTodos').className = "btn btn-primary";
-               document.getElementById('guardarHeuristica').className = "btn btn-success";
-               
-               var datos = result.datos;
-               datos =JSON.parse(datos)
-               document.getElementById("inputCuestion").value= datos[0].fields.nombre;
-               document.getElementById("inputComentarios").value= datos[0].fields.comentario;
-               document.getElementById("inputId").value= JSON.stringify(datos[0].pk);
-               var selectBox = document.getElementById("selectRange");
-               range = datos[0].fields.rango
-               selectBox.selectedIndex = range-1;
-               elementos = JSON.parse(datos[0].fields.elementos);
-               $('#arbol').jstree("get_selected");
-               $('#arbol').jstree("deselect_all");
-               for(i in elementos){
-                 nodo = "#"+elementos[i];
-                 $('#arbol').jstree(true).open_all();
-                 $('#arbol').jstree(true).select_node($(nodo));
-                 $('#arbol').jstree(true).close_all();
-                 $('#arbol').jstree(true).open_node('#videogame');
-                       //$('#arbol').jstree("select_node",$(nodo));
-                   }
-                   if(datos[0].fields.atributos){
-                     atributos = []
-                     atributos2 = JSON.parse(datos[0].fields.atributos);
-                     var table = document.getElementById('tablaAniadidos');
-                     for(var i = table.rows.length - 1; i > 0; i--){
-                       table.deleteRow(i);
-                   }
-                   for(i in atributos2 ){
-                       var atributo = { propiedad:"", atributo:"",grado:""}
-                       atributos3 = JSON.parse(atributos2[i]);
-                       atributo.propiedad=atributos3.propiedad;
-                       atributo.atributo=atributos3.atributo;
-                       atributo.grado=atributos3.grado;
-                       atributos.push(atributo);
-                       
-                       var row = table.insertRow(table.rows.length);
-                       row.className="info";
-                       idsRows++;
-                       row.id="row"+idsRows;
-                       
-                       var cell0 = row.insertCell(0);
-                       var cell1 = row.insertCell(1);
-                       var cell2 = row.insertCell(2);
-                       var cell3 = row.insertCell(3);
-                       
-                       var miaux = idsRows;
 
-                       cell0.innerHTML = '<td><b>'+atributo.propiedad+'</b></td>';
-                       cell1.innerHTML = '<td><b>'+atributo.atributo+'</b></td>';
-                       cell2.innerHTML = '<td><b>'+atributo.grado+'</b></td>';
-                       cell3.innerHTML = '<a id="botonver" class="btn btn-danger btn-sm" onclick="deleterow('+miaux+',\''+atributo.propiedad+'\',\''+atributo.atributo+'\',\''+atributo.grado+'\')"><span class="glyphicon glyphicon-minus"></span> Eliminar</a>';
-                       
-                   }
-               }
-           }
-           )
+function seleccionado(id){
+  if(seleccionados.lastIndexOf(id)==-1){
+    seleccionados.push(id)
+}
+else{
+    seleccionados.splice(seleccionados.lastIndexOf(id),1);
+}
+
+}
+function eliminar(){
+
+  $.post("{% url 'eliminar_dato' %}",{ids:seleccionados,csrfmiddlewaretoken:'{{csrf_token}}'},
+   function (result){
+     $('#myModal').modal('hide');
+     for (i in seleccionados){
+       elem = document.getElementById("fila"+seleccionados[i]);
+       elem.parentNode.removeChild(elem);
+
+   }
+
+
+})
+}
+$('#myModal').on('shown.bs.modal', function () {$('#myInput').focus()})
+
+function jugabilidad(id){
+  document.getElementById('jugabilidad_activa').value=id;
+  document.getElementById('formJugabilidad').submit();
+}
+
+
+function datos(dato){
+  document.getElementById('gradoAtributo').value = "";
+  $.post("{% url 'cargar_dato' %}",{id:dato,csrfmiddlewaretoken:'{{csrf_token}}'},
+   function (result){
+     document.getElementById('datosConfiguracion').className = "configuracion";
+     document.getElementById('preguntas').className = "oculta";
+     document.getElementById('eliminarT').className = "oculta";
+     document.getElementById('añadirT').className = "oculta";
+     document.getElementById('mostrarTodos').className = "btn btn-primary";
+     document.getElementById('guardarHeuristica').className = "btn btn-success";
+
+     var datos = result.datos;
+     datos =JSON.parse(datos)
+     document.getElementById("inputCuestion").value= datos[0].fields.nombre;
+     document.getElementById("inputComentarios").value= datos[0].fields.comentario;
+     document.getElementById("inputId").value= JSON.stringify(datos[0].pk);
+     var selectBox = document.getElementById("selectRange");
+     range = datos[0].fields.rango
+     selectBox.selectedIndex = range-1;
+     elementos = JSON.parse(datos[0].fields.elementos);
+     $('#arbol').jstree("get_selected");
+     $('#arbol').jstree("deselect_all");
+     $('#arbol').jstree(true).open_all();
+     for(i in elementos){
+       nodo = "#"+elementos[i];
+
+       $('#arbol').jstree(true).select_node($(nodo));
+                       //$('#arbol').jstree("select_node",$(nodo));
+    }
+                   $('#arbol').jstree(true).close_all();
+                   $('#arbol').jstree(true).open_node('#videogame');
+                   if(datos[0].fields.atributos){
+                       atributos = []
+                       atributos2 = JSON.parse(datos[0].fields.atributos);
+                       var table = document.getElementById('tablaAniadidos');
+                       for(var i = table.rows.length - 1; i > 0; i--){
+                         table.deleteRow(i);
+                     }
+                     for(i in atributos2 ){
+                         var atributo = { propiedad:"", atributo:"",grado:""}
+                         atributos3 = JSON.parse(atributos2[i]);
+                         atributo.propiedad=atributos3.propiedad;
+                         atributo.atributo=atributos3.atributo;
+                         atributo.grado=atributos3.grado;
+                         atributos.push(atributo);
+
+                         var row = table.insertRow(table.rows.length);
+                         row.className="info";
+                         idsRows++;
+                         row.id="row"+idsRows;
+
+                         var cell0 = row.insertCell(0);
+                         var cell1 = row.insertCell(1);
+                         var cell2 = row.insertCell(2);
+                         var cell3 = row.insertCell(3);
+
+                         var miaux = idsRows;
+
+                         cell0.innerHTML = '<td><b>'+atributo.propiedad+'</b></td>';
+                         cell1.innerHTML = '<td><b>'+atributo.atributo+'</b></td>';
+                         cell2.innerHTML = '<td><b>'+atributo.grado+'</b></td>';
+                         cell3.innerHTML = '<a id="botonver" class="btn btn-danger btn-sm" onclick="deleterow('+miaux+',\''+atributo.propiedad+'\',\''+atributo.atributo+'\',\''+atributo.grado+'\')"><span class="glyphicon glyphicon-minus"></span> Eliminar</a>';
+
+                     }
+                 }
+             }
+             )
 
 if(window.location.pathname.split("/").pop()!="datos"){
   var urlarr=window.location.pathname.split("/");
@@ -447,35 +448,35 @@ if(window.location.pathname.split("/").pop()!="datos"){
       }
       if(guardar){
           $.post("{% url 'guardar_Heuristica' %}",{id:id,cuestion:cuestion,comentarios:comentarios,range:range,selectedElmsIds:selectedElmsIds,atributos:misatributos,csrfmiddlewaretoken:'{{csrf_token}}'},
-             function (result){
-               document.getElementById("alertaHeuristica").style.visibility = "visible";
-               timeoutID = window.setTimeout(function clerAlert() {
-                 document.getElementById("alertaHeuristica").style.visibility = "hidden";
-             }, 2000);
-               
-               if(result.nuevo=="true"){
-                  var table = document.getElementById('mitabla');
-                  var row = table.insertRow(table.rows.length);
-                  row.className="info";
-                  row.id="fila"+result.id
-                  var cell0 = row.insertCell(0);
-                  var cell1 = row.insertCell(1);
-                  var cell2 = row.insertCell(2);
-                  var cell3 = row.insertCell(3);
-                  cell3.addEventListener("click", function(){ datos(result.id)}, false);
-                  cell2.id="cuestion"+result.id;
-                  cell0.innerHTML = '<td id="check"><input onclick="seleccionado('+result.id+')"type="checkbox"  name="option"><br></td>';
-                  cell1.innerHTML = '<td>'+result.id+'</td>';
-                  cell2.innerHTML = '<td></td>';
-                  cell3.innerHTML = '<a id="botonver" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-search"></span> Ver</a>';
-                  document.getElementById("cuestion"+result.id).innerText= cuestion;
-                  document.getElementById("inputId").value=result.id;
-              }
-              else{
-                  document.getElementById("cuestion"+id).innerText= cuestion;
-              }
+           function (result){
+             document.getElementById("alertaHeuristica").style.visibility = "visible";
+             timeoutID = window.setTimeout(function clerAlert() {
+               document.getElementById("alertaHeuristica").style.visibility = "hidden";
+           }, 2000);
+
+             if(result.nuevo=="true"){
+              var table = document.getElementById('mitabla');
+              var row = table.insertRow(table.rows.length);
+              row.className="info";
+              row.id="fila"+result.id
+              var cell0 = row.insertCell(0);
+              var cell1 = row.insertCell(1);
+              var cell2 = row.insertCell(2);
+              var cell3 = row.insertCell(3);
+              cell3.addEventListener("click", function(){ datos(result.id)}, false);
+              cell2.id="cuestion"+result.id;
+              cell0.innerHTML = '<td id="check"><input onclick="seleccionado('+result.id+')"type="checkbox"  name="option"><br></td>';
+              cell1.innerHTML = '<td>'+result.id+'</td>';
+              cell2.innerHTML = '<td></td>';
+              cell3.innerHTML = '<a id="botonver" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-search"></span> Ver</a>';
+              document.getElementById("cuestion"+result.id).innerText= cuestion;
+              document.getElementById("inputId").value=result.id;
           }
-          )
+          else{
+              document.getElementById("cuestion"+id).innerText= cuestion;
+          }
+      }
+      )
 }
 })
 
@@ -582,85 +583,85 @@ window.onload=changeFunc();
 <!-- initialize checkboxTree plugin -->
 <script>
 $('#arbol').jstree({
-   'plugins': [ "checkbox"],
-   'core': {
-     'data': [{
-        "text": "Videojuego",
-        "id":"videogame",
+ 'plugins': [ "checkbox"],
+ 'core': {
+   'data': [{
+    "text": "Videojuego",
+    "id":"videogame",
+    "icon": "glyphicon glyphicon-apple",
+    "state":{
+    },
+    "children": [{
+     "text": "Game Core",
+     "id":"game_core",
+     "icon": "glyphicon glyphicon-apple",
+     "state": {
+     },
+     "children": [{
+      "text":"Desarrollo Argumental",
+      "id":"desarrollo_argumental",
+      "icon": "glyphicon glyphicon-apple",
+      "children":[{
+        "text":"Desarrollo de Personajes",
+        "id":"desarrollo_de_personajes",
         "icon": "glyphicon glyphicon-apple",
-        "state":{
-        },
-        "children": [{
-           "text": "Game Core",
-           "id":"game_core",
-           "icon": "glyphicon glyphicon-apple",
-           "state": {
-           },
-           "children": [{
-              "text":"Desarrollo Argumental",
-              "id":"desarrollo_argumental",
-              "icon": "glyphicon glyphicon-apple",
-              "children":[{
-                "text":"Desarrollo de Personajes",
-                "id":"desarrollo_de_personajes",
-                "icon": "glyphicon glyphicon-apple",
-            },
-            {
-                "text":"Historia",
-                "id":"historia",
-                "icon": "glyphicon glyphicon-apple",
-            },
-            {
-                "text":"Narrativa",
-                "id":"narrativa",
-                "icon": "glyphicon glyphicon-apple",
-            },]
-        },
-        {
-          "text":"Experiencia del Usuario",
-          "id":"experiencia_del_usuario",
-          "icon": "glyphicon glyphicon-apple",
-          "children":[{
-            "text":"Aspecto Sonoro",
-            "id":"aspecto_sonoro",
-            "icon": "glyphicon glyphicon-apple",
-            "children":[{
-              "text":"Banda Sonora",
-              "id":"banda_sonora",
-              "icon": "glyphicon glyphicon-apple",
-          },
-          {
-              "text":"Efectos Sonoros",
-              "id":"efectos_sonoros",
-              "icon": "glyphicon glyphicon-apple",
-          },
-          {
-              "text":"Sonido Ambiental",
-              "id":"sonido_ambiental",
-              "icon": "glyphicon glyphicon-apple",
-          },]
-      },
-      {
-        "text":"Aspecto Visual",
-        "id":"aspecto_visual",
+    },
+    {
+        "text":"Historia",
+        "id":"historia",
         "icon": "glyphicon glyphicon-apple",
-        "children":[{
-          "text":"Cardinalidad",
-          "id":"cardinalidad",
-          "icon": "glyphicon glyphicon-apple",
-      },
-      {
-          "text":"Estética",
-          "id":"estetica",
-          "icon": "glyphicon glyphicon-apple",
-      },
-      {
-          "text":"Realismo",
-          "id":"realismo2",
-          "icon": "glyphicon glyphicon-apple",
-      },]
+    },
+    {
+        "text":"Narrativa",
+        "id":"narrativa",
+        "icon": "glyphicon glyphicon-apple",
+    },]
+},
+{
+  "text":"Experiencia del Usuario",
+  "id":"experiencia_del_usuario",
+  "icon": "glyphicon glyphicon-apple",
+  "children":[{
+    "text":"Aspecto Sonoro",
+    "id":"aspecto_sonoro",
+    "icon": "glyphicon glyphicon-apple",
+    "children":[{
+      "text":"Banda Sonora",
+      "id":"banda_sonora",
+      "icon": "glyphicon glyphicon-apple",
   },
   {
+      "text":"Efectos Sonoros",
+      "id":"efectos_sonoros",
+      "icon": "glyphicon glyphicon-apple",
+  },
+  {
+      "text":"Sonido Ambiental",
+      "id":"sonido_ambiental",
+      "icon": "glyphicon glyphicon-apple",
+  },]
+},
+{
+    "text":"Aspecto Visual",
+    "id":"aspecto_visual",
+    "icon": "glyphicon glyphicon-apple",
+    "children":[{
+      "text":"Cardinalidad",
+      "id":"cardinalidad",
+      "icon": "glyphicon glyphicon-apple",
+  },
+  {
+      "text":"Estética",
+      "id":"estetica",
+      "icon": "glyphicon glyphicon-apple",
+  },
+  {
+      "text":"Realismo",
+      "id":"realismo2",
+      "icon": "glyphicon glyphicon-apple",
+  },]
+},
+{
     "text":"Interactividad",
     "id":"interactividad",
     "icon": "glyphicon glyphicon-apple",
@@ -920,11 +921,11 @@ $('#arbol').jstree({
 
 
 }, {
- "text": "Game Engine",
- "id":"game_engine",
- "icon": "glyphicon glyphicon-apple",
- "children":[
- {
+   "text": "Game Engine",
+   "id":"game_engine",
+   "icon": "glyphicon glyphicon-apple",
+   "children":[
+   {
     "text":"Motor Físico",
     "id":"motor_fisico",
     "icon": "glyphicon glyphicon-apple",
@@ -960,14 +961,14 @@ $('#arbol').jstree({
     "icon": "glyphicon glyphicon-apple",
 },]
 }, {
-   "text": "Game Interface",
-   "id":"game_interface",
-   "icon": "glyphicon glyphicon-apple",
-   "state": {
-     "opened": false
- },
- "children": [
- {
+ "text": "Game Interface",
+ "id":"game_interface",
+ "icon": "glyphicon glyphicon-apple",
+ "state": {
+   "opened": false
+},
+"children": [
+{
   "text":"Interfaz Física",
   "id":"interfaz_fisica",
   "icon": "glyphicon glyphicon-apple",
@@ -1025,8 +1026,8 @@ $('#arbol').jstree({
 },
 ],
 'themes': {
-   'name': 'proton',
-   'responsive': true
+ 'name': 'proton',
+ 'responsive': true
 }
 }
 });
