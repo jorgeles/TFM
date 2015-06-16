@@ -1,183 +1,179 @@
-{% extends "base_menu.htm" %}
-<html>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-{% block head %}
-<title>Mis Perfiles</title>
-{% endblock %}
-{% block contenido %}
-<!-- Modal -->
-<div id="progreso">
-</div>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Eliminar Perfil</h4>
-            </div>
-            <div class="modal-body">
-                <p> ¿Seguro que desea eliminar el test? </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="button" onclick="eliminar()" class="btn btn-danger">Sí, Deseo Eliminar</button>
+    {% extends "base_menu.htm" %}
+    <html>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    {% block head %}
+    <title>Mis Perfiles</title>
+    {% endblock %}
+    {% block contenido %}
+    <!-- Modal -->
+    <div id="progreso">
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Eliminar Perfil</h4>
+                </div>
+                <div class="modal-body">
+                    <p> ¿Seguro que desea eliminar el test? </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" onclick="eliminar()" class="btn btn-danger">Sí, Deseo Eliminar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="modal fade" id="ModalComentario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Comentario</h4>
-            </div>
-            <div class="modal-body">
-                <textarea id="textocomentario"></textarea>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="cerrarModal()">Aceptar</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="ModalEliminar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Eliminar TEST</h4>
-            </div>
-            <div class="modal-body">
-                <p> ¿Seguro que desea eliminar el test? </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="button" onclick="eliminar()" class="btn btn-danger">Sí, Deseo Eliminar</button>
+    <div class="modal fade" id="ModalComentario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">Comentario</h4>
+                </div>
+                <div class="modal-body">
+                    <textarea id="textocomentario"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="cerrarModal()">Aceptar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="modal fade" id="ModalEnviar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Enviar TEST</h4>
-            </div>
-            <div class="modal-body">
-                <p> ¿Seguro que desea enviar el Test? Recuerde que se eliminarán los datos de los resultados obtenidos </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="button" onclick="guardarEnviar()" class="btn btn-primary">Sí, Deseo Enviar</button>
+    <div class="modal fade" id="ModalEliminar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Eliminar TEST</h4>
+                </div>
+                <div class="modal-body">
+                    <p> ¿Seguro que desea eliminar el test? </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" onclick="eliminar()" class="btn btn-danger">Sí, Deseo Eliminar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="modal fade" id="ModalAsignados" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Usuarios añadidos</h4>
+    <div class="modal fade" id="ModalEnviar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Enviar TEST</h4>
+                </div>
+                <div class="modal-body">
+                    <p> ¿Seguro que desea enviar el Test? Recuerde que se eliminarán los datos de los resultados obtenidos </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" onclick="guardarEnviar()" class="btn btn-primary">Sí, Deseo Enviar</button>
+                </div>
             </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="recipient-name" class="control-label">Buscar</label>
-                        <input type="text" list="usuarios" class="form-control" oninput="complete()" id="inputBuscar">
-                        <div class="alert alert-danger" id="usuarioNoExiste" role="alert">El usuario no existe</div>
-                        <a onclick="aniadirAsignado()" class="btn btn-primary btn-sm aniadirAsignado"><span class="glyphicon glyphicon-plus"></span> Añadir</a>
-                    </div>
-                    <br></br>
-                    <div class="form-group">
-                        <h4 for="message-text" class="control-label">Añadidos</h4>
-                        <div class="usuariosaniadidos" id="usuariosaniadidos">
+        </div>
+    </div>
+    <div class="modal fade" id="ModalAsignados" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">Usuarios añadidos</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label">Buscar</label>
+                            <input type="text" list="usuarios" class="form-control" oninput="complete()" id="inputBuscar">
+                            <div class="alert alert-danger" id="usuarioNoExiste" role="alert">El usuario no existe</div>
+                            <a onclick="aniadirAsignado()" class="btn btn-primary btn-sm aniadirAsignado"><span class="glyphicon glyphicon-plus"></span> Añadir</a>
                         </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
-            </div>
-        </div>
-    </div>
-</div>
-<datalist id="usuarios">
-</datalist>
-<div id="contenido">
-    <div id="menu_lateral">
-        <div id="lista_izq">
-            <ul id="milist">
-                {% for test in tests %}
-                <li>
-                    <form id="listNombre" action="{% url 'cargarTest' %}" method="post">{% csrf_token %}
-                        {% if test.id == mitest.id %}
-                        <input class="listnameactive" type="submit" name="perfil" id="{{test.id|safe}}" value="{{test.nombre|safe}}"  ></input>
-                        {% else %}
-                        <input class="listname" type="submit" name="perfil" id="{{test.id|safe}}" value="{{test.nombre|safe}}"  ></input>
-                        {% endif %}
-                        <input id="soporte" type="hidden" name="testpulsado" value="{{test.id|safe}}"></input>
-                    </form>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-        <form action="{% url 'nuevoTest' %}" method="post">{% csrf_token %}
-            <button class="btn btn-primary " id="aniadirli" type="submit" onclick="aniadirli()">
-                <span class="glyphicon glyphicon-plus"></span> Añadir Test</button>
-            </form>
-        </div>
-        <div id="heuristica">
-            <div role="tabpanel">
-
-                <ul class="nav nav-tabs" role="tablist" id="myTab">
-                    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Configuración</a></li>
-                    <li role="presentation"><a href="#settings" onclick="cargarValoracion()" aria-controls="settings" role="tab" data-toggle="tab">Resultados</a></li>
-                </ul>
-
-                <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="home">
-                        <h5 class="headers">Titulo del Test </h5>
-                        <input id="nombreDelTest" value="{{mitest.nombre}}"></input>
-                        <h5 class="headers">Titulo del Juego </h5>
-                        <input id="nombreDelJuego" value="{{mitest.titulo}}"></input>
-                        <button class="btn btn-primary" onclick="abrirFormularioModal()"><span class="glyphicon glyphicon-plus"></span> Asignar Test</button>
-                        <h4 class="headers">Seleccione las preguntas del Test </h4>
-                        <div class="container-fluid">
-                            <div class="navbar-header">
-                                <a class="navbar-brand listajugabilidades marcada" id="Intrinseca" onclick="marcar(Intrinseca)">Intrínseca</a>
-                                <a class="navbar-brand listajugabilidades" id="Mecanica" onclick="marcar(Mecanica)">Mecánica</a>
-                                <a class="navbar-brand listajugabilidades" id="Interactiva" onclick="marcar(Interactiva)">Interáctiva</a>
-                                <a class="navbar-brand listajugabilidades" id="Artistica" onclick="marcar(Artistica)">Artística</a>
-                                <a class="navbar-brand listajugabilidades" id="Intrapersonal" onclick="marcar(Intrapersonal)">Intrapersonal</a>
-                                <a class="navbar-brand listajugabilidades" id="Interpersonal" onclick="marcar(Interpersonal)">Interpersonal</a>
+                        <br></br>
+                        <div class="form-group">
+                            <h4 for="message-text" class="control-label">Añadidos</h4>
+                            <div class="usuariosaniadidos" id="usuariosaniadidos">
                             </div>
                         </div>
-                        <div id="tablasHeuristicas">
-                            <TABLE class="table table-striped table-hover " id="mitabla">
-                                <TR>
-                                    <TH>Seleccionada</TH> <TH>COD</TH> <TH>Heurística</TH>
-                                </TR>
-                                    <!--{% for dato in heuristicas %}
-                                    <!-- <TR class="info" id="fila{{dato.id}}">
-                                        <TD id="check"><input type="checkbox" id="{{ dato.id }}" name="option" checked onclick="seleccionar({{ dato.id }})"><br></TD>
-                                        <TD id="dato{{dato.id}}"><b>{{ dato.id }}</b></TD>
-                                        <TD ><p id="cuestion{{dato.id}}"><b>{{ dato.nombre }}</b></p></TD>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <datalist id="usuarios">
+    </datalist>
+    <div id="contenido">
+        <div id="menu_lateral">
+            <div id="lista_izq">
+                <ul id="milist">
+                    {% for test in tests %}
+                    <li>
+                        <form id="listNombre" action="{% url 'cargarTest' %}" method="post">{% csrf_token %}
+                            {% if test.id == mitest.id %}
+                            <input class="listnameactive" type="submit" name="perfil" id="{{test.id|safe}}" value="{{test.nombre|safe}}"  ></input>
+                            {% else %}
+                            <input class="listname" type="submit" name="perfil" id="{{test.id|safe}}" value="{{test.nombre|safe}}"  ></input>
+                            {% endif %}
+                            <input id="soporte" type="hidden" name="testpulsado" value="{{test.id|safe}}"></input>
+                        </form>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <form action="{% url 'nuevoTest' %}" method="post">{% csrf_token %}
+                <button class="btn btn-primary " id="aniadirli" type="submit" onclick="aniadirli()">
+                    <span class="glyphicon glyphicon-plus"></span> Añadir Test</button>
+                </form>
+            </div>
+            <div id="heuristica">
+                <div role="tabpanel">
+
+                    <ul class="nav nav-tabs" role="tablist" id="myTab">
+                        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Configuración</a></li>
+                        <li role="presentation"><a href="#settings" onclick="cargarValoracion()" aria-controls="settings" role="tab" data-toggle="tab">Resultados Globales</a></li>
+                        <li role="presentation"><a href="#globales" onclick="cargarValoracion2(0)" aria-controls="globales" role="tab" data-toggle="tab">Resultados Individuales</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="home">
+                            <h5 class="headers">Titulo del Test </h5>
+                            <input id="nombreDelTest" value="{{mitest.nombre}}"></input>
+                            <h5 class="headers">Titulo del Juego </h5>
+                            <input id="nombreDelJuego" value="{{mitest.titulo}}"></input>
+                            <button class="btn btn-primary" onclick="abrirFormularioModal()"><span class="glyphicon glyphicon-plus"></span> Asignar Test</button>
+                            <h4 class="headers">Seleccione las preguntas del Test </h4>
+                            <div class="container-fluid">
+                                <div class="navbar-header">
+                                    <a class="navbar-brand listajugabilidades marcada" id="Intrinseca" onclick="marcar(Intrinseca)">Intrínseca</a>
+                                    <a class="navbar-brand listajugabilidades" id="Mecanica" onclick="marcar(Mecanica)">Mecánica</a>
+                                    <a class="navbar-brand listajugabilidades" id="Interactiva" onclick="marcar(Interactiva)">Interáctiva</a>
+                                    <a class="navbar-brand listajugabilidades" id="Artistica" onclick="marcar(Artistica)">Artística</a>
+                                    <a class="navbar-brand listajugabilidades" id="Intrapersonal" onclick="marcar(Intrapersonal)">Intrapersonal</a>
+                                    <a class="navbar-brand listajugabilidades" id="Interpersonal" onclick="marcar(Interpersonal)">Interpersonal</a>
+                                </div>
+                            </div>
+                            <div id="tablasHeuristicas">
+                                <TABLE class="table table-striped table-hover " id="mitabla">
+                                    <TR>
+                                        <TH>Seleccionada</TH> <TH>COD</TH> <TH>Heurística</TH>
                                     </TR>
-                                    {% endfor %} -->
-                                    
+
+
                                 </TABLE>
                             </div>
                             <button class="btn btn-primary botonesConfiguracion" onclick="ModalEnviar()"><span class="glyphicon glyphicon-send"></span> Guardar y Enviar Test</button>
                             <button class="btn btn-success botonesConfiguracion" onclick="guardar()"id="guardarConfiguracion"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
                             <button class="btn btn-danger botonesConfiguracion" onclick="modalEliminar()" id="eliminarConfiguracion"><span class="glyphicon glyphicon-minus"></span> Eliminar Test</button>
+                            <button href="#" class="btn btn-primary botonesConfiguracion" id="ImprimirPreguntas" onclick="Imprimir()"><span class="glyphicon glyphicon-print"></span> PDF Preguntas</button>
                             <div id="Mialerta"class="alert alert-success" role="alert"></div>
                             <form id="formEliminar" action="{% url 'eliminarTest' %}" method="post">{% csrf_token %}
                             </form>
                         </div>
-                        
+
                         <div role="tabpanel" class="tab-pane" id="settings">
                             <nav class=" minavbar">
                                 <div class="container-fluid">
@@ -186,8 +182,7 @@
                                         <a id="Resultados_verFacetas" onclick="verFacetas('Global')" class="navbar-brand cursor">Análisis Facetas</a>
                                         <a class="navbar-brand cursor" id="Resultados_verAtributos" onclick="verAtributos('Global')">Análisis Atributos</a>
                                         <a class="navbar-brand cursor" id="Resultados_verElementos" onclick="verElementos(0)">Análisis Elementos</a>
-                                        <a class="navbar-brand cursor" id="Resultados_verRespuestas" onclick="verRespuestas(0)">Respuestas</a>
-                                        
+
                                     </div>
                                 </div>
                             </nav>
@@ -199,10 +194,7 @@
                                         </ul>
                                     </div>
                                     <div id="panel_resultados">
-                                        <div id="zonatabla">
-                                            <TABLE class="table table-striped table-hover " id="tablaPreguntas">
-                                            </TABLE>
-                                        </div>
+      
                                         <div id="grafIzq"></div>
                                         <div id="grafDer"></div>
                                     </div>
@@ -210,12 +202,12 @@
                                         <h4 class="headers">Comentarios<h4>
                                             <textarea id="comentarios_resultados" oninput="guardarComentario()"></textarea>
                                             <button class="btn btn-success btn-sm" onclick="guardarComentarios()"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar Comentarios</button>
-                                            <div id="Mialerta3"class="alert alert-success" role="alert"></div>
-                                        </div>
-
+                                        <div id="Mialerta3"class="alert alert-success" role="alert"></div>
                                     </div>
-                                    <div class="" id="verValoración">
-                                        <div id="tablaValoracion">
+
+                                </div>
+                                <div class="" id="verValoración">
+                                    <div id="tablaValoracion">
                                             <TABLE class="table table-striped " id="mitabla2">
                                                 <TR>
                                                     <TH></TH><TH>Satisfacción</TH><TH>Aprendizaje</TH><TH>Efectividad</TH><TH>Inmersión</TH><TH>Motivación</TH><TH>Emoción</TH><TH>Socialización</TH><TH>Media</TH>
@@ -299,164 +291,480 @@
                                                 </TR>
 
                                             </TABLE>
-                                        </div>
-                                        <div id="panel_comentarios">
+                                    </div>
+                                    <div id="panel_comentarios">
                                             <h4 class="headers">Comentarios<h4>
                                                 <textarea id="comentarios_resultados2" oninput="guardarComentario2()"></textarea>
                                                 <button class="btn btn-success btn-sm" onclick="guardarComentarios()"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar Comentarios</button>
-                                                <div id="Mialerta2"class="alert alert-success" role="alert"></div>
+                                            <div id="Mialerta2"class="alert alert-success" role="alert">
                                             </div>
-                                        </div>
                                     </div>
                                 </div>
-
                             </div>
+                        </div>
+                            <div role="tabpanel" class="tab-pane" id="globales">
+                                <div id="ListaUsuarios">
+                                    <ul id="milistFacetas2">
+                                    </ul>
+                                </div>
+                                <div id="ResultadosIndividules">
+                                    <nav class=" minavbar minavbar2">
+                                        <div class="container-fluid">
+                                            <div class="navbar-header">
+                                                <a class="navbar-brand navbar-active cursor" id="menu_verValoracion2" onclick="cargarValoracion2(0)">Valoración</a>
+                                                <a id="Resultados_verFacetas2" onclick="verFacetas2('Global')" class="navbar-brand cursor">Análisis Facetas</a>
+                                                <a class="navbar-brand cursor" id="Resultados_verAtributos2" onclick="verAtributos2('Global')">Análisis Atributos</a>
+                                                <a class="navbar-brand cursor" id="Resultados_verElementos2" onclick="verElementos2(0)">Análisis Elementos</a>
+                                                <a class="navbar-brand cursor" id="Resultados_verRespuestas2" onclick="verRespuestas2(0)">Respuestas</a>
+                                             </div>
+                                        </div>
+                                    </nav>
+                                        <div id="contenidoMisTest2">
+                                            <div id="verValoracion2">
+                                                <div id="tablaValoracion2">
+                                                    <TABLE class="table table-striped " id="mitabla3">
+                                                        <TR>
+                                                            <TH></TH><TH>Satisfacción</TH><TH>Aprendizaje</TH><TH>Efectividad</TH><TH>Inmersión</TH><TH>Motivación</TH><TH>Emoción</TH><TH>Socialización</TH><TH>Media</TH>
+                                                        </TR>
+                                                        <TR class="">
+                                                            <TH class="">J.Intrínseca</TH>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                        </TR>
+                                                        <TR class="">
+                                                            <TH>J.Mecánica</TH>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                        </TR>
+                                                        <TR class="">
+                                                            <TH>J.Interactiva</TH>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                        </TR>
+                                                        <TR class="">
+                                                            <TH>J.Artística</TH>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                        </TR>
+                                                        <TR class="">
+                                                            <TH>J.Personal</TH>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                        </TR>
+                                                        <TR class="">
+                                                            <TH>J.Social</TH>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                        </TR>
+                                                        <TR class="">
+                                                            <TH>Media</TH>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                            <td class="row"></td>
+                                                        </TR>
 
-                            <script>
-                            $(function () {
-                              $('#myTab a:first').tab('show')
-                          })
-                            </script>
-
+                                                    </TABLE>
+                                                </div>
+                                            </div>  
+                                            <div id="panel_resultados2">
+                                                <div id="zonatabla">
+                                                    <TABLE class="table table-striped table-hover " id="tablaPreguntas2">
+                                                    </TABLE>
+                                                </div>
+                                                <div id="grafIzq2"></div>
+                                                <div id="grafDer2"></div>
+                                            </div>      
+                                        </div>
+                                </div>
+                                <div id="panel_comentarios2">
+                                    <h4 class="headers">Comentarios<h4>
+                                    <textarea id="comentarios_resultados" oninput="guardarComentario()"></textarea>
+                                    <button class="btn btn-success btn-sm" onclick="guardarComentarios()"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar Comentarios</button>
+                                    <div id="Mialerta3"class="alert alert-success" role="alert"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <script>
-                var comentario='{{mitest.comentarios}}'
-                document.getElementById("Mialerta3").style.visibility = "hidden";
-                document.getElementById("Mialerta2").style.visibility = "hidden";
-                var seleccionados=[];
-                var asignados=[];
-                function aniadirli(){
-                    var ul = document.getElementById("milist");
-                    var li = document.createElement("li");
-                    li.appendChild(document.createTextNode("Nuevo Test"));
-                    ul.appendChild(li);
+            </div>
+        </div>
+    </div>
+    <script>
+    $(function () {
+      $('#myTab a:first').tab('show')
+  })
+    </script>
+    <script>
+    var comentario='{{mitest.comentarios}}'
+    document.getElementById("Mialerta3").style.visibility = "hidden";
+    document.getElementById("Mialerta2").style.visibility = "hidden";
+    var seleccionados=[];
+    var asignados=[];
+    function aniadirli(){
+        var ul = document.getElementById("milist");
+        var li = document.createElement("li");
+        li.appendChild(document.createTextNode("Nuevo Test"));
+        ul.appendChild(li);
+    }
+    function marcar(id){
+        id.className = "navbar-brand listajugabilidades marcada";
+        if(id.id!="Intrinseca"){
+            document.getElementById("Intrinseca").className="navbar-brand listajugabilidades ";
+        }
+        if(id.id!="Mecanica"){
+            document.getElementById("Mecanica").className="navbar-brand listajugabilidades ";
+        }
+        if(id.id!="Interactiva"){
+            document.getElementById("Interactiva").className="navbar-brand listajugabilidades ";
+        }
+        if(id.id!="Artistica"){
+            document.getElementById("Artistica").className="navbar-brand listajugabilidades ";
+        }
+        if(id.id!="Intrapersonal"){
+            document.getElementById("Intrapersonal").className="navbar-brand listajugabilidades ";
+        }
+        if(id.id!="Interpersonal"){
+            document.getElementById("Interpersonal").className="navbar-brand listajugabilidades ";
+        }
+        $.post("{% url 'cargarTablas' %}",{id:id.id,csrfmiddlewaretoken:'{{csrf_token}}'},
+           function (result){
+               datos = JSON.parse(result.heuristica);
+
+               var table = document.getElementById('mitabla');
+               while(table.hasChildNodes()){
+                   table.removeChild(table.firstChild);
+               }
+
+               var header = table.createTBody();
+               var row = header.insertRow(0);
+               table.className="table table-striped table-hover";
+
+               var cell = row.insertCell(0);
+               var cell1 = row.insertCell(1);
+               var cell2 = row.insertCell(2);
+
+               cell.innerHTML = "<b>Seleccionada</b>";
+               cell1.innerHTML = "<b>COD</b>";
+               cell2.innerHTML = "<b>Heurística</b>";
+
+               for (i in datos){
+                   var table = document.getElementById('mitabla');
+
+
+
+                   var row = table.insertRow(table.rows.length);
+                   row.className="info";
+
+                   var cell0 = row.insertCell(0);
+                   var cell1 = row.insertCell(1);
+                   var cell2 = row.insertCell(2);
+
+                   if(seleccionados.lastIndexOf(datos[i].pk.toString())==-1){
+                    cell0.innerHTML = '<td><input type="checkbox" id="'+datos[i].pk+'" onclick="seleccionar('+datos[i].pk+')" name="option"><br></td>';
                 }
-                function marcar(id){
-                    id.className = "navbar-brand listajugabilidades marcada";
-                    if(id.id!="Intrinseca"){
-                        document.getElementById("Intrinseca").className="navbar-brand listajugabilidades ";
-                    }
-                    if(id.id!="Mecanica"){
-                        document.getElementById("Mecanica").className="navbar-brand listajugabilidades ";
-                    }
-                    if(id.id!="Interactiva"){
-                        document.getElementById("Interactiva").className="navbar-brand listajugabilidades ";
-                    }
-                    if(id.id!="Artistica"){
-                        document.getElementById("Artistica").className="navbar-brand listajugabilidades ";
-                    }
-                    if(id.id!="Intrapersonal"){
-                        document.getElementById("Intrapersonal").className="navbar-brand listajugabilidades ";
-                    }
-                    if(id.id!="Interpersonal"){
-                        document.getElementById("Interpersonal").className="navbar-brand listajugabilidades ";
-                    }
-                    $.post("{% url 'cargarTablas' %}",{id:id.id,csrfmiddlewaretoken:'{{csrf_token}}'},
-                       function (result){
-                           datos = JSON.parse(result.heuristica);
 
+                else{
+                    cell0.innerHTML = '<td><input type="checkbox" id="'+datos[i].pk+'" onclick="seleccionar('+datos[i].pk+')" name="option" checked><br></td>';
+                }
 
-                           var table = document.getElementById('mitabla');
-                           while(table.hasChildNodes()){
-                               table.removeChild(table.firstChild);
-                           }
+                cell1.innerHTML = '<td><b>'+datos[i].pk+'</b></td>';
+                cell2.innerHTML = '<td><b>'+datos[i].fields.nombre+'</b></td>';
+            }
+        })
 
-                           var header = table.createTBody();
-                           var row = header.insertRow(0);
-                           table.className="table table-striped table-hover";
-
-                           var cell = row.insertCell(0);
-                           var cell1 = row.insertCell(1);
-                           var cell2 = row.insertCell(2);
-
-                           cell.innerHTML = "<b>Seleccionada</b>";
-                           cell1.innerHTML = "<b>COD</b>";
-                           cell2.innerHTML = "<b>Heurística</b>";
-
-                           for (i in datos){
-                               var table = document.getElementById('mitabla');
-
-
-
-                               var row = table.insertRow(table.rows.length);
-                               row.className="info";
-
-                               var cell0 = row.insertCell(0);
-                               var cell1 = row.insertCell(1);
-                               var cell2 = row.insertCell(2);
-
-                               if(seleccionados.lastIndexOf(datos[i].pk.toString())==-1){
-                                cell0.innerHTML = '<td><input type="checkbox" id="'+datos[i].pk+'" onclick="seleccionar('+datos[i].pk+')" name="option"><br></td>';
-                            }
-
-                            else{
-                                cell0.innerHTML = '<td><input type="checkbox" id="'+datos[i].pk+'" onclick="seleccionar('+datos[i].pk+')" name="option" checked><br></td>';
-                            }
-
-                            cell1.innerHTML = '<td><b>'+datos[i].pk+'</b></td>';
-                            cell2.innerHTML = '<td><b>'+datos[i].fields.nombre+'</b></td>';
-                        }
-                    })
-
-}
-function guardarComentarios(){
+    }
+    function guardarComentarios(){
 
     $.post("{% url 'guardarComentarios' %}",{comentarios:comentario,csrfmiddlewaretoken:'{{csrf_token}}'},
-     function (result){
+       function (result){
         document.getElementById("Mialerta3").style.visibility = "visible";
         document.getElementById("Mialerta3").innerHTML = "<b>El test ha sido guardado</b>";
         timeoutID = window.setTimeout(function clerAlert() {document.getElementById("Mialerta3").style.visibility = "hidden";}, 2000);
         document.getElementById("Mialerta2").style.visibility = "visible";
         document.getElementById("Mialerta2").innerHTML = "<b>El test ha sido guardado</b>";
         timeoutID = window.setTimeout(function clerAlert() {document.getElementById("Mialerta2").style.visibility = "hidden";}, 2000);
-     })
-}
+    })
+    }
 
-function guardarComentario(){
+    function guardarComentario(){
     comentario=document.getElementById("comentarios_resultados").value
-}
-function guardarComentario2(){
+    }
+    function guardarComentario2(){
     comentario=document.getElementById("comentarios_resultados2").value
-}
+    }
 
-function guardar(){
+    function guardar(){
     nombre = document.getElementById("nombreDelTest").value;
     titulo = document.getElementById("nombreDelJuego").value;
     $.post("{% url 'guardarTest' %}",{seleccionados:seleccionados,asignados:asignados,nombre:nombre,titulo:titulo,csrfmiddlewaretoken:'{{csrf_token}}'},
-     function (result){
+       function (result){
         document.getElementById("{{mitest.id}}").value=nombre;
         document.getElementById("Mialerta").style.visibility = "visible";
         document.getElementById("Mialerta").innerHTML = "<b>El test ha sido guardado</b>";
         timeoutID = window.setTimeout(function clerAlert() {document.getElementById("Mialerta").style.visibility = "hidden";}, 2000);
-     })
-}
-function ModalEnviar(){
+    })
+    }
+    function ModalEnviar(){
     $('#ModalEnviar').modal('show')
-}
+    }
 
-function modalEliminar(){
+    function modalEliminar(){
     $('#ModalEliminar').modal('show')
-}
+    }
 
-function abrirFormularioModal(){
+    function abrirFormularioModal(){
     $('#ModalAsignados').modal('show')
-}
- function eliminar(){
+    }
+    function eliminar(){
     document.getElementById('formEliminar').submit()
- }
+    }
 
-function seleccionar(id){
+    function seleccionar(id){
     if(seleccionados.lastIndexOf(id.toString())==-1){
         seleccionados.push(id.toString())
     }
     else{
         seleccionados.splice(seleccionados.lastIndexOf(id),1);
     }
-}
+    }
 
-function cargarSeleccionados(){
+    function Imprimir(){
+    var misdatos
+    $.post("{% url 'cargarTablas' %}",{id:"Global",csrfmiddlewaretoken:'{{csrf_token}}'},
+        function (result){
+            misdatos = JSON.parse(result.heuristica);
+            crearPDF(misdatos)
+        }
+        )
+    }
+
+    function crearPDF(misdatos){
+    var doc = new jsPDF('p', 'mm', [297, 210]);
+    titulo = "{{mitest.nombre|safe}}"
+    doc.setFontSize(28);
+    doc.text(20, 20, "Preguntas: "+titulo);
+    doc.setFontSize(20);
+    doc.text(20, 30, " Jugabilidad Intrinseca");
+    doc.setFontSize(12);
+    doc.setLineWidth(1)
+    j=0;
+    position = 40;
+    for (i in misdatos){
+
+        if(j>=20){
+            doc.addPage()
+            j=0;
+            position=20;
+        }
+
+        if(seleccionados.lastIndexOf(misdatos[i].pk.toString())!=-1 && misdatos[i].fields.jugabilidad==1 ){
+            j++
+            if(misdatos[i].fields.nombre.length>=90){
+                aux = misdatos[i].fields.nombre.substring(0,80)
+                aux2 = misdatos[i].fields.nombre.substring(80)
+                doc.text(20, position, aux);
+                position = position+10;
+                j++
+                doc.text(20, position, aux2);
+            }
+            else{
+                doc.text(20, position, misdatos[i].fields.nombre);
+            }
+            
+            position = position+10;
+        }
+    }
+    doc.setFontSize(20);
+    doc.text(20, position, " Jugabilidad Mecanica");
+    position = position+10;
+    doc.setFontSize(12);
+    for (i in misdatos){
+
+        if(j>=20){
+            doc.addPage()
+            j=0;
+            position=20;
+        }
+
+        if(seleccionados.lastIndexOf(misdatos[i].pk.toString())!=-1 && misdatos[i].fields.jugabilidad==2 ){
+            j++
+            if(misdatos[i].fields.nombre.length>=90){
+                aux = misdatos[i].fields.nombre.substring(0,80)
+                aux2 = misdatos[i].fields.nombre.substring(80)
+                doc.text(20, position, aux);
+                position = position+10;
+                j++
+                doc.text(20, position, aux2);
+            }
+            else{
+                doc.text(20, position, misdatos[i].fields.nombre);
+            }
+            
+            position = position+10;
+        }
+    }
+    doc.setFontSize(20);
+    doc.text(20, position, " Jugabilidad Interactiva");
+    position = position+10;
+    doc.setFontSize(12);
+    for (i in misdatos){
+
+        if(j>=20){
+            doc.addPage()
+            j=0;
+            position=20;
+        }
+
+        if(seleccionados.lastIndexOf(misdatos[i].pk.toString())!=-1 && misdatos[i].fields.jugabilidad==3 ){
+            j++
+            if(misdatos[i].fields.nombre.length>=90){
+                aux = misdatos[i].fields.nombre.substring(0,80)
+                aux2 = misdatos[i].fields.nombre.substring(80)
+                doc.text(20, position, aux);
+                position = position+10;
+                j++
+                doc.text(20, position, aux2);
+            }
+            else{
+                doc.text(20, position, misdatos[i].fields.nombre);
+            }
+            
+            position = position+10;
+        }
+    }
+    doc.setFontSize(20);
+    doc.text(20, position, " Jugabilidad Artistica");
+    position = position+10;
+    doc.setFontSize(12);
+    for (i in misdatos){
+
+        if(j>=20){
+            doc.addPage()
+            j=0;
+            position=20;
+        }
+
+        if(seleccionados.lastIndexOf(misdatos[i].pk.toString())!=-1 && misdatos[i].fields.jugabilidad==4 ){
+            j++
+            if(misdatos[i].fields.nombre.length>=90){
+                aux = misdatos[i].fields.nombre.substring(0,80)
+                aux2 = misdatos[i].fields.nombre.substring(80)
+                doc.text(20, position, aux);
+                position = position+10;
+                j++
+                doc.text(20, position, aux2);
+            }
+            else{
+                doc.text(20, position, misdatos[i].fields.nombre);
+            }
+            
+            position = position+10;
+        }
+    }
+    doc.setFontSize(20);
+    doc.text(20, position, " Jugabilidad Intrapersonal");
+    position = position+10;
+    doc.setFontSize(12);
+    for (i in misdatos){
+
+        if(j>=20){
+            doc.addPage()
+            j=0;
+            position=20;
+        }
+
+        if(seleccionados.lastIndexOf(misdatos[i].pk.toString())!=-1 && misdatos[i].fields.jugabilidad==5 ){
+            j++
+            if(misdatos[i].fields.nombre.length>=90){
+                aux = misdatos[i].fields.nombre.substring(0,80)
+                aux2 = misdatos[i].fields.nombre.substring(80)
+                doc.text(20, position, aux);
+                position = position+10;
+                j++
+                doc.text(20, position, aux2);
+            }
+            else{
+                doc.text(20, position, misdatos[i].fields.nombre);
+            }
+            
+            position = position+10;
+        }
+    }
+    doc.setFontSize(20);
+    doc.text(20, position, " Jugabilidad Interpersonal");
+    position = position+10;
+    doc.setFontSize(12);
+    for (i in misdatos){
+
+        if(j>=20){
+            doc.addPage()
+            j=0;
+            position=20;
+        }
+
+        if(seleccionados.lastIndexOf(misdatos[i].pk.toString())!=-1 && misdatos[i].fields.jugabilidad==6 ){
+            j++
+            if(misdatos[i].fields.nombre.length>=90){
+                aux = misdatos[i].fields.nombre.substring(0,80)
+                aux2 = misdatos[i].fields.nombre.substring(80)
+                doc.text(20, position, aux);
+                position = position+10;
+                j++
+                doc.text(20, position, aux2);
+            }
+            else{
+                doc.text(20, position, misdatos[i].fields.nombre);
+            }
+            
+            position = position+10;
+        }
+    }
+    //window.location=doc
+    doc.output('dataurlnewwindow');
+    }
+
+    function cargarSeleccionados(){
     document.getElementById("Mialerta").style.visibility = "hidden";
     var aux = {{ mitest.seleccionados|safe }}
     if(aux){
@@ -468,9 +776,9 @@ function cargarSeleccionados(){
         }
     }
     marcar(Intrinseca)
-}
+    }
 
-function cargarAsignados(){
+    function cargarAsignados(){
     var aux = {{ mitest.asignados|safe }}
     if(aux){
         for(i in aux){
@@ -482,9 +790,9 @@ function cargarAsignados(){
             document.getElementById('usuariosaniadidos').innerHTML += options;
         }
     }
-}
+    }
 
-function eliminarAsignados(nombre){
+    function eliminarAsignados(nombre){
     asignados.splice(asignados.lastIndexOf(nombre),1);
     document.getElementById('usuariosaniadidos').innerHTML ='<b></b>';
     for (i in asignados){
@@ -494,80 +802,80 @@ function eliminarAsignados(nombre){
         options+='<a href="#" class="btn btn-primary btn-xs enviarAsignado" onclick="enviarAsignado(\''+asignados[i]+'\')"><span class="glyphicon glyphicon-send"></span> Guardar y Enviar</a>'
         document.getElementById('usuariosaniadidos').innerHTML += options;
     }
-}
+    }
 
-function complete(){
+    function complete(){
     if(document.getElementById("inputBuscar").value.length>=3){
         $.post("{% url 'cargarUsuarios' %}",{user:document.getElementById("inputBuscar").value,csrfmiddlewaretoken:'{{csrf_token}}'},
-         function (result){
-             list = result.usuarios
-             options = ""
-             for (i in list){
-                 options += '<option value= "'+list[i]+'" />';
-             }
+           function (result){
+               list = result.usuarios
+               options = ""
+               for (i in list){
+                   options += '<option value= "'+list[i]+'" />';
+               }
 
-             document.getElementById('usuarios').innerHTML = options;
-         })
+               document.getElementById('usuarios').innerHTML = options;
+           })
 
     }
-}
-function aniadirAsignado(){
+    }
+    function aniadirAsignado(){
     if(document.getElementById('inputBuscar').value.length!=0){
         aux = document.getElementById('inputBuscar').value;
         if(asignados.lastIndexOf(aux)==-1){
-        $.post("{% url 'UsuarioExiste' %}",{user:document.getElementById("inputBuscar").value,csrfmiddlewaretoken:'{{csrf_token}}'},
-         function (result){
-             if(result.existe){
-                 options = '<br></br>'
-                 options+='<h4 class="asignado">'+document.getElementById('inputBuscar').value+'</h4>'
-                 options+='<a class="btn btn-danger btn-xs eliminarAsignados" onclick="eliminarAsignados(\''+document.getElementById('inputBuscar').value+'\')"><span class="glyphicon glyphicon-minus"></span> Eliminar</a>'
-                 options+='<a href="#" class="btn btn-primary btn-xs enviarAsignado" onclick="enviarAsignado(\''+document.getElementById('inputBuscar').value+'\')"><span class="glyphicon glyphicon-send"></span> Guardar y Enviar</a>'
-                 document.getElementById('usuariosaniadidos').innerHTML += options;
-                 asignados.push(document.getElementById('inputBuscar').value);
-             }
-             else{
-                 document.getElementById("usuarioNoExiste").style.visibility = "visible";
-                 timeoutID = window.setTimeout(function clerAlert() {
-                   document.getElementById("usuarioNoExiste").style.visibility = "hidden";
-               }, 2000);
-             }
-         })
-}
+            $.post("{% url 'UsuarioExiste' %}",{user:document.getElementById("inputBuscar").value,csrfmiddlewaretoken:'{{csrf_token}}'},
+               function (result){
+                   if(result.existe){
+                       options = '<br></br>'
+                       options+='<h4 class="asignado">'+document.getElementById('inputBuscar').value+'</h4>'
+                       options+='<a class="btn btn-danger btn-xs eliminarAsignados" onclick="eliminarAsignados(\''+document.getElementById('inputBuscar').value+'\')"><span class="glyphicon glyphicon-minus"></span> Eliminar</a>'
+                       options+='<a href="#" class="btn btn-primary btn-xs enviarAsignado" onclick="enviarAsignado(\''+document.getElementById('inputBuscar').value+'\')"><span class="glyphicon glyphicon-send"></span> Guardar y Enviar</a>'
+                       document.getElementById('usuariosaniadidos').innerHTML += options;
+                       asignados.push(document.getElementById('inputBuscar').value);
+                   }
+                   else{
+                       document.getElementById("usuarioNoExiste").style.visibility = "visible";
+                       timeoutID = window.setTimeout(function clerAlert() {
+                         document.getElementById("usuarioNoExiste").style.visibility = "hidden";
+                     }, 2000);
+                   }
+               })
+    }
 
     }
-}
+    }
 
-function enviarAsignado(nombre){
+    function enviarAsignado(nombre){
     aux = []
     aux.push(nombre)
     nombre2 = document.getElementById("nombreDelTest").value;
     titulo = document.getElementById("nombreDelJuego").value;
     $.post("{% url 'guardarIndividual' %}",{seleccionados:seleccionados,asignados:asignados,envio:aux,nombre:nombre2,titulo:titulo,csrfmiddlewaretoken:'{{csrf_token}}'},
-     function (result){
-         document.getElementById("{{mitest.id}}").value=nombre2;
-     })
-}
+       function (result){
+           document.getElementById("{{mitest.id}}").value=nombre2;
+       })
+    }
 
-function guardarEnviar(){
+    function guardarEnviar(){
     nombre = document.getElementById("nombreDelTest").value;
     titulo = document.getElementById("nombreDelJuego").value;
     $.post("{% url 'guardarEnviar' %}",{seleccionados:seleccionados,asignados:asignados,nombre:nombre,titulo:titulo,csrfmiddlewaretoken:'{{csrf_token}}'},
-     function (result){
+       function (result){
         $('#ModalEnviar').modal('hide')
         document.getElementById("{{mitest.id}}").value=nombre;
         document.getElementById("Mialerta").style.visibility = "visible";
         document.getElementById("Mialerta").innerHTML = "<b>El test ha sido enviado y guardado</b>";
         timeoutID = window.setTimeout(function clerAlert() {document.getElementById("Mialerta").style.visibility = "hidden";}, 2000);
 
-     })
+    })
 
-}
+    }
 
-/*Zona en la que cargo datos de los resultados obtenidos por los test resueltos por los usuarios a los que se le ha asignado*/
-var resultadosTotal;
-var resultados;
-var datosparseados = []
-function cargarDatos(){
+    /*Zona en la que cargo datos de los resultados obtenidos por los test resueltos por los usuarios a los que se le ha asignado*/
+    var resultadosTotal;
+    var resultados;
+    var datosparseados = []
+    function cargarDatos(){
     document.getElementById("progreso").innerHTML='<div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%"><span class="sr-only">45% Complete</span></div></div>'
 
     $.post("{% url 'cargarValoracion' %}",{csrfmiddlewaretoken:'{{csrf_token}}'},
@@ -582,10 +890,10 @@ function cargarDatos(){
             document.getElementById("progreso").innerHTML=""
 
         })
-}
+    }
 
-/* Clase donde cargo los resultados de cada pregunta con sus atributos correspondinetes*/
-function DatoParseado(jugabilidad,propiedad,atributo,nota,grado,elementos,rango){
+    /* Clase donde cargo los resultados de cada pregunta con sus atributos correspondinetes*/
+    function DatoParseado(jugabilidad,propiedad,atributo,nota,grado,elementos,rango,propietario){
     this.jugabilidad=jugabilidad
     this.propiedad=propiedad
     this.atributo=atributo
@@ -593,23 +901,26 @@ function DatoParseado(jugabilidad,propiedad,atributo,nota,grado,elementos,rango)
     this.grado = grado
     this.elementos = elementos
     this.rango = rango
-}
-/* Array que contiene todos los elementos de un juego y sirve para poder hacer comprobaciones*/
-TodosElementos = ["videogame", "desarrollo_de_personajes", "historia", "narrativa", "banda_sonora", "efectos_sonoros", "sonido_ambiental", "cardinalidad", "estetica", "realismo2", "control", "disposicion", "metaforas", "navegacion", "realimentacion", "aspecto_sonoro", "aspecto_visual", "interactividad", "cardinalidad2", "escala", "fronteras", "continuo", "libre", "variable", "ambiental", "emocional", "etica", "fisica", "temporal", "individual", "multijugador", "primarios", "secundarios", "implicitos", "explicitos", "esporadico", "a_ritmo_propio", "extrinsico", "intrinseco", "ritmo_externo", "aleatoriedad", "armonia", "contenido", "curva_de_aprendizaje", "dimensionalidad", "entidad", "equilibrio", "estado_de_progreso", "genero", "numero_de_jugadores", "realismo", "objetivos", "recompensas", "reglas", "retos", "ritmo", "segmentacion", "sistema_de_salvado", "tipo_de_contenido", "desarrollo_argumental", "experiencia_del_usuario", "mecanicas", "motor_fisico", "motor_grafico", "motor_de_ia", "motor_de_sonido", "sistema_de_comunicacion", "sistema_de_control_interactivo", "sistema_de_scripting", "interfaz_auditiva", "interfaz_tactil", "interfaz_visual", "interfaz_plataforma", "interfaz_de_usuario", "look_and_feel", "realimentacion2", "puntos_de_vista", "interfaz_fisica", "interfaz_software", "game_core", "game_engine", "game_interface"]
+    this.propietario=propietario
+    }
+    /* Array que contiene todos los elementos de un juego y sirve para poder hacer comprobaciones*/
+    TodosElementos = ["videogame", "desarrollo_de_personajes", "historia", "narrativa", "banda_sonora", "efectos_sonoros", "sonido_ambiental", "cardinalidad", "estetica", "realismo2", "control", "disposicion", "metaforas", "navegacion", "realimentacion", "aspecto_sonoro", "aspecto_visual", "interactividad", "cardinalidad2", "escala", "fronteras", "continuo", "libre", "variable", "ambiental", "emocional", "etica", "fisica", "temporal", "individual", "multijugador", "primarios", "secundarios", "implicitos", "explicitos", "esporadico", "a_ritmo_propio", "extrinsico", "intrinseco", "ritmo_externo", "aleatoriedad", "armonia", "contenido", "curva_de_aprendizaje", "dimensionalidad", "entidad", "equilibrio", "estado_de_progreso", "genero", "numero_de_jugadores", "realismo", "objetivos", "recompensas", "reglas", "retos", "ritmo", "segmentacion", "sistema_de_salvado", "tipo_de_contenido", "desarrollo_argumental", "experiencia_del_usuario", "mecanicas", "motor_fisico", "motor_grafico", "motor_de_ia", "motor_de_sonido", "sistema_de_comunicacion", "sistema_de_control_interactivo", "sistema_de_scripting", "interfaz_auditiva", "interfaz_tactil", "interfaz_visual", "interfaz_plataforma", "interfaz_de_usuario", "look_and_feel", "realimentacion2", "puntos_de_vista", "interfaz_fisica", "interfaz_software", "game_core", "game_engine", "game_interface"]
 
-TodosAtributos = ["Satisfacción","Aprendizaje","Efectividad","Inmersión","Motivación","Emoción","Socialización"]
+    TodosAtributos = ["Satisfacción","Aprendizaje","Efectividad","Inmersión","Motivación","Emoción","Socialización"]
 
-/* Parseo los datos y los convierto en un array de objeto tipo DatoParseado*/
-function parseoDatos(){
+    /* Parseo los datos y los convierto en un array de objeto tipo DatoParseado*/
+    function parseoDatos(){
+    propietario=resultados.fields.propietario
     misrespuestas = resultados.fields.respuestas
     misseleccionados = resultados.fields.seleccionados
     misrespuestas = JSON.parse(misrespuestas)
     misseleccionados = JSON.parse(misseleccionados)
     for (i in misrespuestas){
+
         for (j in misseleccionados){
             aux = JSON.parse(misseleccionados[j])
             if(misrespuestas[i].id==aux[0].pk){
-                atributos = aux[0].fields.atributos
+                atributos = aux[0].fields.atributos                
                 atributos = JSON.parse(atributos)
                 elementos = JSON.parse(aux[0].fields.elementos)
                 if(atributos.length>0){
@@ -621,227 +932,337 @@ function parseoDatos(){
                         grado = auxAtributos.grado
                         atributo=auxAtributos.atributo
                         nota=misrespuestas[i].value
-                        datosparseados.push(new DatoParseado(jugabilidad,propiedad,atributo,nota,grado,elementos,rango))
+                        datosparseados.push(new DatoParseado(jugabilidad,propiedad,atributo,nota,grado,elementos,rango,propietario))
                     }
 
                 }
             }
         }
     }
-    
-}
 
-/******************/
-/* Función que carga y muestro los datos de la pestaña de Valoración para los resultados
-*/
-function cargarValoracion(){
-    document.getElementById("menu_verValoracion").className="navbar-brand navbar-active cursor"
-    document.getElementById("Resultados_verFacetas").className="navbar-brand  cursor"
-    document.getElementById("Resultados_verAtributos").className="navbar-brand  cursor"
-    document.getElementById("Resultados_verRespuestas").className="navbar-brand  cursor"
-    document.getElementById("Resultados_verElementos").className="navbar-brand  cursor"
-    document.getElementById("verValoración").className=""
-    document.getElementById("maestro_detalle").className="oculta"
-    document.getElementById("listaResultados").style.width = "180px";
-    document.getElementById("listaResultados").style.width = "180px";
-    document.getElementById("listaResultados").style.height = "450px";
-    document.getElementById("comentarios_resultados").style.width="100%"
-    document.getElementById("panel_comentarios2").style.paddingLeft="1%"
-    document.getElementById("milistFacetas").className=""
-    document.getElementById("arbol").className="oculta"
-    document.getElementById("comentarios_resultados").value=comentario
-    document.getElementById("comentarios_resultados2").value=comentario
-
-    var contadores = [];
-    for(var i=0; i<=6; i++) {
-        contadores[i] = [];
-        for(k in TodosAtributos) {
-            contadores[i][k] = 0;
-            contadores[i][k]=[];
-            contadores[i][k][0]=0
-            contadores[i][k][1]=0
-        }
     }
-    for( i in datosparseados){
-        for (var j = 1; j <=6; j++) {
-            for( k in TodosAtributos){
-                if(datosparseados[i].jugabilidad==j.toString() && datosparseados[i].propiedad==TodosAtributos[k]){
-                    contadores[j-1][k][1]++;
-                    if(datosparseados[i].rango=="2"){
-                        contadores[j-1][k][0]+=(datosparseados[i].nota/2)*(datosparseados[i].grado/100)
+
+    /******************/
+    /* Función que carga y muestro los datos de la pestaña de Valoración para los resultados
+    */
+    function cargarValoracion(){
+        document.getElementById("menu_verValoracion").className="navbar-brand navbar-active cursor"
+        document.getElementById("Resultados_verFacetas").className="navbar-brand  cursor"
+        document.getElementById("Resultados_verAtributos").className="navbar-brand  cursor"
+        document.getElementById("Resultados_verElementos").className="navbar-brand  cursor"
+        document.getElementById("verValoración").className=""
+        document.getElementById("maestro_detalle").className="oculta"
+        document.getElementById("listaResultados").style.width = "180px";
+        document.getElementById("listaResultados").style.width = "180px";
+        document.getElementById("listaResultados").style.height = "450px";
+        document.getElementById("comentarios_resultados").style.width="100%"
+        document.getElementById("panel_comentarios2").style.paddingLeft="1%"
+        document.getElementById("milistFacetas").className=""
+        document.getElementById("arbol").className="oculta"
+        document.getElementById("comentarios_resultados").value=comentario
+        document.getElementById("comentarios_resultados2").value=comentario
+
+        var contadores = [];
+        for(var i=0; i<=6; i++) {
+            contadores[i] = [];
+            for(k in TodosAtributos) {
+                contadores[i][k] = 0;
+                contadores[i][k]=[];
+                contadores[i][k][0]=0
+                contadores[i][k][1]=0
+            }
+        }
+        for( i in datosparseados){
+            for (var j = 1; j <=6; j++) {
+                for( k in TodosAtributos){
+                    if(datosparseados[i].jugabilidad==j.toString() && datosparseados[i].propiedad==TodosAtributos[k]){
+                        contadores[j-1][k][1]++;
+                        if(datosparseados[i].rango=="2"){
+                            contadores[j-1][k][0]+=(datosparseados[i].nota/2)*(datosparseados[i].grado/100)
+                        }
+                        else{
+                            contadores[j-1][k][0]+=(datosparseados[i].nota*1)*(datosparseados[i].grado/100)
+                        }
+                    }
+                }
+            }
+        }
+
+        var table = document.getElementById("mitabla2");
+        MediaAtributos=0
+        MediaJugabilidad=0
+        for (var i = 1; i< table.rows.length; i++) {
+            row = table.rows[i]
+            sumatoria = 0
+            if(i<table.rows.length-1){
+                for(var j=1; j<row.cells.length;j++){
+                    if(j<row.cells.length-1){
+                        if(contadores[i-1][j-1][0]!=0){
+                            sumatoria+=contadores[i-1][j-1][0]/contadores[i-1][j-1][1]
+                            row.cells[j].innerHTML='<p>'+(contadores[i-1][j-1][0]/contadores[i-1][j-1][1]).toFixed(2)+'</p>'
+                        }
+                        else{
+                            sumatoria+=0
+                            row.cells[j].innerHTML='<p>'+0+'</p>'
+                        }
                     }
                     else{
-                        contadores[j-1][k][0]+=(datosparseados[i].nota*1)*(datosparseados[i].grado/100)
+                        MediaJugabilidad+=sumatoria/7
+                        row.cells[j].innerHTML='<p>'+(sumatoria/7).toFixed(2)+'</p>'
                     }
+                }
+            }
+            else{
+                for(var k=0; k<7;k++){
+                    sumatoria2=0;
+                    for(var j=0; j<row.cells.length-2;j++){
+                        if(contadores[j][k][0]!=0){
+                            sumatoria2+=contadores[j][k][0]/contadores[j][k][1]
+                        }
+
+                    }
+                    MediaAtributos+=sumatoria2/6
+                    table.rows[j].cells[k+1].innerHTML='<p>'+(sumatoria2/6).toFixed(2)+'</p>'
                 }
             }
         }
-    }
-
-    var table = document.getElementById("mitabla2");
-    MediaAtributos=0
-    MediaJugabilidad=0
-    for (var i = 1; i< table.rows.length; i++) {
-        row = table.rows[i]
-        sumatoria = 0
-        if(i<table.rows.length-1){
-            for(var j=1; j<row.cells.length;j++){
-                if(j<row.cells.length-1){
-                    if(contadores[i-1][j-1][0]!=0){
-                        sumatoria+=contadores[i-1][j-1][0]/contadores[i-1][j-1][1]
-                        row.cells[j].innerHTML='<p>'+(contadores[i-1][j-1][0]/contadores[i-1][j-1][1]).toFixed(2)+'</p>'
-                    }
-                    else{
-                        sumatoria+=0
-                        row.cells[j].innerHTML='<p>'+0+'</p>'
-                    }
-                }
-                else{
-                    MediaJugabilidad+=sumatoria/7
-                    row.cells[j].innerHTML='<p>'+(sumatoria/7).toFixed(2)+'</p>'
-                }
-            }
+        if(MediaJugabilidad==0){
+            total=0
         }
         else{
-            for(var k=0; k<7;k++){
-                sumatoria2=0;
-                for(var j=0; j<row.cells.length-2;j++){
-                    if(contadores[j][k][0]!=0){
-                        sumatoria2+=contadores[j][k][0]/contadores[j][k][1]
-                    }
-                    
-                }
-                MediaAtributos+=sumatoria2/6
-                table.rows[j].cells[k+1].innerHTML='<p>'+(sumatoria2/6).toFixed(2)+'</p>'
+            total = ((MediaAtributos/6) + (MediaJugabilidad/7))/2
+        }
+        table.rows[7].cells[8].innerHTML='<p>'+total.toFixed(2)+'</p>'
+    }
+
+    function cargarValoracion2(propietario){
+        document.getElementById("menu_verValoracion2").className="navbar-brand navbar-active cursor"
+        document.getElementById("Resultados_verFacetas2").className="navbar-brand  cursor"
+        document.getElementById("Resultados_verAtributos2").className="navbar-brand  cursor"
+        document.getElementById("Resultados_verRespuestas2").className="navbar-brand  cursor"
+        document.getElementById("Resultados_verElementos2").className="navbar-brand  cursor"
+        document.getElementById("tablaValoracion2").className=""
+        document.getElementById("zonatabla").className="oculta"
+        document.getElementById("maestro_detalle").className="oculta"
+        document.getElementById("listaResultados").style.width = "180px";
+        document.getElementById("listaResultados").style.width = "180px";
+        document.getElementById("listaResultados").style.height = "450px";
+        document.getElementById("comentarios_resultados").style.width="100%"
+        document.getElementById("panel_comentarios2").style.paddingLeft="1%"
+        document.getElementById("milistFacetas").className=""
+        document.getElementById("arbol").className="oculta"
+        document.getElementById("comentarios_resultados").value=comentario
+        document.getElementById("comentarios_resultados2").value=comentario
+
+        options='<li>'
+
+        var elpropietario=resultadosTotal[propietario].fields.propietario
+        document.getElementById("Resultados_verRespuestas2").onclick= function(){ verRespuestas2(propietario) } 
+        for(i in resultadosTotal){
+            mipropietario = resultadosTotal[i].fields.propietario
+
+            if(propietario==i){
+                options+='<input class="listnameactive" onclick="cargarValoracion2('+i+')" type="submit" name="perfil"value='+mipropietario+'></input>'
+            }
+            else{
+                options+='<input class="listname" onclick="cargarValoracion2('+i+')" type="submit" name="perfil"value='+mipropietario+'></input>'
+            }
+            options+='<br></br>'
+        }
+        //auxResultados = resultados.fields.propietario
+        options+='</li>'
+        document.getElementById("milistFacetas2").innerHTML=options
+
+        var contadores = [];
+        for(var i=0; i<=6; i++) {
+            contadores[i] = [];
+            for(k in TodosAtributos) {
+                contadores[i][k] = 0;
+                contadores[i][k]=[];
+                contadores[i][k][0]=0
+                contadores[i][k][1]=0
             }
         }
-    }
-    if(MediaJugabilidad==0){
-        total=0
-    }
-    else{
-        total = (MediaAtributos/6) + (MediaJugabilidad/7)
-    }
-    table.rows[7].cells[8].innerHTML='<p>'+total.toFixed(2)+'</p>'
-}
-
-/*
-Función que muestro los datos de los resultados por Facetas. Se hacen muchas comprobaciones para ver que elemento de la lista de Facetas se ha pulsado. Además se llama a las funciones de Gráficos para que muestre la información adecuada en cada momento
-*/
-
-function verFacetas(faceta){
-    document.getElementById("menu_verValoracion").className="navbar-brand cursor"
-    document.getElementById("Resultados_verFacetas").className="navbar-brand navbar-active cursor"
-    document.getElementById("Resultados_verAtributos").className="navbar-brand  cursor"
-    document.getElementById("Resultados_verRespuestas").className="navbar-brand  cursor"
-    document.getElementById("Resultados_verElementos").className="navbar-brand  cursor"
-    document.getElementById("verValoración").className="oculta"
-    document.getElementById("maestro_detalle").className=""
-    document.getElementById("grafIzq").className=""
-    document.getElementById("grafDer").className=""
-    document.getElementById("zonatabla").className="oculta"
-    document.getElementById("listaResultados").style.width = "180px";
-    document.getElementById("listaResultados").style.height = "450px";
-    document.getElementById("comentarios_resultados").style.width="100%"
-    document.getElementById("panel_comentarios2").style.paddingLeft="1%"
-    document.getElementById("milistFacetas").className=""
-    document.getElementById("arbol").className="oculta"
-    document.getElementById("comentarios_resultados").value=comentario
-    document.getElementById("comentarios_resultados2").value=comentario
-
-    options='<li>'
-    if(faceta.toString()=='Global'){
-        options+='<input class="listnameactive" onclick="verFacetas(\'Global\')" type="submit" name="perfil"value="Global"></input>'
-    }
-    else{
-        options+='<input class="listname" onclick="verFacetas(\'Global\')" type="submit" name="perfil"value="Global"></input>'
-    }
-    options+='<br></br>'
-    if(faceta.toString()=='Intrínseca'){
-        options+='<input class="listnameactive" onclick="verFacetas(\'Intrínseca\')" type="submit" name="perfil"value="J.Intrínseca"></input>'
-    }
-    else{
-        options+='<input class="listname" onclick="verFacetas(\'Intrínseca\')" type="submit" name="perfil"value="J.Intrínseca"></input>'
-    }
-    options+='<br></br>'
-    if(faceta.toString()=='Mecánica'){
-        options+='<input class="listnameactive" onclick="verFacetas(\'Mecánica\')" type="submit" name="perfil"value="J.Mecánica"></input>'
-    }
-    else{
-        options+='<input class="listname" onclick="verFacetas(\'Mecánica\')" type="submit" name="perfil"value="J.Mecánica"></input>'
-    }
-    options+='<br></br>'
-    if(faceta.toString()=='Interactiva'){
-        options+='<input class="listnameactive" onclick="verFacetas(\'Interactiva\')" type="submit" name="perfil"value="J.Interactiva"></input>'
-    }
-    else{
-        options+='<input class="listname" onclick="verFacetas(\'Interactiva\')" type="submit" name="perfil"value="J.Interactiva"></input>'
-    }
-    options+='<br></br>'
-    if(faceta.toString()=='Artística'){
-        options+='<input class="listnameactive" onclick="verFacetas(\'Artística\')" type="submit" name="perfil"value="J.Artística"></input>'
-    }
-    else{
-        options+='<input class="listname" onclick="verFacetas(\'Artística\')" type="submit" name="perfil"value="J.Artística"></input>'
-    }
-    options+='<br></br>'
-    if(faceta.toString()=='Personal'){
-        options+='<input class="listnameactive" onclick="verFacetas(\'Personal\')" type="submit" name="perfil"value="J.Personal"></input>'
-    }
-    else{
-        options+='<input class="listname" onclick="verFacetas(\'Personal\')" type="submit" name="perfil"value="J.Personal"></input>'
-    }
-    options+='<br></br>'
-    if(faceta.toString()=='Social'){
-        options+='<input class="listnameactive" onclick="verFacetas(\'Social\')" type="submit" name="perfil"value="J.Social"></input>'
-    }
-    else{
-        options+='<input class="listname" onclick="verFacetas(\'Social\')" type="submit" name="perfil"value="J.Social"></input>'
-    }
-    options+='</li>'
-
-    document.getElementById("milistFacetas").innerHTML=options
-
-    var contadores = [];
-    for(var i=0; i<=6; i++) {
-        contadores[i] = [];
-        for(k in TodosAtributos) {
-            contadores[i][k] = 0;
-            contadores[i][k]=[];
-            contadores[i][k][0]=0
-            contadores[i][k][1]=0
+        
+        for( i in datosparseados){
+            for (var j = 1; j <=6; j++) {
+                for( k in TodosAtributos){
+                    if(datosparseados[i].jugabilidad==j.toString() && datosparseados[i].propiedad==TodosAtributos[k] && elpropietario==datosparseados[i].propietario){
+                        contadores[j-1][k][1]++;
+                        if(datosparseados[i].rango=="2"){
+                            contadores[j-1][k][0]+=(datosparseados[i].nota/2)*(datosparseados[i].grado/100)
+                        }
+                        else{
+                            contadores[j-1][k][0]+=(datosparseados[i].nota*1)*(datosparseados[i].grado/100)
+                        }
+                    }
+                }
+            }
         }
-    }
-    for( i in datosparseados){
-        for (var j = 1; j <=6; j++) {
-            for( k in TodosAtributos){
-                if(datosparseados[i].jugabilidad==j.toString() && datosparseados[i].propiedad==TodosAtributos[k]){
-                    contadores[j-1][k][1]++;
-                    if(datosparseados[i].rango=="2"){
-                        contadores[j-1][k][0]+=(datosparseados[i].nota/2)*(datosparseados[i].grado/100)
+
+        var table = document.getElementById("mitabla3");
+        MediaAtributos=0
+        MediaJugabilidad=0
+        for (var i = 1; i< table.rows.length; i++) {
+            row = table.rows[i]
+            sumatoria = 0
+            if(i<table.rows.length-1){
+                for(var j=1; j<row.cells.length;j++){
+                    if(j<row.cells.length-1){
+                        if(contadores[i-1][j-1][0]!=0){
+                            sumatoria+=contadores[i-1][j-1][0]/contadores[i-1][j-1][1]
+                            row.cells[j].innerHTML='<p>'+(contadores[i-1][j-1][0]/contadores[i-1][j-1][1]).toFixed(2)+'</p>'
+                        }
+                        else{
+                            sumatoria+=0
+                            row.cells[j].innerHTML='<p>'+0+'</p>'
+                        }
                     }
                     else{
-                        contadores[j-1][k][0]+=(datosparseados[i].nota*1)*(datosparseados[i].grado/100)
+                        MediaJugabilidad+=sumatoria/7
+                        row.cells[j].innerHTML='<p>'+(sumatoria/7).toFixed(2)+'</p>'
+                    }
+                }
+            }
+            else{
+                for(var k=0; k<7;k++){
+                    sumatoria2=0;
+                    for(var j=0; j<row.cells.length-2;j++){
+                        if(contadores[j][k][0]!=0){
+                            sumatoria2+=contadores[j][k][0]/contadores[j][k][1]
+                        }
+
+                    }
+                    MediaAtributos+=sumatoria2/6
+                    table.rows[j].cells[k+1].innerHTML='<p>'+(sumatoria2/6).toFixed(2)+'</p>'
+                }
+            }
+        }
+        if(MediaJugabilidad==0){
+            total=0
+        }
+        else{
+            total = ((MediaAtributos/6) + (MediaJugabilidad/7))/2
+        }
+        table.rows[7].cells[8].innerHTML='<p>'+total.toFixed(2)+'</p>'
+    }
+
+    /*
+    Función que muestro los datos de los resultados por Facetas. Se hacen muchas comprobaciones para ver que elemento de la lista de Facetas se ha pulsado. Además se llama a las funciones de Gráficos para que muestre la información adecuada en cada momento
+    */
+
+    function verFacetas(faceta){
+        document.getElementById("menu_verValoracion").className="navbar-brand cursor"
+        document.getElementById("Resultados_verFacetas").className="navbar-brand navbar-active cursor"
+        document.getElementById("Resultados_verAtributos").className="navbar-brand  cursor"
+        document.getElementById("Resultados_verElementos").className="navbar-brand  cursor"
+        document.getElementById("verValoración").className="oculta"
+        document.getElementById("maestro_detalle").className=""
+        document.getElementById("grafIzq").className=""
+        document.getElementById("grafDer").className=""
+        document.getElementById("zonatabla").className="oculta"
+        document.getElementById("listaResultados").style.width = "180px";
+        document.getElementById("listaResultados").style.height = "450px";
+        document.getElementById("comentarios_resultados").style.width="100%"
+        document.getElementById("panel_comentarios2").style.paddingLeft="1%"
+        document.getElementById("milistFacetas").className=""
+        document.getElementById("arbol").className="oculta"
+        document.getElementById("comentarios_resultados").value=comentario
+        document.getElementById("comentarios_resultados2").value=comentario
+
+        options='<li>'
+        if(faceta.toString()=='Global'){
+            options+='<input class="listnameactive" onclick="verFacetas(\'Global\')" type="submit" name="perfil"value="Global"></input>'
+        }
+        else{
+            options+='<input class="listname" onclick="verFacetas(\'Global\')" type="submit" name="perfil"value="Global"></input>'
+        }
+        options+='<br></br>'
+        if(faceta.toString()=='Intrínseca'){
+            options+='<input class="listnameactive" onclick="verFacetas(\'Intrínseca\')" type="submit" name="perfil"value="J.Intrínseca"></input>'
+        }
+        else{
+            options+='<input class="listname" onclick="verFacetas(\'Intrínseca\')" type="submit" name="perfil"value="J.Intrínseca"></input>'
+        }
+        options+='<br></br>'
+        if(faceta.toString()=='Mecánica'){
+            options+='<input class="listnameactive" onclick="verFacetas(\'Mecánica\')" type="submit" name="perfil"value="J.Mecánica"></input>'
+        }
+        else{
+            options+='<input class="listname" onclick="verFacetas(\'Mecánica\')" type="submit" name="perfil"value="J.Mecánica"></input>'
+        }
+        options+='<br></br>'
+        if(faceta.toString()=='Interactiva'){
+            options+='<input class="listnameactive" onclick="verFacetas(\'Interactiva\')" type="submit" name="perfil"value="J.Interactiva"></input>'
+        }
+        else{
+            options+='<input class="listname" onclick="verFacetas(\'Interactiva\')" type="submit" name="perfil"value="J.Interactiva"></input>'
+        }
+        options+='<br></br>'
+        if(faceta.toString()=='Artística'){
+            options+='<input class="listnameactive" onclick="verFacetas(\'Artística\')" type="submit" name="perfil"value="J.Artística"></input>'
+        }
+        else{
+            options+='<input class="listname" onclick="verFacetas(\'Artística\')" type="submit" name="perfil"value="J.Artística"></input>'
+        }
+        options+='<br></br>'
+        if(faceta.toString()=='Personal'){
+            options+='<input class="listnameactive" onclick="verFacetas(\'Personal\')" type="submit" name="perfil"value="J.Personal"></input>'
+        }
+        else{
+            options+='<input class="listname" onclick="verFacetas(\'Personal\')" type="submit" name="perfil"value="J.Personal"></input>'
+        }
+        options+='<br></br>'
+        if(faceta.toString()=='Social'){
+            options+='<input class="listnameactive" onclick="verFacetas(\'Social\')" type="submit" name="perfil"value="J.Social"></input>'
+        }
+        else{
+            options+='<input class="listname" onclick="verFacetas(\'Social\')" type="submit" name="perfil"value="J.Social"></input>'
+        }
+        options+='</li>'
+
+        document.getElementById("milistFacetas").innerHTML=options
+
+        var contadores = [];
+        for(var i=0; i<=6; i++) {
+            contadores[i] = [];
+            for(k in TodosAtributos) {
+                contadores[i][k] = 0;
+                contadores[i][k]=[];
+                contadores[i][k][0]=0
+                contadores[i][k][1]=0
+            }
+        }
+        for( i in datosparseados){
+            for (var j = 1; j <=6; j++) {
+                for( k in TodosAtributos){
+                    if(datosparseados[i].jugabilidad==j.toString() && datosparseados[i].propiedad==TodosAtributos[k]){
+                        contadores[j-1][k][1]++;
+                        if(datosparseados[i].rango=="2"){
+                            contadores[j-1][k][0]+=(datosparseados[i].nota/2)*(datosparseados[i].grado/100)
+                        }
+                        else{
+                            contadores[j-1][k][0]+=(datosparseados[i].nota*1)*(datosparseados[i].grado/100)
+                        }
                     }
                 }
             }
         }
+
+        basic_radar(contadores,faceta);
+        basic_bars(contadores,faceta);
     }
 
-    basic_radar(contadores,faceta);
-    basic_bars(contadores,faceta);
-}
+    window.onload=cargarSeleccionados();
+    window.onload=cargarAsignados();
+    window.onload=cargarDatos();
 
-window.onload=cargarSeleccionados();
-window.onload=cargarAsignados();
-window.onload=cargarDatos();
-
-/*
-Funciones de gráficos para ver desde las Facetas
-*/
-function basic_radar(contadores,faceta) {
+    /*
+    Funciones de gráficos para ver desde las Facetas
+    */
+    function basic_radar(contadores,faceta) {
     // Fill series s1 and s2.
-    
+
 
     datosAux = []
 
@@ -927,15 +1348,15 @@ function basic_radar(contadores,faceta) {
     [6, "Socialización"]
     ];
 
-  // Draw the graph.
-  graph = Flotr.draw(document.getElementById("grafIzq"), [ s1 ], {
-    radar : { show : true}, 
-    grid  : { circular : true, minorHorizontalLines : true}, 
-    yaxis : { min : 0, max : 5, minorTickFreq : 1}, 
-    xaxis : { ticks : ticks}});
-}
+    // Draw the graph.
+    graph = Flotr.draw(document.getElementById("grafIzq"), [ s1 ], {
+        radar : { show : true}, 
+        grid  : { circular : true, minorHorizontalLines : true}, 
+        yaxis : { min : 0, max : 5, minorTickFreq : 1}, 
+        xaxis : { ticks : ticks}});
+    }
 
-function basic_bars(contadores,faceta,horizontal) {
+    function basic_bars(contadores,faceta,horizontal) {
 
     datosAux = []
 
@@ -1022,152 +1443,151 @@ function basic_bars(contadores,faceta,horizontal) {
     ];
 
 
-  // Draw the graph
-  Flotr.draw(
-    document.getElementById("grafDer"),
-    [d1],
-    {
-      bars : {
-        show : true,
-        horizontal : horizontal,
-        shadowSize : 0,
-        barWidth : 0.5
-    },
-    mouse : {
-        track : true,
-        relative : true
-    },
-    yaxis : {
-        min : 0,
-        autoscaleMargin : 1
-    },
-    xaxis : { ticks : ticks}
-}
-);
-}
+    // Draw the graph
+    Flotr.draw(
+        document.getElementById("grafDer"),
+        [d1],
+        {
+          bars : {
+            show : true,
+            horizontal : horizontal,
+            shadowSize : 0,
+            barWidth : 0.5
+        },
+        mouse : {
+            track : true,
+            relative : true
+        },
+        yaxis : {
+            min : 0,
+            autoscaleMargin : 1
+        },
+        xaxis : { ticks : ticks}
+    }
+    );
+    }
 
-/*
-Funciones para mostrar los datos desde la vista de Atributos
-*/
+    /*
+    Funciones para mostrar los datos desde la vista de Atributos
+    */
 
-function verAtributos(atributo){
+    function verAtributos(atributo){
 
-    document.getElementById("menu_verValoracion").className="navbar-brand cursor"
-    document.getElementById("Resultados_verFacetas").className="navbar-brand cursor"
-    document.getElementById("Resultados_verAtributos").className="navbar-brand navbar-active cursor"
-    document.getElementById("Resultados_verRespuestas").className="navbar-brand  cursor"
-    document.getElementById("Resultados_verElementos").className="navbar-brand  cursor"
-    document.getElementById("verValoración").className="oculta"
-    document.getElementById("maestro_detalle").className=""
-    document.getElementById("grafIzq").className=""
-    document.getElementById("grafDer").className=""
-    document.getElementById("zonatabla").className="oculta"
-    document.getElementById("listaResultados").style.width = "180px";
-    document.getElementById("listaResultados").style.height = "450px";
-    document.getElementById("comentarios_resultados").style.width="100%"
-    document.getElementById("panel_comentarios2").style.paddingLeft="1%"
-    document.getElementById("milistFacetas").className=""
-    document.getElementById("arbol").className="oculta"
-    document.getElementById("comentarios_resultados").value=comentario
-    document.getElementById("comentarios_resultados2").value=comentario
+        document.getElementById("menu_verValoracion").className="navbar-brand cursor"
+        document.getElementById("Resultados_verFacetas").className="navbar-brand cursor"
+        document.getElementById("Resultados_verAtributos").className="navbar-brand navbar-active cursor"
+        document.getElementById("Resultados_verElementos").className="navbar-brand  cursor"
+        document.getElementById("verValoración").className="oculta"
+        document.getElementById("maestro_detalle").className=""
+        document.getElementById("grafIzq").className=""
+        document.getElementById("grafDer").className=""
+        document.getElementById("zonatabla").className="oculta"
+        document.getElementById("listaResultados").style.width = "180px";
+        document.getElementById("listaResultados").style.height = "450px";
+        document.getElementById("comentarios_resultados").style.width="100%"
+        document.getElementById("panel_comentarios2").style.paddingLeft="1%"
+        document.getElementById("milistFacetas").className=""
+        document.getElementById("arbol").className="oculta"
+        document.getElementById("comentarios_resultados").value=comentario
+        document.getElementById("comentarios_resultados2").value=comentario
 
-    options='<li>'
-    if(atributo.toString()=='Global'){
-        options+='<input class="listnameactive" onclick="verAtributos(\'Global\')" type="submit" name="perfil"value="Global"></input>'
-    }
-    else{
-        options+='<input class="listname" onclick="verAtributos(\'Global\')" type="submit" name="perfil"value="Global"></input>'
-    }
-    options+='<br></br>'
-    if(atributo.toString()=='Satisfacción'){
-        options+='<input class="listnameactive" onclick="verAtributos(\'Satisfacción\')" type="submit" name="perfil"value="Satisfacción"></input>'
-    }
-    else{
-        options+='<input class="listname" onclick="verAtributos(\'Satisfacción\')" type="submit" name="perfil"value="Satisfacción"></input>'
-    }
-    options+='<br></br>'
-    if(atributo.toString()=='Aprendizaje'){
-        options+='<input class="listnameactive" onclick="verAtributos(\'Aprendizaje\')" type="submit" name="perfil"value="Aprendizaje"></input>'
-    }
-    else{
-        options+='<input class="listname" onclick="verAtributos(\'Aprendizaje\')" type="submit" name="perfil"value="Aprendizaje"></input>'
-    }
-    options+='<br></br>'
-    if(atributo.toString()=='Efectividad'){
-        options+='<input class="listnameactive" onclick="verAtributos(\'Efectividad\')" type="submit" name="perfil"value="Efectividad"></input>'
-    }
-    else{
-        options+='<input class="listname" onclick="verAtributos(\'Efectividad\')" type="submit" name="perfil"value="Efectividad"></input>'
-    }
-    options+='<br></br>'
-    if(atributo.toString()=='Inmersión'){
-        options+='<input class="listnameactive" onclick="verAtributos(\'Inmersión\')" type="submit" name="perfil"value="Inmersión"></input>'
-    }
-    else{
-        options+='<input class="listname" onclick="verAtributos(\'Inmersión\')" type="submit" name="perfil"value="Inmersión"></input>'
-    }
-    options+='<br></br>'
-    if(atributo.toString()=='Motivación'){
-        options+='<input class="listnameactive" onclick="verAtributos(\'Motivación\')" type="submit" name="perfil"value="Motivación"></input>'
-    }
-    else{
-        options+='<input class="listname" onclick="verAtributos(\'Motivación\')" type="submit" name="perfil"value="Motivación"></input>'
-    }
-    options+='<br></br>'
-    if(atributo.toString()=='Emoción'){
-        options+='<input class="listnameactive" onclick="verAtributos(\'Emoción\')" type="submit" name="perfil"value="Emoción"></input>'
-    }
-    else{
-        options+='<input class="listname" onclick="verAtributos(\'Emoción\')" type="submit" name="perfil"value="Emoción"></input>'
-    }
-    options+='<br></br>'
-    if(atributo.toString()=='Socialización'){
-        options+='<input class="listnameactive" onclick="verAtributos(\'Socialización\')" type="submit" name="perfil"value="Socialización"></input>'
-    }
-    else{
-        options+='<input class="listname" onclick="verAtributos(\'Socialización\')" type="submit" name="perfil"value="Socialización"></input>'
-    }
-    options+='</li>'
-
-    document.getElementById("milistFacetas").innerHTML=options
-
-    var contadores = [];
-    for(var i=0; i<=6; i++) {
-        contadores[i] = [];
-        for(k in TodosAtributos) {
-            contadores[i][k] = 0;
-            contadores[i][k]=[];
-            contadores[i][k][0]=0
-            contadores[i][k][1]=0
+        options='<li>'
+        if(atributo.toString()=='Global'){
+            options+='<input class="listnameactive" onclick="verAtributos(\'Global\')" type="submit" name="perfil"value="Global"></input>'
         }
-    }
-    for( i in datosparseados){
-        for (var j = 1; j <=6; j++) {
-            for( k in TodosAtributos){
-                if(datosparseados[i].jugabilidad==j.toString() && datosparseados[i].propiedad==TodosAtributos[k]){
-                    contadores[j-1][k][1]++;
-                    if(datosparseados[i].rango=="2"){
-                        contadores[j-1][k][0]+=(datosparseados[i].nota/2)*(datosparseados[i].grado/100)
-                    }
-                    else{
-                        contadores[j-1][k][0]+=(datosparseados[i].nota*1)*(datosparseados[i].grado/100)
+        else{
+            options+='<input class="listname" onclick="verAtributos(\'Global\')" type="submit" name="perfil"value="Global"></input>'
+        }
+        options+='<br></br>'
+        if(atributo.toString()=='Satisfacción'){
+            options+='<input class="listnameactive" onclick="verAtributos(\'Satisfacción\')" type="submit" name="perfil"value="Satisfacción"></input>'
+        }
+        else{
+            options+='<input class="listname" onclick="verAtributos(\'Satisfacción\')" type="submit" name="perfil"value="Satisfacción"></input>'
+        }
+        options+='<br></br>'
+        if(atributo.toString()=='Aprendizaje'){
+            options+='<input class="listnameactive" onclick="verAtributos(\'Aprendizaje\')" type="submit" name="perfil"value="Aprendizaje"></input>'
+        }
+        else{
+            options+='<input class="listname" onclick="verAtributos(\'Aprendizaje\')" type="submit" name="perfil"value="Aprendizaje"></input>'
+        }
+        options+='<br></br>'
+        if(atributo.toString()=='Efectividad'){
+            options+='<input class="listnameactive" onclick="verAtributos(\'Efectividad\')" type="submit" name="perfil"value="Efectividad"></input>'
+        }
+        else{
+            options+='<input class="listname" onclick="verAtributos(\'Efectividad\')" type="submit" name="perfil"value="Efectividad"></input>'
+        }
+        options+='<br></br>'
+        if(atributo.toString()=='Inmersión'){
+            options+='<input class="listnameactive" onclick="verAtributos(\'Inmersión\')" type="submit" name="perfil"value="Inmersión"></input>'
+        }
+        else{
+            options+='<input class="listname" onclick="verAtributos(\'Inmersión\')" type="submit" name="perfil"value="Inmersión"></input>'
+        }
+        options+='<br></br>'
+        if(atributo.toString()=='Motivación'){
+            options+='<input class="listnameactive" onclick="verAtributos(\'Motivación\')" type="submit" name="perfil"value="Motivación"></input>'
+        }
+        else{
+            options+='<input class="listname" onclick="verAtributos(\'Motivación\')" type="submit" name="perfil"value="Motivación"></input>'
+        }
+        options+='<br></br>'
+        if(atributo.toString()=='Emoción'){
+            options+='<input class="listnameactive" onclick="verAtributos(\'Emoción\')" type="submit" name="perfil"value="Emoción"></input>'
+        }
+        else{
+            options+='<input class="listname" onclick="verAtributos(\'Emoción\')" type="submit" name="perfil"value="Emoción"></input>'
+        }
+        options+='<br></br>'
+        if(atributo.toString()=='Socialización'){
+            options+='<input class="listnameactive" onclick="verAtributos(\'Socialización\')" type="submit" name="perfil"value="Socialización"></input>'
+        }
+        else{
+            options+='<input class="listname" onclick="verAtributos(\'Socialización\')" type="submit" name="perfil"value="Socialización"></input>'
+        }
+        options+='</li>'
+
+        document.getElementById("milistFacetas").innerHTML=options
+
+        var contadores = [];
+        for(var i=0; i<=6; i++) {
+            contadores[i] = [];
+            for(k in TodosAtributos) {
+                contadores[i][k] = 0;
+                contadores[i][k]=[];
+                contadores[i][k][0]=0
+                contadores[i][k][1]=0
+            }
+        }
+        for( i in datosparseados){
+            for (var j = 1; j <=6; j++) {
+                for( k in TodosAtributos){
+                    if(datosparseados[i].jugabilidad==j.toString() && datosparseados[i].propiedad==TodosAtributos[k]){
+                        contadores[j-1][k][1]++;
+                        if(datosparseados[i].rango=="2"){
+                            contadores[j-1][k][0]+=(datosparseados[i].nota/2)*(datosparseados[i].grado/100)
+                        }
+                        else{
+                            contadores[j-1][k][0]+=(datosparseados[i].nota*1)*(datosparseados[i].grado/100)
+                        }
                     }
                 }
             }
         }
+
+        basic_radarAtributos(contadores,atributo);
+        basic_barsAtributos(contadores,atributo);
+
     }
 
-    basic_radarAtributos(contadores,atributo);
-    basic_barsAtributos(contadores,atributo);
-
-}
-
-/*
-Funciones de gráficos para ver desde las Atributos
-*/
-function basic_radarAtributos(contadores,faceta) {
+    /*
+    Funciones de gráficos para ver desde las Atributos
+    */
+    function basic_radarAtributos(contadores,faceta) {
     // Fill series s1 and s2.
-    
+
 
     datosAux = []
 
@@ -1260,15 +1680,15 @@ function basic_radarAtributos(contadores,faceta) {
     [5, "J.Social"],
     ];
 
-  // Draw the graph.
-  graph = Flotr.draw(document.getElementById("grafIzq"), [ s1 ], {
-    radar : { show : true}, 
-    grid  : { circular : true, minorHorizontalLines : true}, 
-    yaxis : { min : 0, max : 5, minorTickFreq : 1}, 
-    xaxis : { ticks : ticks}});
-}
+    // Draw the graph.
+    graph = Flotr.draw(document.getElementById("grafIzq"), [ s1 ], {
+        radar : { show : true}, 
+        grid  : { circular : true, minorHorizontalLines : true}, 
+        yaxis : { min : 0, max : 5, minorTickFreq : 1}, 
+        xaxis : { ticks : ticks}});
+    }
 
-function basic_barsAtributos(contadores,faceta,horizontal) {
+    function basic_barsAtributos(contadores,faceta,horizontal) {
 
     datosAux = []
 
@@ -1363,42 +1783,43 @@ function basic_barsAtributos(contadores,faceta,horizontal) {
     ];
 
 
-  // Draw the graph
-  Flotr.draw(
-    document.getElementById("grafDer"),
-    [d1],
-    {
-      bars : {
-        show : true,
-        horizontal : horizontal,
-        shadowSize : 0,
-        barWidth : 0.5
-    },
-    mouse : {
-        track : true,
-        relative : true
-    },
-    yaxis : {
-        min : 0,
-        autoscaleMargin : 1
-    },
-    xaxis : { ticks : ticks}
-}
-);
-}
+    // Draw the graph
+    Flotr.draw(
+        document.getElementById("grafDer"),
+        [d1],
+        {
+          bars : {
+            show : true,
+            horizontal : horizontal,
+            shadowSize : 0,
+            barWidth : 0.5
+        },
+        mouse : {
+            track : true,
+            relative : true
+        },
+        yaxis : {
+            min : 0,
+            autoscaleMargin : 1
+        },
+        xaxis : { ticks : ticks}
+    }
+    );
+    }
 
-/*Funciones para ver las respuestas de los distintos usuarios*/
-function verRespuestas(propietario){
+    /*Funciones para ver las respuestas de los distintos usuarios*/
+    function verRespuestas2(propietario){
 
-    document.getElementById("menu_verValoracion").className="navbar-brand cursor"
-    document.getElementById("Resultados_verFacetas").className="navbar-brand cursor"
-    document.getElementById("Resultados_verAtributos").className="navbar-brand cursor"
-    document.getElementById("Resultados_verRespuestas").className="navbar-brand navbar-active cursor"
-    document.getElementById("Resultados_verElementos").className="navbar-brand  cursor"
+    document.getElementById("menu_verValoracion2").className="navbar-brand cursor"
+    document.getElementById("Resultados_verFacetas2").className="navbar-brand cursor"
+    document.getElementById("Resultados_verAtributos2").className="navbar-brand cursor"
+    document.getElementById("Resultados_verRespuestas2").className="navbar-brand navbar-active cursor"
+    document.getElementById("Resultados_verElementos2").className="navbar-brand  cursor"
     document.getElementById("verValoración").className="oculta"
     document.getElementById("maestro_detalle").className=""
-    document.getElementById("grafIzq").className="oculta"
-    document.getElementById("grafDer").className="oculta"
+    document.getElementById("grafIzq2").className="oculta"
+    document.getElementById("grafDer2").className="oculta"
+    document.getElementById("tablaValoracion2").className="oculta"
     document.getElementById("zonatabla").className=""
     document.getElementById("listaResultados").style.width = "180px";
     document.getElementById("listaResultados").style.height = "450px";
@@ -1409,38 +1830,22 @@ function verRespuestas(propietario){
     document.getElementById("comentarios_resultados").value=comentario
     document.getElementById("comentarios_resultados2").value=comentario
 
-    options='<li>'
 
-    for(i in resultadosTotal){
-        mipropietario = resultadosTotal[i].fields.propietario
-
-        if(propietario==i){
-            options+='<input class="listnameactive" onclick="verRespuestas('+i+')" type="submit" name="perfil"value='+mipropietario+'></input>'
-        }
-        else{
-            options+='<input class="listname" onclick="verRespuestas('+i+')" type="submit" name="perfil"value='+mipropietario+'></input>'
-        }
-        options+='<br></br>'
-        console.log(mipropietario)
-    }
-    //auxResultados = resultados.fields.propietario
-    options+='</li>'
-
-    document.getElementById("tablaPreguntas").innerHTML="<TR><TH>Pregunta</TH> <TH>Respuesta</TH> <TH>Comentario</TH></TR>"
-    document.getElementById("milistFacetas").innerHTML=options
+    document.getElementById("tablaPreguntas2").innerHTML="<TR><TH>Pregunta</TH> <TH>Respuesta</TH> <TH>Comentario</TH></TR>"
 
     cargarRespuestas(propietario);
-}
+    
+    }
 
-function cargarRespuestas(propietario){
+    function cargarRespuestas(propietario){
     respuestas = JSON.parse(resultadosTotal[propietario].fields.respuestas)
 
-    var table = document.getElementById('tablaPreguntas');
+    var table = document.getElementById('tablaPreguntas2');
     for(var i = table.rows.length - 1; i > 0; i--){
         table.deleteRow(i);
     }
     idsRows=0;
-    
+
     for (i in respuestas){
         aux = JSON.parse(resultadosTotal[propietario].fields.seleccionados)
         for (j in aux){
@@ -1463,22 +1868,17 @@ function cargarRespuestas(propietario){
                     if(respuestas[i].comentario){
                         cell2.innerHTML = '<td><button class="btn btn-info btn-sm" onclick="modalComentario(\''+respuestas[i].comentario+'\')">Comentario</button></td>';
                     }
-
-                    console.log(aux2[k].fields.nombre)
-                    console.log(respuestas[i].comentario)
-                    console.log(respuestas[i].value)
                 }
             }
             
         }
     }
-}
+    }
 
-function verElementos(elemento){
+    function verElementos(elemento){
     document.getElementById("menu_verValoracion").className="navbar-brand cursor"
     document.getElementById("Resultados_verFacetas").className="navbar-brand cursor"
     document.getElementById("Resultados_verAtributos").className="navbar-brand cursor"
-    document.getElementById("Resultados_verRespuestas").className="navbar-brand cursor"
     document.getElementById("Resultados_verElementos").className="navbar-brand navbar-active cursor"
     document.getElementById("verValoración").className="oculta"
     document.getElementById("maestro_detalle").className=""
@@ -1499,11 +1899,11 @@ function verElementos(elemento){
     $('#arbol').jstree(true).select_node('#videogame');
 
 
-    
 
-}
 
-function cargarElementos(elemento){
+    }
+
+    function cargarElementos(elemento){
 
     var contadores = []
     for(var i in TodosElementos) {
@@ -1530,7 +1930,7 @@ function cargarElementos(elemento){
                         contadores[index][indexAtributo][0]+=(datosparseados[i].nota*1)*(datosparseados[i].grado/100)
                     }
                     contadores[index][indexAtributo][1]++
-                        
+
                     //console.log(contadores[0][0][0])
                     //console.log(contadores[index][indexAtributo][1])
                 }
@@ -1542,25 +1942,25 @@ function cargarElementos(elemento){
     basic_radarElementos(contadores,elemento)
     basic_barsElementos(contadores,elemento)
 
-}
-function modalComentario(comentario){
+    }
+    function modalComentario(comentario){
     document.getElementById("textocomentario").value=comentario;
     $('#ModalComentario').modal('show')
 
-}
+    }
 
-function cerrarModal(){
+    function cerrarModal(){
     $('#ModalComentario').modal('hide')
-}
+    }
 
-$('#arbol').on("select_node.jstree", function (e, data) { 
+    $('#arbol').on("select_node.jstree", function (e, data) { 
     //alert("node_id: " + data.node.id); 
     cargarElementos(data.node.id)
-});
+    });
 
-function basic_radarElementos(contadores,elemento) {
+    function basic_radarElementos(contadores,elemento) {
     // Fill series s1 and s2.
-    
+
     datosAux=[]
     aux = TodosElementos.lastIndexOf(elemento)
     for(i in TodosAtributos){
@@ -1573,9 +1973,9 @@ function basic_radarElementos(contadores,elemento) {
         }
     }
 
-    
 
-    
+
+
 
     var
     s1 = { label : 'Global', data : [[0, datosAux[0]], [1, datosAux[1]], [2, datosAux[2]], [3, datosAux[3]], [4, datosAux[4]], [5, datosAux[5]],[6, datosAux[6]]] },
@@ -1592,15 +1992,15 @@ function basic_radarElementos(contadores,elemento) {
     [6, "Socialización"]
     ];
 
-  // Draw the graph.
-  graph = Flotr.draw(document.getElementById("grafIzq"), [ s1 ], {
-    radar : { show : true}, 
-    grid  : { circular : true, minorHorizontalLines : true}, 
-    yaxis : { min : 0, max : 5, minorTickFreq : 1}, 
-    xaxis : { ticks : ticks}});
-}
+    // Draw the graph.
+    graph = Flotr.draw(document.getElementById("grafIzq"), [ s1 ], {
+        radar : { show : true}, 
+        grid  : { circular : true, minorHorizontalLines : true}, 
+        yaxis : { min : 0, max : 5, minorTickFreq : 1}, 
+        xaxis : { ticks : ticks}});
+    }
 
-function basic_barsElementos(contadores,elemento,horizontal) {
+    function basic_barsElementos(contadores,elemento,horizontal) {
 
     datosAux=[]
     aux = TodosElementos.lastIndexOf(elemento)
@@ -1627,480 +2027,480 @@ function basic_barsElementos(contadores,elemento,horizontal) {
     ];
 
 
-  // Draw the graph
-  Flotr.draw(
-    document.getElementById("grafDer"),
-    [d1],
-    {
-      bars : {
-        show : true,
-        horizontal : horizontal,
-        shadowSize : 0,
-        barWidth : 0.5
-    },
-    mouse : {
-        track : true,
-        relative : true
-    },
-    yaxis : {
-        min : 0,
-        autoscaleMargin : 1
-    },
-    xaxis : { ticks : ticks}
-}
-);
-}
+    // Draw the graph
+    Flotr.draw(
+        document.getElementById("grafDer"),
+        [d1],
+        {
+          bars : {
+            show : true,
+            horizontal : horizontal,
+            shadowSize : 0,
+            barWidth : 0.5
+        },
+        mouse : {
+            track : true,
+            relative : true
+        },
+        yaxis : {
+            min : 0,
+            autoscaleMargin : 1
+        },
+        xaxis : { ticks : ticks}
+    }
+    );
+    }
 
 
-$('#arbol').jstree({
+    $('#arbol').jstree({
     'plugins': [ ""],
- 'core': {
-   'data': [{
-    "text": "Videojuego",
-    "id":"videogame",
-    "icon": "glyphicon glyphicon-apple",
-    "state":{
-    },
-    "children": [{
-     "text": "Game Core",
-     "id":"game_core",
-     "icon": "glyphicon glyphicon-apple",
-     "state": {
-     },
-     "children": [{
-      "text":"Desarrollo Argumental",
-      "id":"desarrollo_argumental",
-      "icon": "glyphicon glyphicon-apple",
-      "children":[{
-        "text":"Desarrollo de Personajes",
-        "id":"desarrollo_de_personajes",
+    'core': {
+        'data': [{
+            "text": "Videojuego",
+            "id":"videogame",
+            "icon": "glyphicon glyphicon-apple",
+            "state":{
+            },
+            "children": [{
+               "text": "Game Core",
+               "id":"game_core",
+               "icon": "glyphicon glyphicon-apple",
+               "state": {
+               },
+               "children": [{
+                  "text":"Desarrollo Argumental",
+                  "id":"desarrollo_argumental",
+                  "icon": "glyphicon glyphicon-apple",
+                  "children":[{
+                    "text":"Desarrollo de Personajes",
+                    "id":"desarrollo_de_personajes",
+                    "icon": "glyphicon glyphicon-apple",
+                },
+                {
+                    "text":"Historia",
+                    "id":"historia",
+                    "icon": "glyphicon glyphicon-apple",
+                },
+                {
+                    "text":"Narrativa",
+                    "id":"narrativa",
+                    "icon": "glyphicon glyphicon-apple",
+                },]
+            },
+            {
+                "text":"Experiencia del Usuario",
+                "id":"experiencia_del_usuario",
+                "icon": "glyphicon glyphicon-apple",
+                "children":[{
+                    "text":"Aspecto Sonoro",
+                    "id":"aspecto_sonoro",
+                    "icon": "glyphicon glyphicon-apple",
+                    "children":[{
+                      "text":"Banda Sonora",
+                      "id":"banda_sonora",
+                      "icon": "glyphicon glyphicon-apple",
+                  },
+                  {
+                      "text":"Efectos Sonoros",
+                      "id":"efectos_sonoros",
+                      "icon": "glyphicon glyphicon-apple",
+                  },
+                  {
+                      "text":"Sonido Ambiental",
+                      "id":"sonido_ambiental",
+                      "icon": "glyphicon glyphicon-apple",
+                  },]
+              },
+              {
+                "text":"Aspecto Visual",
+                "id":"aspecto_visual",
+                "icon": "glyphicon glyphicon-apple",
+                "children":[{
+                  "text":"Cardinalidad",
+                  "id":"cardinalidad",
+                  "icon": "glyphicon glyphicon-apple",
+              },
+              {
+                  "text":"Estética",
+                  "id":"estetica",
+                  "icon": "glyphicon glyphicon-apple",
+              },
+              {
+                  "text":"Realismo",
+                  "id":"realismo2",
+                  "icon": "glyphicon glyphicon-apple",
+              },]
+          },
+          {
+            "text":"Interactividad",
+            "id":"interactividad",
+            "icon": "glyphicon glyphicon-apple",
+            "children":[{
+              "text":"Control",
+              "id":"control",
+              "icon": "glyphicon glyphicon-apple",
+          },
+          {
+              "text":"Disposición",
+              "id":"disposicion",
+              "icon": "glyphicon glyphicon-apple",
+          },
+          {
+              "text":"Metáforas",
+              "id":"metaforas",
+              "icon": "glyphicon glyphicon-apple",
+          },
+          {
+              "text":"Navegación",
+              "id":"navegacion",
+              "icon": "glyphicon glyphicon-apple",
+          },
+          {
+              "text":"Realimentación",
+              "id":"realimentacion",
+              "icon": "glyphicon glyphicon-apple",
+          },]
+      },]},
+      {
+        "text":"Mecánicas",
+        "id":"mecanicas",
         "icon": "glyphicon glyphicon-apple",
-    },
-    {
-        "text":"Historia",
-        "id":"historia",
-        "icon": "glyphicon glyphicon-apple",
-    },
-    {
-        "text":"Narrativa",
-        "id":"narrativa",
-        "icon": "glyphicon glyphicon-apple",
-    },]
-},
-{
-  "text":"Experiencia del Usuario",
-  "id":"experiencia_del_usuario",
-  "icon": "glyphicon glyphicon-apple",
-  "children":[{
-    "text":"Aspecto Sonoro",
-    "id":"aspecto_sonoro",
-    "icon": "glyphicon glyphicon-apple",
-    "children":[{
-      "text":"Banda Sonora",
-      "id":"banda_sonora",
-      "icon": "glyphicon glyphicon-apple",
-  },
-  {
-      "text":"Efectos Sonoros",
-      "id":"efectos_sonoros",
-      "icon": "glyphicon glyphicon-apple",
-  },
-  {
-      "text":"Sonido Ambiental",
-      "id":"sonido_ambiental",
-      "icon": "glyphicon glyphicon-apple",
-  },]
-},
-{
-    "text":"Aspecto Visual",
-    "id":"aspecto_visual",
-    "icon": "glyphicon glyphicon-apple",
-    "children":[{
-      "text":"Cardinalidad",
-      "id":"cardinalidad",
-      "icon": "glyphicon glyphicon-apple",
-  },
-  {
-      "text":"Estética",
-      "id":"estetica",
-      "icon": "glyphicon glyphicon-apple",
-  },
-  {
-      "text":"Realismo",
-      "id":"realismo2",
-      "icon": "glyphicon glyphicon-apple",
-  },]
-},
-{
-    "text":"Interactividad",
-    "id":"interactividad",
-    "icon": "glyphicon glyphicon-apple",
-    "children":[{
-      "text":"Control",
-      "id":"control",
-      "icon": "glyphicon glyphicon-apple",
-  },
-  {
-      "text":"Disposición",
-      "id":"disposicion",
-      "icon": "glyphicon glyphicon-apple",
-  },
-  {
-      "text":"Metáforas",
-      "id":"metaforas",
-      "icon": "glyphicon glyphicon-apple",
-  },
-  {
-      "text":"Navegación",
-      "id":"navegacion",
-      "icon": "glyphicon glyphicon-apple",
-  },
-  {
-      "text":"Realimentación",
-      "id":"realimentacion",
-      "icon": "glyphicon glyphicon-apple",
-  },]
-},]},
-{
-    "text":"Mecánicas",
-    "id":"mecanicas",
-    "icon": "glyphicon glyphicon-apple",
-    "children":[{
-      "text":"Aleatoriedad",
-      "id":"aleatoriedad",
-      "icon": "glyphicon glyphicon-apple",
-  },
-  {
-      "text":"Armonia",
-      "id":"armonia",
-      "icon": "glyphicon glyphicon-apple",
-  },
-  {
-      "text":"Contenido",
-      "id":"contenido",
-      "icon": "glyphicon glyphicon-apple",
-  },
-  {
-      "text":"Curva de Aprendizaje",
-      "id":"curva_de_aprendizaje",
-      "icon": "glyphicon glyphicon-apple",
-  },
-  {
-      "text":"Dimensionalidad",
-      "id":"dimensionalidad",
-      "icon": "glyphicon glyphicon-apple",
-      "children":[{
-        "text":"Ambiental",
-        "id":"ambiental",
-        "icon": "glyphicon glyphicon-apple",
-    },
-    {
-        "text":"Emocional",
-        "id":"emocional",
-        "icon": "glyphicon glyphicon-apple",
-    },
-    {
-        "text":"Ética",
-        "id":"etica",
-        "icon": "glyphicon glyphicon-apple",
-    },
-    {
-        "text":"Física",
-        "id":"fisica",
+        "children":[{
+          "text":"Aleatoriedad",
+          "id":"aleatoriedad",
+          "icon": "glyphicon glyphicon-apple",
+      },
+      {
+          "text":"Armonia",
+          "id":"armonia",
+          "icon": "glyphicon glyphicon-apple",
+      },
+      {
+          "text":"Contenido",
+          "id":"contenido",
+          "icon": "glyphicon glyphicon-apple",
+      },
+      {
+          "text":"Curva de Aprendizaje",
+          "id":"curva_de_aprendizaje",
+          "icon": "glyphicon glyphicon-apple",
+      },
+      {
+          "text":"Dimensionalidad",
+          "id":"dimensionalidad",
+          "icon": "glyphicon glyphicon-apple",
+          "children":[{
+            "text":"Ambiental",
+            "id":"ambiental",
+            "icon": "glyphicon glyphicon-apple",
+        },
+        {
+            "text":"Emocional",
+            "id":"emocional",
+            "icon": "glyphicon glyphicon-apple",
+        },
+        {
+            "text":"Ética",
+            "id":"etica",
+            "icon": "glyphicon glyphicon-apple",
+        },
+        {
+            "text":"Física",
+            "id":"fisica",
+            "icon": "glyphicon glyphicon-apple",
+            "children":[
+            {
+              "text":"Cardinalidad",
+              "id":"cardinalidad2",
+              "icon": "glyphicon glyphicon-apple",
+          },
+          {
+              "text":"Escala",
+              "id":"escala",
+              "icon": "glyphicon glyphicon-apple",
+          },
+          {
+              "text":"Fronteras",
+              "id":"fronteras",
+              "icon": "glyphicon glyphicon-apple",
+          },]
+      },
+      {
+        "text":"Temporal",
+        "id":"temporal",
         "icon": "glyphicon glyphicon-apple",
         "children":[
         {
-          "text":"Cardinalidad",
-          "id":"cardinalidad2",
+          "text":"Continuo",
+          "id":"continuo",
           "icon": "glyphicon glyphicon-apple",
       },
       {
-          "text":"Escala",
-          "id":"escala",
+          "text":"Libre",
+          "id":"libre",
           "icon": "glyphicon glyphicon-apple",
       },
       {
-          "text":"Fronteras",
-          "id":"fronteras",
+          "text":"Variable",
+          "id":"variable",
           "icon": "glyphicon glyphicon-apple",
       },]
-  },
-  {
-    "text":"Temporal",
-    "id":"temporal",
+    },]
+    },
+    {
+    "text":"Entidad",
+    "id":"entidad",
+    "icon": "glyphicon glyphicon-apple",
+    },
+    {
+    "text":"Equilibrio",
+    "id":"equilibrio",
+    "icon": "glyphicon glyphicon-apple",
+    },
+    {
+    "text":"Estado de Progreso",
+    "id":"estado_de_progreso",
+    "icon": "glyphicon glyphicon-apple",
+    },
+    {
+    "text":"Género",
+    "id":"genero",
+    "icon": "glyphicon glyphicon-apple",
+    },
+    {
+    "text":"Numero de Jugadores",
+    "id":"numero_de_jugadores",
     "icon": "glyphicon glyphicon-apple",
     "children":[
     {
-      "text":"Continuo",
-      "id":"continuo",
-      "icon": "glyphicon glyphicon-apple",
-  },
-  {
-      "text":"Libre",
-      "id":"libre",
-      "icon": "glyphicon glyphicon-apple",
-  },
-  {
-      "text":"Variable",
-      "id":"variable",
-      "icon": "glyphicon glyphicon-apple",
-  },]
-},]
-},
-{
-  "text":"Entidad",
-  "id":"entidad",
-  "icon": "glyphicon glyphicon-apple",
-},
-{
-  "text":"Equilibrio",
-  "id":"equilibrio",
-  "icon": "glyphicon glyphicon-apple",
-},
-{
-  "text":"Estado de Progreso",
-  "id":"estado_de_progreso",
-  "icon": "glyphicon glyphicon-apple",
-},
-{
-  "text":"Género",
-  "id":"genero",
-  "icon": "glyphicon glyphicon-apple",
-},
-{
-  "text":"Numero de Jugadores",
-  "id":"numero_de_jugadores",
-  "icon": "glyphicon glyphicon-apple",
-  "children":[
-  {
-    "text":"Individual",
-    "id":"individual",
+        "text":"Individual",
+        "id":"individual",
+        "icon": "glyphicon glyphicon-apple",
+    },
+    {
+        "text":"Multijugador",
+        "id":"multijugador",
+        "icon": "glyphicon glyphicon-apple",
+    },]
+    },
+    {
+    "text":"Realismo",
+    "id":"realismo",
     "icon": "glyphicon glyphicon-apple",
-},
-{
-    "text":"Multijugador",
-    "id":"multijugador",
+    },
+    {
+    "text":"Objetivos",
+    "id":"objetivos",
     "icon": "glyphicon glyphicon-apple",
-},]
-},
-{
-  "text":"Realismo",
-  "id":"realismo",
-  "icon": "glyphicon glyphicon-apple",
-},
-{
-  "text":"Objetivos",
-  "id":"objetivos",
-  "icon": "glyphicon glyphicon-apple",
-  "children":[
-  {
-    "text":"Primarios",
-    "id":"primarios",
+    "children":[
+    {
+        "text":"Primarios",
+        "id":"primarios",
+        "icon": "glyphicon glyphicon-apple",
+    },
+    {
+        "text":"Secundarios",
+        "id":"secundarios",
+        "icon": "glyphicon glyphicon-apple",
+    },]
+    },
+    {
+    "text":"Recompensas",
+    "id":"recompensas",
     "icon": "glyphicon glyphicon-apple",
-},
-{
-    "text":"Secundarios",
-    "id":"secundarios",
+    },
+    {
+    "text":"Reglas",
+    "id":"reglas",
     "icon": "glyphicon glyphicon-apple",
-},]
-},
-{
-  "text":"Recompensas",
-  "id":"recompensas",
-  "icon": "glyphicon glyphicon-apple",
-},
-{
-  "text":"Reglas",
-  "id":"reglas",
-  "icon": "glyphicon glyphicon-apple",
-},
-{
-  "text":"Retos",
-  "id":"retos",
-  "icon": "glyphicon glyphicon-apple",
-  "children":[
-  {
-    "text":"Implícitos",
-    "id":"implicitos",
+    },
+    {
+    "text":"Retos",
+    "id":"retos",
     "icon": "glyphicon glyphicon-apple",
-},
-{
-    "text":"Explícitos",
-    "id":"explicitos",
+    "children":[
+    {
+        "text":"Implícitos",
+        "id":"implicitos",
+        "icon": "glyphicon glyphicon-apple",
+    },
+    {
+        "text":"Explícitos",
+        "id":"explicitos",
+        "icon": "glyphicon glyphicon-apple",
+    },]
+    },
+    {
+    "text":"Ritmo",
+    "id":"ritmo",
     "icon": "glyphicon glyphicon-apple",
-},]
-},
-{
-  "text":"Ritmo",
-  "id":"ritmo",
-  "icon": "glyphicon glyphicon-apple",
-},
-{
-  "text":"Segmentación",
-  "id":"segmentacion",
-  "icon": "glyphicon glyphicon-apple",
-},
-{
-  "text":"Sistema de Salvado",
-  "id":"sistema_de_salvado",
-  "icon": "glyphicon glyphicon-apple",
-  "children":[
-  {
-    "text":"Contínuo",
-    "id":"continuo",
+    },
+    {
+    "text":"Segmentación",
+    "id":"segmentacion",
     "icon": "glyphicon glyphicon-apple",
-},
-{
-    "text":"Esporádico",
-    "id":"esporadico",
+    },
+    {
+    "text":"Sistema de Salvado",
+    "id":"sistema_de_salvado",
     "icon": "glyphicon glyphicon-apple",
-},
-{
-    "text":"Libre",
-    "id":"libre",
+    "children":[
+    {
+        "text":"Contínuo",
+        "id":"continuo",
+        "icon": "glyphicon glyphicon-apple",
+    },
+    {
+        "text":"Esporádico",
+        "id":"esporadico",
+        "icon": "glyphicon glyphicon-apple",
+    },
+    {
+        "text":"Libre",
+        "id":"libre",
+        "icon": "glyphicon glyphicon-apple",
+    },]
+    },
+    {
+    "text":"Tipo de Contenido",
+    "id":"tipo_de_contenido",
     "icon": "glyphicon glyphicon-apple",
-},]
-},
-{
-  "text":"Tipo de Contenido",
-  "id":"tipo_de_contenido",
-  "icon": "glyphicon glyphicon-apple",
-  "children":[
-  {
-    "text":"A ritmo propio",
-    "id":"a_ritmo_propio",
-    "icon": "glyphicon glyphicon-apple",
-},
-{
-    "text":"Extrínseco",
-    "id":"extrinsico",
-    "icon": "glyphicon glyphicon-apple",
-},
-{
-    "text":"Intrínseco",
-    "id":"intrinseco",
-    "icon": "glyphicon glyphicon-apple",
-},
-{
-    "text":"Ritmo Externo",
-    "id":"ritmo_externo",
-    "icon": "glyphicon glyphicon-apple",
-},]
-},]}
-],
+    "children":[
+    {
+        "text":"A ritmo propio",
+        "id":"a_ritmo_propio",
+        "icon": "glyphicon glyphicon-apple",
+    },
+    {
+        "text":"Extrínseco",
+        "id":"extrinsico",
+        "icon": "glyphicon glyphicon-apple",
+    },
+    {
+        "text":"Intrínseco",
+        "id":"intrinseco",
+        "icon": "glyphicon glyphicon-apple",
+    },
+    {
+        "text":"Ritmo Externo",
+        "id":"ritmo_externo",
+        "icon": "glyphicon glyphicon-apple",
+    },]
+    },]}
+    ],
 
 
-}, {
-   "text": "Game Engine",
-   "id":"game_engine",
-   "icon": "glyphicon glyphicon-apple",
-   "children":[
-   {
-    "text":"Motor Físico",
-    "id":"motor_fisico",
+    }, {
+    "text": "Game Engine",
+    "id":"game_engine",
     "icon": "glyphicon glyphicon-apple",
-},
-{
-    "text":"Motor Gráfico",
-    "id":"motor_grafico",
+    "children":[
+    {
+        "text":"Motor Físico",
+        "id":"motor_fisico",
+        "icon": "glyphicon glyphicon-apple",
+    },
+    {
+        "text":"Motor Gráfico",
+        "id":"motor_grafico",
+        "icon": "glyphicon glyphicon-apple",
+    },
+    {
+        "text":"Motor de IA",
+        "id":"motor_de_ia",
+        "icon": "glyphicon glyphicon-apple",
+    },
+    {
+        "text":"Motor de Sonido",
+        "id":"motor_de_sonido",
+        "icon": "glyphicon glyphicon-apple",
+    },
+    {
+        "text":"Sistema de Comunicación",
+        "id":"sistema_de_comunicacion",
+        "icon": "glyphicon glyphicon-apple",
+    },
+    {
+        "text":"Sistema de Control Interactivo",
+        "id":"sistema_de_control_interactivo",
+        "icon": "glyphicon glyphicon-apple",
+    },
+    {
+        "text":"Sistema de Scripting",
+        "id":"sistema_de_scripting",
+        "icon": "glyphicon glyphicon-apple",
+    },]
+    }, {
+    "text": "Game Interface",
+    "id":"game_interface",
     "icon": "glyphicon glyphicon-apple",
-},
-{
-    "text":"Motor de IA",
-    "id":"motor_de_ia",
-    "icon": "glyphicon glyphicon-apple",
-},
-{
-    "text":"Motor de Sonido",
-    "id":"motor_de_sonido",
-    "icon": "glyphicon glyphicon-apple",
-},
-{
-    "text":"Sistema de Comunicación",
-    "id":"sistema_de_comunicacion",
-    "icon": "glyphicon glyphicon-apple",
-},
-{
-    "text":"Sistema de Control Interactivo",
-    "id":"sistema_de_control_interactivo",
-    "icon": "glyphicon glyphicon-apple",
-},
-{
-    "text":"Sistema de Scripting",
-    "id":"sistema_de_scripting",
-    "icon": "glyphicon glyphicon-apple",
-},]
-}, {
- "text": "Game Interface",
- "id":"game_interface",
- "icon": "glyphicon glyphicon-apple",
- "state": {
-   "opened": false
-},
-"children": [
-{
-  "text":"Interfaz Física",
-  "id":"interfaz_fisica",
-  "icon": "glyphicon glyphicon-apple",
-  "children":[
-  {
-    "text":"Interfaz Auditiva",
-    "id":"interfaz_auditiva",
-    "icon": "glyphicon glyphicon-apple",
-},
-{
-    "text":"Interfaz Táctil",
-    "id":"interfaz_tactil",
-    "icon": "glyphicon glyphicon-apple",
-},
-{
-    "text":"Interfaz Visual",
-    "id":"interfaz_visual",
-    "icon": "glyphicon glyphicon-apple",
-},
-{
-    "text":"Interfaz Plataforma",
-    "id":"interfaz_plataforma",
-    "icon": "glyphicon glyphicon-apple",
-},]
-},
-{
-  "text":"Interfaz Software",
-  "id":"interfaz_software",
-  "icon": "glyphicon glyphicon-apple",
-  "children":[
-  {
-    "text":"Interfaz de Usuario",
-    "id":"interfaz_de_usuario",
-    "icon": "glyphicon glyphicon-apple",
-},
-{
-    "text":"Look & Feel",
-    "id":"look_and_feel",
-    "icon": "glyphicon glyphicon-apple",
-},
-{
-    "text":"Realimentación",
-    "id":"realimentacion2",
-    "icon": "glyphicon glyphicon-apple",
-},
-{
-    "text":"Puntos de Vista",
-    "id":"puntos_de_vista",
-    "icon": "glyphicon glyphicon-apple",
-},
-]
-},
-],
-}]
-},
-],
-'themes': {
- 'name': 'proton',
- 'responsive': true
-}
-}
-});
-</script>
-{% endblock %}
-</html>
+    "state": {
+        "opened": false
+    },
+    "children": [
+    {
+        "text":"Interfaz Física",
+        "id":"interfaz_fisica",
+        "icon": "glyphicon glyphicon-apple",
+        "children":[
+        {
+            "text":"Interfaz Auditiva",
+            "id":"interfaz_auditiva",
+            "icon": "glyphicon glyphicon-apple",
+        },
+        {
+            "text":"Interfaz Táctil",
+            "id":"interfaz_tactil",
+            "icon": "glyphicon glyphicon-apple",
+        },
+        {
+            "text":"Interfaz Visual",
+            "id":"interfaz_visual",
+            "icon": "glyphicon glyphicon-apple",
+        },
+        {
+            "text":"Interfaz Plataforma",
+            "id":"interfaz_plataforma",
+            "icon": "glyphicon glyphicon-apple",
+        },]
+    },
+    {
+        "text":"Interfaz Software",
+        "id":"interfaz_software",
+        "icon": "glyphicon glyphicon-apple",
+        "children":[
+        {
+            "text":"Interfaz de Usuario",
+            "id":"interfaz_de_usuario",
+            "icon": "glyphicon glyphicon-apple",
+        },
+        {
+            "text":"Look & Feel",
+            "id":"look_and_feel",
+            "icon": "glyphicon glyphicon-apple",
+        },
+        {
+            "text":"Realimentación",
+            "id":"realimentacion2",
+            "icon": "glyphicon glyphicon-apple",
+        },
+        {
+            "text":"Puntos de Vista",
+            "id":"puntos_de_vista",
+            "icon": "glyphicon glyphicon-apple",
+        },
+        ]
+    },
+    ],
+    }]
+    },
+    ],
+    'themes': {
+    'name': 'proton',
+    'responsive': true
+    }
+    }
+    });
+    </script>
+    {% endblock %}
+    </html>

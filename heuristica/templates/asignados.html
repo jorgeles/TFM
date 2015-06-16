@@ -39,12 +39,28 @@
 		</div>
 	</div>
 </div>
+<div class="modal fade" id="ModalExtra" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="exampleModalLabel">Extra</h4>
+			</div>
+			<div class="modal-body">
+				<p id="textoExtra"></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" onclick="cerrarExtra()">Aceptar</button>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="modal fade" id="ModalArbol" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="exampleModalLabel">Comentario</h4>
+				<h4 class="modal-title" id="exampleModalLabel">Árbol</h4>
 			</div>
 			<div class="modal-body">
 				<div id="arbol">
@@ -103,7 +119,7 @@
 			<div id="divPreguntas">
 				<TABLE class="table table-striped table-hover " id="tablapreguntas">
 					<TR>
-						<TH>Heurística</TH><TH>Puntuacion</TH> <TH>Comentarios</TH><TH>Árbol</TH>
+						<TH>Heurística</TH><TH>Puntuacion</TH> <TH>Comentarios</TH><TH>Árbol</TH><TH>Extras</TH>
 					</TR>
 				</TABLE>
 			</div>
@@ -136,37 +152,37 @@ function cargarPreguntas(){
 				envioGlobal=envio
 
 				row.className="info";
-				row.innerHTML='<TH>Jugabilidad Intrínseca</TH><TH></TH><TH></TH><TH></TH>'
+				row.innerHTML='<TH>Jugabilidad Intrínseca</TH><TH></TH><TH></TH><TH></TH><TH></TH>'
 
 				cargarTabla(envio,'1')
 
 				var row = table.insertRow(table.rows.length);
 				row.className="info";
-				row.innerHTML='<TH>Jugabilidad Mecánica</TH><TH></TH><TH></TH><TH></TH>'
+				row.innerHTML='<TH>Jugabilidad Mecánica</TH><TH></TH><TH></TH><TH></TH><TH></TH>'
 
 				cargarTabla(envio,'2')
 
 				var row = table.insertRow(table.rows.length);
 				row.className="info";
-				row.innerHTML='<TH>Jugabilidad Interactiva</TH><TH></TH><TH></TH><TH></TH>'
+				row.innerHTML='<TH>Jugabilidad Interactiva</TH><TH></TH><TH></TH><TH></TH><TH></TH>'
 
 				cargarTabla(envio,'3')
 
 				var row = table.insertRow(table.rows.length);
 				row.className="info";
-				row.innerHTML='<TH>Jugabilidad Artística</TH><TH></TH><TH></TH><TH></TH>'
+				row.innerHTML='<TH>Jugabilidad Artística</TH><TH></TH><TH></TH><TH></TH><TH></TH>'
 
 				cargarTabla(envio,'4')
 
 				var row = table.insertRow(table.rows.length);
 				row.className="info";
-				row.innerHTML='<TH>Jugabilidad Intrapersonal</TH><TH></TH><TH></TH><TH></TH>'
+				row.innerHTML='<TH>Jugabilidad Intrapersonal</TH><TH></TH><TH></TH><TH></TH><TH></TH>'
 
 				cargarTabla(envio,'5')
 
 				var row = table.insertRow(table.rows.length);
 				row.className="info";
-				row.innerHTML='<TH>Jugabilidad Interpersonal</TH><TH></TH><TH></TH><TH></TH>'
+				row.innerHTML='<TH>Jugabilidad Interpersonal</TH><TH></TH><TH></TH><TH></TH><TH></TH>'
 
 				cargarTabla(envio,'6')
 			}
@@ -188,6 +204,7 @@ function cargarTabla(envio,id){
 			var cell1 = row.insertCell(1);
 			var cell2 = row.insertCell(2);
 			var cell3 = row.insertCell(3);
+			var cell4 = row.insertCell(4);
 
 			cell0.className="heuristicaTabla";
 			cell0.innerHTML = '<td">'+mienvio.fields.nombre+'</td>';
@@ -201,6 +218,10 @@ function cargarTabla(envio,id){
 			cell2.innerHTML = '<TD><a id="comentario"class="btn btn-info btn-sm" onclick="abrirFormularioModal('+mienvio.pk+')"><span class="glyphicon glyphicon-search"></span> Comentario</a></TD>';
 
 			cell3.innerHTML = '<TD><a id="comentario"class="btn btn-info btn-sm" onclick="abrirArbol('+mienvio.pk+')"><span class="glyphicon glyphicon-leaf"></span>Árbol</a></TD>';
+
+			if(mienvio.fields.comentarioVisible=='true'){
+				cell4.innerHTML = '<a href="#" class="btn btn-info btn-sm" onclick="abrirExtra('+mienvio.pk+')"><span class="glyphicon glyphicon-zoom-in"></span> Extra</a></TD>';
+			}
 
 			var respuesta = {id:"", value:"1", comentario:""};
 			respuesta.id=mienvio.pk;
@@ -262,6 +283,20 @@ function abrirArbol(id){
 
 function cerrarArbol(){
 	$('#ModalArbol').modal('hide')
+}
+
+function cerrarExtra(){
+	$('#ModalExtra').modal('hide')
+} 
+function abrirExtra(id){
+	$('#ModalExtra').modal('show')
+	for (i in envioGlobal){
+		mienvio=JSON.parse(envioGlobal[i])[0]
+		if(mienvio.pk==id){
+			document.getElementById('textoExtra').innerHTML= mienvio.fields.comentario
+		}
+	}
+
 }
 
 function guardarRange(id){

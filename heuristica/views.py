@@ -279,6 +279,7 @@ def guardar_Heuristica(request):
         id = request.POST['id']
         cuestion = request.POST['cuestion']
         comentarios = request.POST['comentarios']
+        comentarioVisible = request.POST['checked']
         selectedElms = request.POST.getlist('selectedElmsIds[]')
         selectedElms = json.dumps(selectedElms)
         selectedAtr = request.POST.getlist('atributos[]')
@@ -290,6 +291,7 @@ def guardar_Heuristica(request):
             p.id=id
             p.nombre=cuestion
             p.comentario=comentarios
+            p.comentarioVisible=comentarioVisible
             p.rango= range
             p.elementos = selectedElms
             p.atributos = selectedAtr
@@ -406,6 +408,9 @@ def cargarTablas(request):
             heuristicas = serializers.serialize('json', heuristicas)
         elif request.POST['id']=='Interpersonal':
             heuristicas = Heuristica.objects.filter(propietario=request.session['user'],jugabilidad=6)
+            heuristicas = serializers.serialize('json', heuristicas)
+        else:
+            heuristicas = Heuristica.objects.filter(propietario=request.session['user'])
             heuristicas = serializers.serialize('json', heuristicas)
         return JsonResponse({'heuristica':heuristicas})
 

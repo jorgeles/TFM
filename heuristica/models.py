@@ -42,6 +42,7 @@ class Heuristica(models.Model):
     rango = models.CharField (max_length=20)
     elementos = models.CharField (max_length=20000)
     atributos = models.CharField (max_length=20000)
+    comentarioVisible = models.CharField (max_length=2)
 
 class MiTest(models.Model):
     id=models.AutoField(primary_key=True)
@@ -51,6 +52,7 @@ class MiTest(models.Model):
     seleccionados = models.CharField (max_length=200000)
     asignados = models.CharField (max_length=2000)
     comentarios = models.CharField (max_length=200000)
+
 
 class Asignados(models.Model):
     id=models.AutoField(primary_key=True)
