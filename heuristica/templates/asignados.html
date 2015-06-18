@@ -116,6 +116,10 @@
 			<b class="headerAsignado2"> {{ asignado.propietario|safe}}</b>
 			<b class="headerAsignado2"> Asignado por:&nbsp;&nbsp;</b>
 			<br></br>
+			<p class="headers">Perfil de Jugador
+            	<select id="MisPerfiles">
+                </select>
+            </p>
 			<div id="divPreguntas">
 				<TABLE class="table table-striped table-hover " id="tablapreguntas">
 					<TR>
@@ -137,6 +141,27 @@
 Respuestas = [];
 var envioGlobal;
 document.getElementById("Mialerta").style.visibility = "hidden"
+
+function datosPerfilyJuegos(){
+	$.post("{% url 'datosPerfilyJuegos' %}",{csrfmiddlewaretoken:'{{csrf_token}}'},
+		function (result){
+			perfiles=JSON.parse(result.perfiles);
+
+			var select = document.getElementById("MisPerfiles");
+			var length = select.options.length;
+			for (i in select.options) {
+				select.options[i] = null;
+			}
+
+			for(i in perfiles){
+				console.log(perfiles[i].fields.nombre)
+				$('#MisPerfiles').append($("<option>"+perfiles[i].fields.nombre+"</option>"));
+
+			}
+		}
+		)
+}
+window.onload=datosPerfilyJuegos()
 
 function cargarPreguntas(){
 	$.post("{% url 'cargarPreguntas' %}",{csrfmiddlewaretoken:'{{csrf_token}}'},

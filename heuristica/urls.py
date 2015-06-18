@@ -39,6 +39,7 @@ urlpatterns = patterns('',
 											 url(r'^enviarResultado', views.enviarResultado, name='enviarResultado'),
 											 url(r'^cargarValoracion', views.cargarValoracion, name='cargarValoracion'),
 											 url(r'^guardarComentarios', views.guardarComentarios, name='guardarComentarios'),
+											 url(r'^datosPerfilyJuegos', views.datosPerfilyJuegos, name='datosPerfilyJuegos'),
 
 											 # Url para borrar mas adelante
 											 url(r'^google', views.google, name='google'),

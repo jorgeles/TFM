@@ -144,7 +144,15 @@
                             <input id="nombreDelTest" value="{{mitest.nombre}}"></input>
                             <h5 class="headers">Titulo del Juego </h5>
                             <input id="nombreDelJuego" value="{{mitest.titulo}}"></input>
-                            <button class="btn btn-primary" onclick="abrirFormularioModal()"><span class="glyphicon glyphicon-plus"></span> Asignar Test</button>
+                            <button class="btn btn-primary" onclick="abrirFormularioModal()"><span class="glyphicon glyphicon-plus"></span> Asignar Test</button><br></br>
+                            <p class="headers">Perfil de Jugador
+                            <select id="MisPerfiles">
+                  
+                            </select>
+                            <p class="headers"> Categoria de Juego
+                            <select id="MisCategorias">
+             
+                            </select></p></p>
                             <h4 class="headers">Seleccione las preguntas del Test </h4>
                             <div class="container-fluid">
                                 <div class="navbar-header">
@@ -314,7 +322,6 @@
                                                 <a class="navbar-brand navbar-active cursor" id="menu_verValoracion2" onclick="cargarValoracion2(0)">Valoración</a>
                                                 <a id="Resultados_verFacetas2" onclick="verFacetas2('Global')" class="navbar-brand cursor">Análisis Facetas</a>
                                                 <a class="navbar-brand cursor" id="Resultados_verAtributos2" onclick="verAtributos2('Global')">Análisis Atributos</a>
-                                                <a class="navbar-brand cursor" id="Resultados_verElementos2" onclick="verElementos2(0)">Análisis Elementos</a>
                                                 <a class="navbar-brand cursor" id="Resultados_verRespuestas2" onclick="verRespuestas2(0)">Respuestas</a>
                                              </div>
                                         </div>
@@ -419,9 +426,9 @@
                                 </div>
                                 <div id="panel_comentarios2">
                                     <h4 class="headers">Comentarios<h4>
-                                    <textarea id="comentarios_resultados" oninput="guardarComentario()"></textarea>
+                                    <textarea id="comentarios_resultados3" oninput="guardarComentario3()"></textarea>
                                     <button class="btn btn-success btn-sm" onclick="guardarComentarios()"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar Comentarios</button>
-                                    <div id="Mialerta3"class="alert alert-success" role="alert"></div>
+                                    <div id="Mialerta4"class="alert alert-success" role="alert"></div>
                                 </div>
                             </div>
                         </div>
@@ -438,9 +445,57 @@
     <script>
     var comentario='{{mitest.comentarios}}'
     document.getElementById("Mialerta3").style.visibility = "hidden";
+    document.getElementById("Mialerta4").style.visibility = "hidden";
     document.getElementById("Mialerta2").style.visibility = "hidden";
     var seleccionados=[];
     var asignados=[];
+
+    function image(){
+        html2canvas($("#grafDer2"), {
+            onrendered: function(canvas) {
+                theCanvas = canvas;
+                //document.body.appendChild(canvas);
+
+                // Convert and download as image 
+                Canvas2Image.saveAsPNG(canvas); 
+                // Clean up 
+                //document.body.removeChild(canvas);
+            }
+        });
+    }
+
+    function datosPerfilyJuegos(){
+        $.post("{% url 'datosPerfilyJuegos' %}",{csrfmiddlewaretoken:'{{csrf_token}}'},
+            function (result){
+                perfiles=JSON.parse(result.perfiles);
+
+                var select = document.getElementById("MisPerfiles");
+                var length = select.options.length;
+                for (i in select.options) {
+                    select.options[i] = null;
+                }
+
+                for(i in perfiles){
+                    console.log(perfiles[i].fields.nombre)
+                    $('#MisPerfiles').append($("<option>"+perfiles[i].fields.nombre+"</option>"));
+
+                }
+                categorias=JSON.parse(result.categorias)
+
+                var select = document.getElementById("MisCategorias");
+                var length = select.options.length;
+                for (i in select.options) {
+                    select.options[i] = null;
+                }
+
+                for(i in categorias){
+                    console.log(categorias[i].fields.nombre)
+                    $('#MisCategorias').append($("<option>"+categorias[i].fields.nombre+"</option>"));
+                }
+            }
+        )
+    }
+    window.onload=datosPerfilyJuegos()
     function aniadirli(){
         var ul = document.getElementById("milist");
         var li = document.createElement("li");
@@ -519,8 +574,11 @@
     $.post("{% url 'guardarComentarios' %}",{comentarios:comentario,csrfmiddlewaretoken:'{{csrf_token}}'},
        function (result){
         document.getElementById("Mialerta3").style.visibility = "visible";
+        document.getElementById("Mialerta4").style.visibility = "visible";
         document.getElementById("Mialerta3").innerHTML = "<b>El test ha sido guardado</b>";
+        document.getElementById("Mialerta4").innerHTML = "<b>El test ha sido guardado</b>";
         timeoutID = window.setTimeout(function clerAlert() {document.getElementById("Mialerta3").style.visibility = "hidden";}, 2000);
+        timeoutID = window.setTimeout(function clerAlert() {document.getElementById("Mialerta4").style.visibility = "hidden";}, 2000);
         document.getElementById("Mialerta2").style.visibility = "visible";
         document.getElementById("Mialerta2").innerHTML = "<b>El test ha sido guardado</b>";
         timeoutID = window.setTimeout(function clerAlert() {document.getElementById("Mialerta2").style.visibility = "hidden";}, 2000);
@@ -532,6 +590,9 @@
     }
     function guardarComentario2(){
     comentario=document.getElementById("comentarios_resultados2").value
+    }
+    function guardarComentario3(){
+    comentario=document.getElementById("comentarios_resultados3").value
     }
 
     function guardar(){
@@ -592,7 +653,7 @@
     position = 40;
     for (i in misdatos){
 
-        if(j>=20){
+        if(j>=14){
             doc.addPage()
             j=0;
             position=20;
@@ -600,20 +661,14 @@
 
         if(seleccionados.lastIndexOf(misdatos[i].pk.toString())!=-1 && misdatos[i].fields.jugabilidad==1 ){
             j++
-            if(misdatos[i].fields.nombre.length>=90){
-                aux = misdatos[i].fields.nombre.substring(0,80)
-                aux2 = misdatos[i].fields.nombre.substring(80)
-                doc.text(20, position, aux);
-                position = position+10;
-                j++
-                doc.text(20, position, aux2);
-            }
-            else{
-                doc.text(20, position, misdatos[i].fields.nombre);
-            }
-            
-            position = position+10;
+            var aux = doc.splitTextToSize(misdatos[i].fields.nombre, 160);
+            doc.text(20, position, aux);         
+            position = position+15;
         }
+    }
+    if(j!=0){
+       doc.addPage()
+        j=0; 
     }
     doc.setFontSize(20);
     doc.text(20, position, " Jugabilidad Mecanica");
@@ -621,7 +676,7 @@
     doc.setFontSize(12);
     for (i in misdatos){
 
-        if(j>=20){
+        if(j>=14){
             doc.addPage()
             j=0;
             position=20;
@@ -629,20 +684,13 @@
 
         if(seleccionados.lastIndexOf(misdatos[i].pk.toString())!=-1 && misdatos[i].fields.jugabilidad==2 ){
             j++
-            if(misdatos[i].fields.nombre.length>=90){
-                aux = misdatos[i].fields.nombre.substring(0,80)
-                aux2 = misdatos[i].fields.nombre.substring(80)
-                doc.text(20, position, aux);
-                position = position+10;
-                j++
-                doc.text(20, position, aux2);
-            }
-            else{
-                doc.text(20, position, misdatos[i].fields.nombre);
-            }
-            
-            position = position+10;
-        }
+            var aux = doc.splitTextToSize(misdatos[i].fields.nombre, 160);
+            doc.text(20, position, aux);         
+            position = position+15;        }
+    }
+    if(j!=0){
+       doc.addPage()
+        j=0; 
     }
     doc.setFontSize(20);
     doc.text(20, position, " Jugabilidad Interactiva");
@@ -650,28 +698,22 @@
     doc.setFontSize(12);
     for (i in misdatos){
 
-        if(j>=20){
+        if(j>=14){
             doc.addPage()
             j=0;
             position=20;
         }
 
         if(seleccionados.lastIndexOf(misdatos[i].pk.toString())!=-1 && misdatos[i].fields.jugabilidad==3 ){
-            j++
-            if(misdatos[i].fields.nombre.length>=90){
-                aux = misdatos[i].fields.nombre.substring(0,80)
-                aux2 = misdatos[i].fields.nombre.substring(80)
-                doc.text(20, position, aux);
-                position = position+10;
-                j++
-                doc.text(20, position, aux2);
-            }
-            else{
-                doc.text(20, position, misdatos[i].fields.nombre);
-            }
-            
-            position = position+10;
+           j++
+            var aux = doc.splitTextToSize(misdatos[i].fields.nombre, 160);
+            doc.text(20, position, aux);         
+            position = position+15;
         }
+    }
+    if(j!=0){
+       doc.addPage()
+        j=0; 
     }
     doc.setFontSize(20);
     doc.text(20, position, " Jugabilidad Artistica");
@@ -679,7 +721,7 @@
     doc.setFontSize(12);
     for (i in misdatos){
 
-        if(j>=20){
+        if(j>=14){
             doc.addPage()
             j=0;
             position=20;
@@ -687,20 +729,14 @@
 
         if(seleccionados.lastIndexOf(misdatos[i].pk.toString())!=-1 && misdatos[i].fields.jugabilidad==4 ){
             j++
-            if(misdatos[i].fields.nombre.length>=90){
-                aux = misdatos[i].fields.nombre.substring(0,80)
-                aux2 = misdatos[i].fields.nombre.substring(80)
-                doc.text(20, position, aux);
-                position = position+10;
-                j++
-                doc.text(20, position, aux2);
-            }
-            else{
-                doc.text(20, position, misdatos[i].fields.nombre);
-            }
-            
-            position = position+10;
+            var aux = doc.splitTextToSize(misdatos[i].fields.nombre, 160);
+            doc.text(20, position, aux);         
+            position = position+15;
         }
+    }
+    if(j!=0){
+       doc.addPage()
+        j=0; 
     }
     doc.setFontSize(20);
     doc.text(20, position, " Jugabilidad Intrapersonal");
@@ -708,7 +744,7 @@
     doc.setFontSize(12);
     for (i in misdatos){
 
-        if(j>=20){
+        if(j>=14){
             doc.addPage()
             j=0;
             position=20;
@@ -716,20 +752,14 @@
 
         if(seleccionados.lastIndexOf(misdatos[i].pk.toString())!=-1 && misdatos[i].fields.jugabilidad==5 ){
             j++
-            if(misdatos[i].fields.nombre.length>=90){
-                aux = misdatos[i].fields.nombre.substring(0,80)
-                aux2 = misdatos[i].fields.nombre.substring(80)
-                doc.text(20, position, aux);
-                position = position+10;
-                j++
-                doc.text(20, position, aux2);
-            }
-            else{
-                doc.text(20, position, misdatos[i].fields.nombre);
-            }
-            
-            position = position+10;
+            var aux = doc.splitTextToSize(misdatos[i].fields.nombre, 160);
+            doc.text(20, position, aux);         
+            position = position+15;
         }
+    }
+    if(j!=0){
+       doc.addPage()
+        j=0; 
     }
     doc.setFontSize(20);
     doc.text(20, position, " Jugabilidad Interpersonal");
@@ -737,7 +767,7 @@
     doc.setFontSize(12);
     for (i in misdatos){
 
-        if(j>=20){
+        if(j>=14){
             doc.addPage()
             j=0;
             position=20;
@@ -745,19 +775,9 @@
 
         if(seleccionados.lastIndexOf(misdatos[i].pk.toString())!=-1 && misdatos[i].fields.jugabilidad==6 ){
             j++
-            if(misdatos[i].fields.nombre.length>=90){
-                aux = misdatos[i].fields.nombre.substring(0,80)
-                aux2 = misdatos[i].fields.nombre.substring(80)
-                doc.text(20, position, aux);
-                position = position+10;
-                j++
-                doc.text(20, position, aux2);
-            }
-            else{
-                doc.text(20, position, misdatos[i].fields.nombre);
-            }
-            
-            position = position+10;
+            var aux = doc.splitTextToSize(misdatos[i].fields.nombre, 160);
+            doc.text(20, position, aux);         
+            position = position+15;
         }
     }
     //window.location=doc
@@ -961,6 +981,7 @@
         document.getElementById("arbol").className="oculta"
         document.getElementById("comentarios_resultados").value=comentario
         document.getElementById("comentarios_resultados2").value=comentario
+        document.getElementById("comentarios_resultados3").value=comentario
 
         var contadores = [];
         for(var i=0; i<=6; i++) {
@@ -1040,8 +1061,10 @@
         document.getElementById("Resultados_verFacetas2").className="navbar-brand  cursor"
         document.getElementById("Resultados_verAtributos2").className="navbar-brand  cursor"
         document.getElementById("Resultados_verRespuestas2").className="navbar-brand  cursor"
-        document.getElementById("Resultados_verElementos2").className="navbar-brand  cursor"
         document.getElementById("tablaValoracion2").className=""
+        document.getElementById("grafIzq2").className="oculta"
+        document.getElementById("grafDer2").className="oculta"
+        document.getElementById("panel_resultados2").className="oculta"
         document.getElementById("zonatabla").className="oculta"
         document.getElementById("maestro_detalle").className="oculta"
         document.getElementById("listaResultados").style.width = "180px";
@@ -1053,11 +1076,15 @@
         document.getElementById("arbol").className="oculta"
         document.getElementById("comentarios_resultados").value=comentario
         document.getElementById("comentarios_resultados2").value=comentario
+        document.getElementById("comentarios_resultados3").value=comentario
 
         options='<li>'
 
         var elpropietario=resultadosTotal[propietario].fields.propietario
         document.getElementById("Resultados_verRespuestas2").onclick= function(){ verRespuestas2(propietario) } 
+        document.getElementById("Resultados_verFacetas2").onclick= function(){ verFacetas2(propietario) } 
+        document.getElementById("Resultados_verAtributos2").onclick= function(){ verAtributos2(propietario) } 
+        document.getElementById("menu_verValoracion2").onclick= function(){ cargarValoracion2(propietario) } 
         for(i in resultadosTotal){
             mipropietario = resultadosTotal[i].fields.propietario
 
@@ -1169,6 +1196,7 @@
         document.getElementById("arbol").className="oculta"
         document.getElementById("comentarios_resultados").value=comentario
         document.getElementById("comentarios_resultados2").value=comentario
+        document.getElementById("comentarios_resultados3").value=comentario
 
         options='<li>'
         if(faceta.toString()=='Global'){
@@ -1251,6 +1279,60 @@
 
         basic_radar(contadores,faceta);
         basic_bars(contadores,faceta);
+    }
+
+
+    function verFacetas2(propietario){
+        document.getElementById("menu_verValoracion2").className="navbar-brand cursor"
+        document.getElementById("Resultados_verFacetas2").className="navbar-brand  navbar-active cursor"
+        document.getElementById("Resultados_verAtributos2").className="navbar-brand  cursor"
+        document.getElementById("Resultados_verRespuestas2").className="navbar-brand  cursor"
+        document.getElementById("tablaValoracion2").className="oculta"
+        document.getElementById("maestro_detalle").className=""
+        document.getElementById("grafIzq2").className=""
+        document.getElementById("panel_resultados2").className=""
+        document.getElementById("grafDer2").className=""
+        document.getElementById("zonatabla").className="oculta"
+        document.getElementById("listaResultados").style.width = "180px";
+        document.getElementById("listaResultados").style.height = "450px";
+        document.getElementById("comentarios_resultados").style.width="100%"
+        document.getElementById("panel_comentarios2").style.paddingLeft="1%"
+        document.getElementById("milistFacetas").className=""
+        document.getElementById("arbol").className="oculta"
+        document.getElementById("comentarios_resultados").value=comentario
+        document.getElementById("comentarios_resultados2").value=comentario
+        document.getElementById("comentarios_resultados3").value=comentario
+
+        var elpropietario=resultadosTotal[propietario].fields.propietario
+
+        var contadores = [];
+        for(var i=0; i<=6; i++) {
+            contadores[i] = [];
+            for(k in TodosAtributos) {
+                contadores[i][k] = 0;
+                contadores[i][k]=[];
+                contadores[i][k][0]=0
+                contadores[i][k][1]=0
+            }
+        }
+        for( i in datosparseados){
+            for (var j = 1; j <=6; j++) {
+                for( k in TodosAtributos){
+                    if(datosparseados[i].jugabilidad==j.toString() && datosparseados[i].propiedad==TodosAtributos[k]&&elpropietario==datosparseados[i].propietario){
+                        contadores[j-1][k][1]++;
+                        if(datosparseados[i].rango=="2"){
+                            contadores[j-1][k][0]+=(datosparseados[i].nota/2)*(datosparseados[i].grado/100)
+                        }
+                        else{
+                            contadores[j-1][k][0]+=(datosparseados[i].nota*1)*(datosparseados[i].grado/100)
+                        }
+                    }
+                }
+            }
+        }
+
+        basic_radar2(contadores);
+        basic_bars2(contadores);
     }
 
     window.onload=cargarSeleccionados();
@@ -1350,6 +1432,48 @@
 
     // Draw the graph.
     graph = Flotr.draw(document.getElementById("grafIzq"), [ s1 ], {
+        radar : { show : true}, 
+        grid  : { circular : true, minorHorizontalLines : true}, 
+        yaxis : { min : 0, max : 5, minorTickFreq : 1}, 
+        xaxis : { ticks : ticks}});
+    }
+
+    function basic_radar2(contadores) {
+    // Fill series s1 and s2.
+
+
+    datosAux = []
+
+
+    for (var j = 0; j <7; j++) {
+        aux=0
+        for( var i=0; i<contadores.length; i++){
+            if(contadores[i][j][1]!=0){
+                aux += contadores[i][j][0]/contadores[i][j][1];
+            }
+
+        }
+        datosAux.push(aux/6)
+    }
+    
+    
+    var
+    s1 = { label : 'Global', data : [[0, datosAux[0]], [1, datosAux[1]], [2, datosAux[2]], [3, datosAux[3]], [4, datosAux[4]], [5, datosAux[5]],[6, datosAux[6]]] },
+    graph, ticks;
+
+    // Radar Labels
+    ticks = [
+    [0, "Satisfacción"],
+    [1, "Aprendizaje"],
+    [2, "Efectividad"],
+    [3, "Inmersión"],
+    [4, "Motivación"],
+    [5, "Emoción"],
+    [6, "Socialización"]
+    ];
+
+    // Draw the graph.
+    graph = Flotr.draw(document.getElementById("grafIzq2"), [ s1 ], {
         radar : { show : true}, 
         grid  : { circular : true, minorHorizontalLines : true}, 
         yaxis : { min : 0, max : 5, minorTickFreq : 1}, 
@@ -1467,9 +1591,67 @@
     );
     }
 
+    function basic_bars2(contadores,horizontal) {
+
+    datosAux = []
+
+
+    for (var j = 0; j <7; j++) {
+        aux=0
+        for( var i=0; i<contadores.length; i++){
+            if(contadores[i][j][1]!=0){
+                aux += contadores[i][j][0]/contadores[i][j][1];
+            }
+
+        }
+        datosAux.push(aux/6)
+    }
+    
+
+    var
+    d1 = [[0, datosAux[0]], [1, datosAux[1]], [2, datosAux[2]], [3, datosAux[3]], [4, datosAux[4]], [5, datosAux[5]],[6, datosAux[6]]], 
+    point,                                    // Data point variable declaration
+    i;
+
+    ticks = [
+    [0, "Satisfacción"],
+    [1, "Aprendizaje"],
+    [2, "Efectividad"],
+    [3, "Inmersión"],
+    [4, "Motivación"],
+    [5, "Emoción"],
+    [6, "Socialización"]
+    ];
+
+
+    // Draw the graph
+    Flotr.draw(
+        document.getElementById("grafDer2"),
+        [d1],
+        {
+          bars : {
+            show : true,
+            horizontal : horizontal,
+            shadowSize : 0,
+            barWidth : 0.5
+        },
+        mouse : {
+            track : true,
+            relative : true
+        },
+        yaxis : {
+            min : 0,
+            autoscaleMargin : 1
+        },
+        xaxis : { ticks : ticks}
+    }
+    );
+    }
+
     /*
     Funciones para mostrar los datos desde la vista de Atributos
     */
+
 
     function verAtributos(atributo){
 
@@ -1490,6 +1672,7 @@
         document.getElementById("arbol").className="oculta"
         document.getElementById("comentarios_resultados").value=comentario
         document.getElementById("comentarios_resultados2").value=comentario
+        document.getElementById("comentarios_resultados3").value=comentario
 
         options='<li>'
         if(atributo.toString()=='Global'){
@@ -1807,6 +1990,158 @@
     );
     }
 
+    function verAtributos2(propietario){
+
+        document.getElementById("menu_verValoracion2").className="navbar-brand cursor"
+        document.getElementById("Resultados_verFacetas2").className="navbar-brand cursor"
+        document.getElementById("Resultados_verAtributos2").className="navbar-brand navbar-active cursor"
+        document.getElementById("Resultados_verElementos").className="navbar-brand cursor"
+        document.getElementById("tablaValoracion2").className="oculta"
+        document.getElementById("maestro_detalle").className=""
+        document.getElementById("grafIzq2").className=""
+        document.getElementById("panel_resultados2").className=""
+        document.getElementById("grafDer2").className=""
+        document.getElementById("zonatabla").className="oculta"
+        document.getElementById("listaResultados").style.width = "180px";
+        document.getElementById("listaResultados").style.height = "450px";
+        document.getElementById("comentarios_resultados").style.width="100%"
+        document.getElementById("panel_comentarios2").style.paddingLeft="1%"
+        document.getElementById("milistFacetas").className=""
+        document.getElementById("arbol").className="oculta"
+        document.getElementById("comentarios_resultados").value=comentario
+        document.getElementById("comentarios_resultados2").value=comentario
+        document.getElementById("comentarios_resultados3").value=comentario
+
+        var elpropietario=resultadosTotal[propietario].fields.propietario
+
+        var contadores = [];
+        for(var i=0; i<=6; i++) {
+            contadores[i] = [];
+            for(k in TodosAtributos) {
+                contadores[i][k] = 0;
+                contadores[i][k]=[];
+                contadores[i][k][0]=0
+                contadores[i][k][1]=0
+            }
+        }
+        for( i in datosparseados){
+            for (var j = 1; j <=6; j++) {
+                for( k in TodosAtributos){
+                    if(datosparseados[i].jugabilidad==j.toString() && datosparseados[i].propiedad==TodosAtributos[k]&&elpropietario==datosparseados[i].propietario){
+                        contadores[j-1][k][1]++;
+                        if(datosparseados[i].rango=="2"){
+                            contadores[j-1][k][0]+=(datosparseados[i].nota/2)*(datosparseados[i].grado/100)
+                        }
+                        else{
+                            contadores[j-1][k][0]+=(datosparseados[i].nota*1)*(datosparseados[i].grado/100)
+                        }
+                    }
+                }
+            }
+        }
+
+        basic_radarAtributos2(contadores);
+        basic_barsAtributos2(contadores);
+
+    }
+
+    /*
+    Funciones de gráficos para ver desde las Atributos
+    */
+    function basic_radarAtributos2(contadores) {
+    // Fill series s1 and s2.
+
+
+    datosAux = []
+
+    for (var j = 0; j <contadores.length; j++) {
+        aux=0
+        for( var i=0; i<7; i++){
+            if(contadores[j][i][1]!=0){
+                aux += contadores[j][i][0]/contadores[j][i][1];
+            }
+
+        }
+        datosAux.push(aux/7)
+    }
+    
+   
+    var
+    s1 = { label : 'Global', data : [[0, datosAux[0]], [1, datosAux[1]], [2, datosAux[2]], [3, datosAux[3]], [4, datosAux[4]], [5, datosAux[5]]] },
+    graph, ticks;
+
+    // Radar Labels
+    ticks = [
+    [0, "J.Intrínseca"],
+    [1, "J.Mecánica"],
+    [2, "J.Interactiva"],
+    [3, "J.Artística"],
+    [4, "J.Personal"],
+    [5, "J.Social"],
+    ];
+
+    // Draw the graph.
+    graph = Flotr.draw(document.getElementById("grafIzq2"), [ s1 ], {
+        radar : { show : true}, 
+        grid  : { circular : true, minorHorizontalLines : true}, 
+        yaxis : { min : 0, max : 5, minorTickFreq : 1}, 
+        xaxis : { ticks : ticks}});
+    }
+
+    function basic_barsAtributos2(contadores,faceta,horizontal) {
+
+    datosAux = []
+
+    for (var j = 0; j <contadores.length; j++) {
+        aux=0
+        for( var i=0; i<7; i++){
+            if(contadores[j][i][1]!=0){
+                aux += contadores[j][i][0]/contadores[j][i][1];
+            }
+
+        }
+        datosAux.push(aux/7)
+    }
+
+
+    var
+    d1 = [[0, datosAux[0]], [1, datosAux[1]], [2, datosAux[2]], [3, datosAux[3]], [4, datosAux[4]], [5, datosAux[5]]], 
+    point,                                    // Data point variable declaration
+    i;
+
+    ticks = [
+    [0, "J.Intrínseca"],
+    [1, "J.Mecánica"],
+    [2, "J.Interactiva"],
+    [3, "J.Artística"],
+    [4, "J.Personal"],
+    [5, "J.Social"],
+    ];
+
+
+    // Draw the graph
+    Flotr.draw(
+        document.getElementById("grafDer2"),
+        [d1],
+        {
+          bars : {
+            show : true,
+            horizontal : horizontal,
+            shadowSize : 0,
+            barWidth : 0.5
+        },
+        mouse : {
+            track : true,
+            relative : true
+        },
+        yaxis : {
+            min : 0,
+            autoscaleMargin : 1
+        },
+        xaxis : { ticks : ticks}
+    }
+    );
+    }
     /*Funciones para ver las respuestas de los distintos usuarios*/
     function verRespuestas2(propietario){
 
@@ -1814,11 +2149,11 @@
     document.getElementById("Resultados_verFacetas2").className="navbar-brand cursor"
     document.getElementById("Resultados_verAtributos2").className="navbar-brand cursor"
     document.getElementById("Resultados_verRespuestas2").className="navbar-brand navbar-active cursor"
-    document.getElementById("Resultados_verElementos2").className="navbar-brand  cursor"
     document.getElementById("verValoración").className="oculta"
     document.getElementById("maestro_detalle").className=""
     document.getElementById("grafIzq2").className="oculta"
     document.getElementById("grafDer2").className="oculta"
+    document.getElementById("panel_resultados2").className=""
     document.getElementById("tablaValoracion2").className="oculta"
     document.getElementById("zonatabla").className=""
     document.getElementById("listaResultados").style.width = "180px";
@@ -1829,6 +2164,7 @@
     document.getElementById("arbol").className="oculta"
     document.getElementById("comentarios_resultados").value=comentario
     document.getElementById("comentarios_resultados2").value=comentario
+    document.getElementById("comentarios_resultados3").value=comentario
 
 
     document.getElementById("tablaPreguntas2").innerHTML="<TR><TH>Pregunta</TH> <TH>Respuesta</TH> <TH>Comentario</TH></TR>"
@@ -1893,6 +2229,7 @@
     document.getElementById("arbol").className="jstree jstree-1 jstree-proton jstree-proton-responsive"
     document.getElementById("comentarios_resultados").value=comentario
     document.getElementById("comentarios_resultados2").value=comentario
+    document.getElementById("comentarios_resultados3").value=comentario
     //document.getElementById("listaResultados").innerHTML="<div id='arbol'></div>"
 
     $('#arbol').jstree(true).open_node('#videogame');

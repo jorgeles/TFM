@@ -357,6 +357,18 @@ def mistest (request):
 
     return render(request, 'mistest.html')
 
+def datosPerfilyJuegos(request):
+    if request.method=='POST':
+        perfiles=[]
+        perfiles= Perfil.objects.filter(propietario=request.session['user'])
+        perfiles=serializers.serialize('json', perfiles)
+        categorias=[]
+        categorias= Juegos.objects.filter(propietario=request.session['user'])
+        categorias = serializers.serialize('json', categorias)
+        return JsonResponse({'perfiles':perfiles,'categorias':categorias})
+    return JsonResponse({})
+
+
 def eliminarTest(request):
     if request.method=='POST':
         MiTest.objects.filter(propietario=request.session['user'],id=request.session['mitest']).delete()
