@@ -428,6 +428,7 @@
                                     <h4 class="headers">Comentarios<h4>
                                     <textarea id="comentarios_resultados3" oninput="guardarComentario3()"></textarea>
                                     <button class="btn btn-success btn-sm" onclick="guardarComentarios()"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar Comentarios</button>
+                                    <!--<button class="btn btn-info btn-sm" onclick="image()"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar Comentarios</button>-->
                                     <div id="Mialerta4"class="alert alert-success" role="alert"></div>
                                 </div>
                             </div>
@@ -449,18 +450,23 @@
     document.getElementById("Mialerta2").style.visibility = "hidden";
     var seleccionados=[];
     var asignados=[];
-
+    
     function image(){
-        html2canvas($("#grafDer2"), {
+        //document.getElementById("panel_resultados2").style.overflow = 'visible';
+        html2canvas($("#panel_resultados2"), {
             onrendered: function(canvas) {
                 theCanvas = canvas;
+                //document.getElementById("panel_resultados2").style.overflow = 'hidden';
+                var dataUrl = canvas.toDataURL();
+                window.open(dataUrl, "toDataURL() image", "width=1800, height=800");
                 //document.body.appendChild(canvas);
 
                 // Convert and download as image 
-                Canvas2Image.saveAsPNG(canvas); 
+                //Canvas2Image.saveAsPNG(canvas); 
                 // Clean up 
                 //document.body.removeChild(canvas);
-            }
+                 
+            },
         });
     }
 
