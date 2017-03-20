@@ -1,5 +1,5 @@
 # TFM
-Trabajo de Fin de Master
+Trabajo de Fin de Master. Jugabilidad
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
